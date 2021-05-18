@@ -1,0 +1,12 @@
+TO IMPLEMENT:
+-2 New types of Enemy
+
+
+TO REWORK:
+-Save system
+-UI
+-Boss fights
+-Suicidal Enemy
+
+
+TO FIX:

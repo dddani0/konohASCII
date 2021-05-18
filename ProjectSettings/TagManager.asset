@@ -1,0 +1,82 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - GameManager
+  - MainMenu
+  - WeaponSelectionButton
+  - DifficultySelectionButton
+  - NinjaWeapons
+  - Difficulty
+  - SelectionMenuLoadout
+  - Transition
+  - PreferenceStorage
+  - Wall
+  - NextTilePoint
+  - DestroyBlock
+  - InformationScroll
+  - Pause
+  - Kunai
+  - Shuriken
+  - FumaShuriken
+  - ThrowingStar
+  - WPickUp
+  - TileSystem
+  - T
+  - WindProjectile
+  - PFP
+  - Jirobo
+  - Yoroi
+  - Zaku
+  - Sharingan
+  - Rasengan
+  - trigram
+  - Boss
+  - Clone
+  - CKunai
+  - CShuriken
+  - CFumaShuriken
+  - CThrowingStar
+  - BossClone
+  - CloneModeEnab
+  - cloneModes0
+  - cloneModes1
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - Ground
+  - Player
+  - Enemy
+  - Chest
+  - Boss
+  - Clone
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
