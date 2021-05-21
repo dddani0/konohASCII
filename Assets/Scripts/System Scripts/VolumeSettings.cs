@@ -6,6 +6,10 @@ using UnityEngine.UI;
 
 public class VolumeSettings : MonoBehaviour
 {
+///////////////////////////////
+REWORK! REWORK! REWORK! REWORK!
+///////////////////////////////
+
     public AudioMixer audioMixer;
 
     public void SetVolume(float volume)

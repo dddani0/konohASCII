@@ -5,6 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class PlayerScriptUzumASCIIAnimation : MonoBehaviour
 {
+///////////////////////////////
+REWORK! REWORK! REWORK! REWORK!
+///////////////////////////////
+///////////////////////////////
+IN PROGRESS! IN PROGRESS!
+///////////////////////////////
+
     /// <summary>
     /// Handles all animations and miscs
     /// </summary>

@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class InformationScrollBehavior : MonoBehaviour
 {
+///////////////////////////////
+REWORK! REWORK! REWORK! REWORK!
+///////////////////////////////
     public GameObject gamemanager;
     Animator animBehav;
     

@@ -6,6 +6,13 @@ using UnityEngine.UI;
 
 public class Manager : MonoBehaviour
 {
+///////////////////////////////
+REWORK! REWORK! REWORK! REWORK!
+///////////////////////////////
+///////////////////////////////
+IN PROGRESS! IN PROGRESS!
+///////////////////////////////
+
     /// <summary>
     /// Optional resolutions:
     /// 1 1920 x 1080

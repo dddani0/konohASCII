@@ -6,6 +6,10 @@ using UnityEngine.UI;
 
 public class ScoreSystem : MonoBehaviour
 {
+///////////////////////////////
+REWORK! REWORK! REWORK! REWORK!
+///////////////////////////////
+
     [Header("Access the Preference GameObject")]
     public GameObject preferenceG;
     [Header("Display Attributes for Adventure Mode X Difficulty")]

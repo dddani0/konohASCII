@@ -6,6 +6,10 @@ using UnityEngine.SceneManagement;
 
 public class TransitionBehaviour : MonoBehaviour
 {
+///////////////////////////////
+UNNECCESSARY? UNNCCESSARY?
+///////////////////////////////
+
     public Animator transAnim;
     public String sceneName;
     public AudioSource scrollSound;

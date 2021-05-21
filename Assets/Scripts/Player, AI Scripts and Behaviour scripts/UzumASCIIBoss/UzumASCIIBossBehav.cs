@@ -6,6 +6,10 @@ using UnityEngine.UI;
 
 public class UzumASCIIBossBehav : MonoBehaviour
 {
+///////////////////////////////
+REWORK! REWORK! REWORK! REWORK!
+///////////////////////////////
+
     [Header("Access the Gamemanager")]
     public GameObject gamemanager;
     [Header("Health Attributes & Movement Attributes & Access the Player & Attack Attributes ")]

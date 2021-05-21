@@ -5,6 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class PreferenceStorage : MonoBehaviour
 {
+///////////////////////////////
+REWORK! REWORK! REWORK! REWORK!
+///////////////////////////////
+///////////////////////////////
+IN PROGRESS! IN PROGRESS!
+///////////////////////////////
+
     [Header("Currently loaded Scene")]
     Scene curScene;
     public string sceneName;

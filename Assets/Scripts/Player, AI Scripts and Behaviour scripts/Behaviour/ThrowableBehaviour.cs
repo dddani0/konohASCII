@@ -6,6 +6,13 @@ using UnityEngine.SceneManagement;
 
 public class ThrowableBehaviour : MonoBehaviour
 {
+///////////////////////////////
+REWORK! REWORK! REWORK! REWORK!
+///////////////////////////////
+///////////////////////////////
+IN PROGRESS! IN PROGRESS!
+///////////////////////////////
+
     /// <summary>
     /// Prefabs, which has this script attached to it:
     /// -Kunai 

@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class ChestBehaviour : MonoBehaviour
 {
+///////////////////////////////
+REWORK! REWORK! REWORK! REWORK!
+///////////////////////////////
+
     [Header("Health points & Find player")]
     public float hitPoints;
     public GameObject player;

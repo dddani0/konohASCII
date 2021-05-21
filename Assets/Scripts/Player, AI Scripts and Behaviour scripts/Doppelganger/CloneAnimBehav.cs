@@ -5,6 +5,10 @@ using UnityEngine;
 
 public class CloneAnimBehav : MonoBehaviour
 {
+///////////////////////////////
+REWORK! REWORK! REWORK! REWORK!
+///////////////////////////////
+
     [Header("Access the GameManager")]
     public GameObject gmanager;
 

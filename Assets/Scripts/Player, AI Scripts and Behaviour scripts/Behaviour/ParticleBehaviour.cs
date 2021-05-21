@@ -6,6 +6,10 @@ using UnityEngine.SceneManagement;
 
 public class ParticleBehaviour : MonoBehaviour
 {
+///////////////////////////////
+REWORK! REWORK! REWORK! REWORK!
+///////////////////////////////
+
     Scene cScene;
     string cSName;
     GameObject player;

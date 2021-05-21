@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class PlayerScriptUchihASCIIAnimation : MonoBehaviour
 {
+///////////////////////////////
+UNNECESSARY? UNNECESSARY?
+///////////////////////////////
+
     public void ChidoriAttack()
     {
         GetComponentInParent<PlayerScriptUchihASCII>().ChidoriJutsuTrig();

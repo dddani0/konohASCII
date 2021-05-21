@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class CloneModeShaderManager : MonoBehaviour
 {
+///////////////////////////////
+REWORK! REWORK! REWORK! REWORK!
+///////////////////////////////
     public void DisableObject()
     {
         GetComponent<Animator>().SetTrigger("BTDef");

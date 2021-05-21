@@ -5,6 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class YoroiBehav : MonoBehaviour
 {
+///////////////////////////////
+REWORK! REWORK! REWORK! REWORK!
+///////////////////////////////
+
     [Header("Access the GameManager")]
     Scene scene;
     public string sceneName;

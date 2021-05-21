@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class EnemyState : MonoBehaviour
 {
+///////////////////////////////
+REWORK! REWORK! REWORK! REWORK!
+///////////////////////////////
+///////////////////////////////
+IN PROGRESS! IN PROGRESS!
+///////////////////////////////
+
     [Header("Enemies health, easily accesseable with outer script")]
     public float health;
 

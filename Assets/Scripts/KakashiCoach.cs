@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class KakashiCoach : MonoBehaviour
 {
+
+///////////////////////////////
+REWORK! REWORK! REWORK! REWORK!
+///////////////////////////////
+
     //Typing script, Input Sentence, and it types it out
     [Header("Access Gamemanager")]
     public GameObject gameManager;
@@ -27,7 +32,7 @@ public class KakashiCoach : MonoBehaviour
         StartCoroutine(TypeIENUM());
         IEnumerator TypeIENUM()
         {
-            for (int i = 0; i < inputSentence.Length; i++) //Re work? uhum
+            for (int i = 0; i < inputSentence.Length; i++)
             {
                 gameManager.GetComponent<Manager>().sound_Effects[21].Play();
                 if (i > sentenceRowLenght && inputSentence[i] == ' ' || i > sentenceRowLenght && inputSentence[i] == ',' || i > sentenceRowLenght && inputSentence[i] == '.' || i > sentenceRowLenght && inputSentence[i] == '!' || i > sentenceRowLenght && inputSentence[i] == '?')

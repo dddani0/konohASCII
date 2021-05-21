@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class SharinganSystem : MonoBehaviour
 {
+///////////////////////////////
+REWORK! REWORK! REWORK! REWORK!
+///////////////////////////////
+
     [Header("Access GameObject &")]
     public GameObject gamemanager; //This for Sounds
     [Header("Set time properties")]

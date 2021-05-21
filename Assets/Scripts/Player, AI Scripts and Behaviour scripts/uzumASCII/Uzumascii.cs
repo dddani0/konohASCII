@@ -6,6 +6,10 @@ using UnityEngine.SceneManagement;
 
 public class Naruto : MonoBehaviour
 {
+///////////////////////////////
+UNNECESSARY? UNNECESSARY?
+///////////////////////////////
+
     /*//Number/Logic Var
     [Header("NUMBER AND LOGIC VARIABLES")]
     public string sceneName;

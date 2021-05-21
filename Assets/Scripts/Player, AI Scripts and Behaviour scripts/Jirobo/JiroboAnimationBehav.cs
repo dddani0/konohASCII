@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class JiroboAnimationBehav : MonoBehaviour
 {
+///////////////////////////////
+REWORK! REWORK! REWORK! REWORK!
+///////////////////////////////
+
     public GameObject pref;
     public GameObject gameManager;
 

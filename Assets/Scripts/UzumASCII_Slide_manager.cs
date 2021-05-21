@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class UzumASCII_Slide_manager : MonoBehaviour
 {
+///////////////////////////////
+REWORK! REWORK! REWORK! REWORK!
+///////////////////////////////
+
     public GameObject gamemanager;
 
     // Start is called before the first frame update

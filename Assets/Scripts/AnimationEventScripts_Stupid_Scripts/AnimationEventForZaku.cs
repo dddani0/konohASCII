@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class AnimationEventForZaku : MonoBehaviour
 {
+///////////////////////////////
+REWORK! REWORK! REWORK! REWORK!
+///////////////////////////////
+
     public GameObject gameManager;
     public GameObject stepCol;
 
@@ -22,7 +26,7 @@ public class AnimationEventForZaku : MonoBehaviour
 
     public void DestroyStepCol()
     {
-        Destroy(stepCol); //Foolish mortal! *dies* Imagine getting owned by a gay 
+        Destroy(stepCol);
     }
 
     public void EarnPoints()

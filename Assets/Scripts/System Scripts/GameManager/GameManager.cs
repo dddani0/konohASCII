@@ -7,6 +7,13 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+///////////////////////////////
+REWORK! REWORK! REWORK! REWORK!
+///////////////////////////////
+///////////////////////////////
+IN PROGRESS! IN PROGRESS!
+///////////////////////////////
+
     //Get current scene, current scene name
     Scene currentScene;
     string sceneName;

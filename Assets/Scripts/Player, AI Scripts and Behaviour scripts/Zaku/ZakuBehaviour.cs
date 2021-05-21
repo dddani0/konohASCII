@@ -5,6 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class ZakuBehaviour : MonoBehaviour
 {
+///////////////////////////////
+REWORK! REWORK! REWORK! REWORK!
+///////////////////////////////
+///////////////////////////////
+IN PROGRESS! IN PROGRESS!
+///////////////////////////////
+
     [Header("Access the Game manager & Scene")]
     Scene currentScene;
     public GameObject gameManager;

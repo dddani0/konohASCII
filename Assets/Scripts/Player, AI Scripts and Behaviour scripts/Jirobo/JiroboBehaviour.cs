@@ -7,6 +7,10 @@ using UnityEngine.SceneManagement;
 
 public class JiroboBehaviour : MonoBehaviour
 {
+///////////////////////////////
+REWORK! REWORK! REWORK! REWORK!
+///////////////////////////////
+
     [Header("Scene name & Access GameManager & Access Player & Target Attributes")]
     public GameObject gameManager; 
     [Space]

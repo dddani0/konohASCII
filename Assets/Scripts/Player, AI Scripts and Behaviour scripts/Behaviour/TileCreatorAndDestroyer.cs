@@ -6,6 +6,10 @@ using UnityEngine.SceneManagement;
 
 public class TileCreatorAndDestroyer : MonoBehaviour
 {
+///////////////////////////////
+REWORK! REWORK! REWORK! REWORK!
+///////////////////////////////
+
     public GameObject gameManager;
     [Header("Hitboxes, to contain the player or interact with the player")]
     public BoxCollider2D[] hitbox;

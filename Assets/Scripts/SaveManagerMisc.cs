@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class SaveManagerMisc : MonoBehaviour
 {
+///////////////////////////////
+UNNECESSARY? UNNECESSARY?
+///////////////////////////////
+
     public GameObject gamemanager;
 
     // Start is called before the first frame update

@@ -9,6 +9,13 @@ using UnityEngine.UI;
 
 public class PlayerScriptUzumASCII : MonoBehaviour
 {
+///////////////////////////////
+REWORK! REWORK! REWORK! REWORK!
+///////////////////////////////
+///////////////////////////////
+IN PROGRESS! IN PROGRESS!
+///////////////////////////////
+
     [Header("Access GameManager & Preference Selection & Set basic Delay")]
     [Range(0,1)]public float healingDelay;
     public GameObject gManager;
@@ -591,19 +598,4 @@ public class PlayerScriptUzumASCII : MonoBehaviour
         Gizmos.DrawWireSphere(groundCheck.position, groundCheckRad);
         Gizmos.DrawWireSphere(throwPosition.position, punchRad);
     }
-    /*
-        ░░░░░░░░░░░█▀▀░░█░░░░░░
-        ░░░░░░▄▀▀▀▀░░░░░█▄▄░░░░
-        ░░░░░░█░█░░░░░░░░░░▐░░░
-        ░░░░░░▐▐░░░░░░░░░▄░▐░░░
-        ░░░░░░█░░░░░░░░▄▀▀░▐░░░
-        ░░░░▄▀░░░░░░░░▐░▄▄▀░░░░
-        ░░▄▀░░░▐░░░░░█▄▀░▐░░░░░
-        ░░█░░░▐░░░░░░░░▄░█░░░░░
-        ░░░█▄░░▀▄░░░░▄▀▐░█░░░░░
-        ░░░█▐▀▀▀░▀▀▀▀░░▐░█░░░░░
-        ░░▐█▐▄░░▀░░░░░░▐░█▄▄░░░
-        ░░░▀▀▄░░░░░░░░▄▐▄▄▄▀░░░
-        ░░░░░░░░░░░░░░░░░░░░░░░
-    */
 }

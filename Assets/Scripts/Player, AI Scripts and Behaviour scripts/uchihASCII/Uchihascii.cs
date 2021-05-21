@@ -5,6 +5,10 @@ using UnityEngine.UI;
 
 public class Uchihascii : MonoBehaviour
 {
+///////////////////////////////
+UNNECCESSARY? UNNECCESSARY?
+///////////////////////////////
+
     /*/Number and Logic based Variables
     [Header("Health")]
     public float maxHealth;

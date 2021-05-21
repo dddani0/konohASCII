@@ -6,6 +6,10 @@ using UnityEngine.UI;
 
 public class CloneBehav : MonoBehaviour
 {
+///////////////////////////////
+REWORK! REWORK! REWORK! REWORK!
+///////////////////////////////
+
     [Header("Gamemanager Access")]
     public GameObject game_Manager;
     [Header("Preference Storage Access")]

@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class BossSelectionButtonBehaviour : MonoBehaviour
 {
+///////////////////////////////
+UNNECCESSARY! UNNECCESSARY!
+///////////////////////////////
+
     public GameObject manager;
     public GameObject[] weaponSelectorBoss;
 

@@ -7,6 +7,13 @@ using UnityEngine.UI;
 
 public class WeaponDispenser : MonoBehaviour
 {
+///////////////////////////////
+REWORK! REWORK! REWORK! REWORK!
+///////////////////////////////
+///////////////////////////////
+UNNECCESSARY? UNNECCESSARY?
+///////////////////////////////
+
     [Header("Access the GameManager")]
     public GameObject gamemanager;
     [Header("Dispenser transform positions")]
