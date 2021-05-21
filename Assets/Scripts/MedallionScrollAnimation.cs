@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class MedallionScrollAnimation : MonoBehaviour
 {
+///////////////////////////////
+UNNECESSARY? UNNECESSARY?
+///////////////////////////////
+
     public GameObject gamemanager;
 
     void Start()

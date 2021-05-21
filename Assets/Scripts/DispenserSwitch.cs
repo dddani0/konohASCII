@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class DispenserSwitch : MonoBehaviour
 {
+///////////////////////////////
+UNNECESSARY? UNNECESSARY?
+///////////////////////////////
+
     public GameObject otherBoxcoll;
 
     private void OnTriggerEnter2D(Collider2D collision)

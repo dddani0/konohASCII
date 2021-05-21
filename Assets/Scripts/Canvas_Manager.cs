@@ -6,6 +6,10 @@ using UnityEngine.SceneManagement;
 
 public class Canvas_Manager : MonoBehaviour
 {
+///////////////////////////////
+IN PROGRESS! IN PROGRESS!
+///////////////////////////////
+
     [Header("Game Manager")]
     public GameObject game_Manager;
 
