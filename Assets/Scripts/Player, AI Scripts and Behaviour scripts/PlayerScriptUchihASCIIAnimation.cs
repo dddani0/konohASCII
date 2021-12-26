@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerScriptUchihASCIIAnimation : MonoBehaviour
 {
 ///////////////////////////////
-UNNECESSARY? UNNECESSARY?
+//UNNECESSARY? UNNECESSARY?
 ///////////////////////////////
 
     public void ChidoriAttack()

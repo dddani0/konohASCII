@@ -6,10 +6,10 @@ using UnityEngine.SceneManagement;
 public class EffectManager : MonoBehaviour
 {
 ///////////////////////////////
-REWORK! REWORK! REWORK! REWORK!
+//REWORK! REWORK! REWORK! REWORK!
 ///////////////////////////////
 ///////////////////////////////
-UNNECESSARY? UNNECESSARY?
+//UNNECESSARY? UNNECESSARY?
 ///////////////////////////////
 
     [Header("In the Intro sequence, this will be instantiated at player's position")]

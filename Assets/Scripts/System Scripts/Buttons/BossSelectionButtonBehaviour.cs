@@ -5,7 +5,7 @@ using UnityEngine;
 public class BossSelectionButtonBehaviour : MonoBehaviour
 {
 ///////////////////////////////
-UNNECCESSARY! UNNECCESSARY!
+//UNNECCESSARY! UNNECCESSARY!
 ///////////////////////////////
 
     public GameObject manager;

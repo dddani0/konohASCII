@@ -7,10 +7,10 @@ using UnityEngine.UI;
 public class Manager : MonoBehaviour
 {
 ///////////////////////////////
-REWORK! REWORK! REWORK! REWORK!
+//REWORK! REWORK! REWORK! REWORK!
 ///////////////////////////////
 ///////////////////////////////
-IN PROGRESS! IN PROGRESS!
+//IN PROGRESS! IN PROGRESS!
 ///////////////////////////////
 
     /// <summary>

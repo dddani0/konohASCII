@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class HyugASCIIBossAnimation : MonoBehaviour
 {
 ///////////////////////////////
-REWORK! REWORK! REWORK! REWORK!
+//REWORK! REWORK! REWORK! REWORK!
 ///////////////////////////////
 
     public Animator hAnim;

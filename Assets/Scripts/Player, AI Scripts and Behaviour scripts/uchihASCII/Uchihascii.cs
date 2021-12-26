@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Uchihascii : MonoBehaviour
 {
 ///////////////////////////////
-UNNECCESSARY? UNNECCESSARY?
+//UNNECCESSARY? UNNECCESSARY?
 ///////////////////////////////
 
     /*/Number and Logic based Variables

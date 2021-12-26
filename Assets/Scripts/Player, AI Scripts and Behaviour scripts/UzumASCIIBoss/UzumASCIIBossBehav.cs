@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class UzumASCIIBossBehav : MonoBehaviour
 {
 ///////////////////////////////
-REWORK! REWORK! REWORK! REWORK!
+//REWORK! REWORK! REWORK! REWORK!
 ///////////////////////////////
 
     [Header("Access the Gamemanager")]

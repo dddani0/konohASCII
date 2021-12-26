@@ -5,7 +5,7 @@ using UnityEngine;
 public class SummaryManager : MonoBehaviour
 {
 ///////////////////////////////
-REWORK! REWORK! REWORK! REWORK!
+//REWORK! REWORK! REWORK! REWORK!
 ///////////////////////////////
 
     public GameObject prefObj;

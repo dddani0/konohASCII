@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class TransitionBehaviour : MonoBehaviour
 {
 ///////////////////////////////
-UNNECCESSARY? UNNCCESSARY?
+//UNNECCESSARY? UNNCCESSARY?
 ///////////////////////////////
 
     public Animator transAnim;

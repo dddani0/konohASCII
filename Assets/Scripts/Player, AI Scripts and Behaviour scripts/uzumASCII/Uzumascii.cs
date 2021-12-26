@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class Naruto : MonoBehaviour
 {
 ///////////////////////////////
-UNNECESSARY? UNNECESSARY?
+//UNNECESSARY? UNNECESSARY?
 ///////////////////////////////
 
     /*//Number/Logic Var

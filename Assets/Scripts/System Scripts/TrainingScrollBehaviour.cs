@@ -5,7 +5,7 @@ using UnityEngine;
 public class TrainingScrollBehaviour : MonoBehaviour
 {
 ///////////////////////////////
-REWORK! REWORK! REWORK! REWORK!
+//REWORK! REWORK! REWORK! REWORK!
 ///////////////////////////////
 
     public GameObject gameManager;

@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class PlayerScriptUchihASCII : MonoBehaviour
 {
 ///////////////////////////////
-REWORK! REWORK! REWORK! REWORK!
+//REWORK! REWORK! REWORK! REWORK!
 ///////////////////////////////
 
     [Header("Check current Scene & Access the GameManager & Preference Selection")]

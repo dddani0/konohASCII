@@ -5,7 +5,7 @@ using UnityEngine;
 public class SharinganSystem : MonoBehaviour
 {
 ///////////////////////////////
-REWORK! REWORK! REWORK! REWORK!
+//REWORK! REWORK! REWORK! REWORK!
 ///////////////////////////////
 
     [Header("Access GameObject &")]

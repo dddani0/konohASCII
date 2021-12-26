@@ -10,10 +10,10 @@ using UnityEngine.UI;
 public class PlayerScriptUzumASCII : MonoBehaviour
 {
 ///////////////////////////////
-REWORK! REWORK! REWORK! REWORK!
+//REWORK! REWORK! REWORK! REWORK!
 ///////////////////////////////
 ///////////////////////////////
-IN PROGRESS! IN PROGRESS!
+//IN PROGRESS! IN PROGRESS!
 ///////////////////////////////
 
     [Header("Access GameManager & Preference Selection & Set basic Delay")]

@@ -6,7 +6,7 @@ public class KakashiCoach : MonoBehaviour
 {
 
 ///////////////////////////////
-REWORK! REWORK! REWORK! REWORK!
+//EWORK! REWORK! REWORK! REWORK!
 ///////////////////////////////
 
     //Typing script, Input Sentence, and it types it out

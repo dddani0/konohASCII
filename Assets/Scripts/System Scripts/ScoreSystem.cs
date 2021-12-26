@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class ScoreSystem : MonoBehaviour
 {
 ///////////////////////////////
-REWORK! REWORK! REWORK! REWORK!
+//REWORK! REWORK! REWORK! REWORK!
 ///////////////////////////////
 
     [Header("Access the Preference GameObject")]

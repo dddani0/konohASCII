@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class UzumASCIIBossAnimation : MonoBehaviour
 {
 ///////////////////////////////
-REWORK! REWORK! REWORK! REWORK!
+//REWORK! REWORK! REWORK! REWORK!
 ///////////////////////////////
 
     public GameObject gamemanager;

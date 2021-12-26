@@ -5,7 +5,7 @@ using UnityEngine;
 public class WhirlwindBehav : MonoBehaviour
 {
 ///////////////////////////////
-REWORK! REWORK! REWORK! REWORK!
+//REWORK! REWORK! REWORK! REWORK!
 ///////////////////////////////
 
     [Header("Movement speed, and attributes")]

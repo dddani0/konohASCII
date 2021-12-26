@@ -5,7 +5,7 @@ using UnityEngine;
 public class SaveManagerMisc : MonoBehaviour
 {
 ///////////////////////////////
-UNNECESSARY? UNNECESSARY?
+//UNNECESSARY? UNNECESSARY?
 ///////////////////////////////
 
     public GameObject gamemanager;

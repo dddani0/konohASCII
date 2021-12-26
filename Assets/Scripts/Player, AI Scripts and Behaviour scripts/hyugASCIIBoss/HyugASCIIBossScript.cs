@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class HyugASCIIBossScript : MonoBehaviour
 {
 ///////////////////////////////
-REWORK! REWORK! REWORK! REWORK!
+//REWORK! REWORK! REWORK! REWORK!
 ///////////////////////////////
 
     [Header("Access Gamemanager & Access Player & Access Preference Storage Attributes")]

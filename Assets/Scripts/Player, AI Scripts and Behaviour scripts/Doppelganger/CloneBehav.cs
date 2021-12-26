@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class CloneBehav : MonoBehaviour
 {
 ///////////////////////////////
-REWORK! REWORK! REWORK! REWORK!
+//REWORK! REWORK! REWORK! REWORK!
 ///////////////////////////////
 
     [Header("Gamemanager Access")]

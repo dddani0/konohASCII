@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Button_Select : MonoBehaviour
 {
 ///////////////////////////////
-UNNECCESSARY! UNNECCESSARY!
+//UNNECCESSARY! UNNECCESSARY!
 ///////////////////////////////
 
     public bool isSelected;

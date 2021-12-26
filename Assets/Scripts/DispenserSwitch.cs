@@ -5,7 +5,7 @@ using UnityEngine;
 public class DispenserSwitch : MonoBehaviour
 {
 ///////////////////////////////
-UNNECESSARY? UNNECESSARY?
+//UNNECESSARY? UNNECESSARY?
 ///////////////////////////////
 
     public GameObject otherBoxcoll;

@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class TileCreatorAndDestroyer : MonoBehaviour
 {
 ///////////////////////////////
-REWORK! REWORK! REWORK! REWORK!
+//REWORK! REWORK! REWORK! REWORK!
 ///////////////////////////////
 
     public GameObject gameManager;

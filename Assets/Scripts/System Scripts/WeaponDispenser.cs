@@ -1,4 +1,3 @@
-﻿using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net.Sockets;
@@ -8,10 +7,10 @@ using UnityEngine.UI;
 public class WeaponDispenser : MonoBehaviour
 {
 ///////////////////////////////
-REWORK! REWORK! REWORK! REWORK!
+//REWORK! REWORK! REWORK! REWORK!
 ///////////////////////////////
 ///////////////////////////////
-UNNECCESSARY? UNNECCESSARY?
+//UNNECCESSARY? UNNECCESSARY?
 ///////////////////////////////
 
     [Header("Access the GameManager")]
