@@ -490,6 +490,7 @@ GameObject:
   - component: {fileID: 975498283}
   - component: {fileID: 975498284}
   - component: {fileID: 975498285}
+  - component: {fileID: 975498286}
   m_Layer: 0
   m_Name: Player_Sprite
   m_TagString: Untagged
@@ -575,6 +576,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b45545cb9c6195f98b559004afcab7cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  default_animator: {fileID: 975498286}
+  animatorcontroller: {fileID: 22100000, guid: 560d7d85284a2706c93f5292d5116c5a, type: 2}
+--- !u!95 &975498286
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 975498282}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b77cba61e25416de5a64adb6514f2c30, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1402611394
 GameObject:
   m_ObjectHideFlags: 0
@@ -584,6 +606,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1402611395}
+  - component: {fileID: 1402611399}
   - component: {fileID: 1402611398}
   - component: {fileID: 1402611397}
   - component: {fileID: 1402611396}
@@ -649,10 +672,10 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 75
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 3
+  m_GravityScale: 1
   m_Material: {fileID: 6200000, guid: 710964743d13ce245b65c9dfe3b9171b, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -671,7 +694,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rigidbody2D: {fileID: 0}
-  playerAnimation: {fileID: 0}
+  playerAnimation: {fileID: 975498285}
   groundcheck_radius: 1
   canJump: 1
   groundcheck_position: {fileID: 1788864991}
@@ -690,6 +713,18 @@ MonoBehaviour:
     m_Bits: 512
   jump_keycode: 32
   grip_keycode: 101
+--- !u!114 &1402611399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1402611394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88f96bc10fc1f177d8ec40f3a482693a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1551328279
 GameObject:
   m_ObjectHideFlags: 0

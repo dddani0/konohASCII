@@ -8,7 +8,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Rigidbody2D rigidbody2D;
     [Header("Resoruces")] 
     public PlayerAnimation playerAnimation;
-    
     [Header("Basic movement agility")]
     [Range(1f,5f)]public float groundcheck_radius;
     [Space]
