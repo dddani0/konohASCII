@@ -1,7 +1,6 @@
-# KonohASCII
- 
-<img src = "https://user-images.githubusercontent.com/49081673/118643439-d8a03c00-b7dc-11eb-92db-b0eaa7950cf7.png" align = "Center" width = "200">
+<img src = "https://user-images.githubusercontent.com/49081673/147705159-a851105b-1fa0-4f33-b0d7-3af649434fc7.png" margin="auto" display="block">
 
+<br>
 KonohASCII is a free 2D Sidescroller, Naruto fan-game developed and designed by Mikus Dániel.
 
 The game is available [here](https://devmarley.itch.io/konohascii), on my website.
@@ -19,7 +18,9 @@ To learn more about the game, you can get updates on my [twitter](https://twitte
 
 This non-profit fan-game is only created for entertainment purposes. The creator doesn't own the rights to Naruto.
 
-If you have any inquries about the project, (be it bug fixes etc.) you can reach me on my email:
+If you have any inquries about the project, (be it a question) you can reach me on my email:
 daniel.mikus03@gmail.com
 
 # I highly appreaciate every feedback!
+
+<img src="https://user-images.githubusercontent.com/49081673/147705322-09e74a89-fa9c-4d41-bf03-9545f361a2ba.png">
