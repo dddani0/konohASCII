@@ -5,9 +5,11 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerAnimation))]
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] private Rigidbody2D rigidbody2D;
-    [Header("Resoruces")] 
+    public Rigidbody2D rigidbody2D;
+    [Header("Resources")] 
     public PlayerAnimation playerAnimation;
+    public PlayerActionAttribute playerActionAttribute;
+    [Space(20f)]
     [Header("Basic movement agility")]
     [Range(1f,5f)]public float groundcheck_radius;
     [Space]
@@ -53,13 +55,23 @@ public class PlayerMovement : MonoBehaviour
         //-Jump
         
         //Movement
-        rigidbody2D.velocity = new Vector2(movementSpeed * Time.fixedDeltaTime * Input.GetAxisRaw("Horizontal"), rigidbody2D.velocity.y);
+        switch (playerActionAttribute.isBusy)
+        {
+            case true:
+                rigidbody2D.velocity = new Vector2(0, 0);
+
+                break;
+            case false:
+                rigidbody2D.velocity = new Vector2(movementSpeed * Time.fixedDeltaTime * Input.GetAxisRaw("Horizontal"), rigidbody2D.velocity.y);
+                break;
+        }
         //ground check for jumping, only when not in the air or is not gripped on wall
         if (!isGripped)
             GroundCheck();
         //Jump
         if (Input.GetKey(jump_keycode) && canJump)
         {
+            playerAnimation.SetAnimationState("trigger","jump","",playerAnimation.default_animator);
             rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, jump_force * Time.fixedDeltaTime);
             if (isGripped)
                 isGripped = false;
@@ -75,7 +87,7 @@ public class PlayerMovement : MonoBehaviour
         
         WallCheck();
 
-        if (canGrip && Input.GetKey(grip_keycode))
+        if (canGrip && Input.GetKeyDown(grip_keycode))
         {
          ChangeRigidbodyState(canGrip);
          canGrip = false;
@@ -88,6 +100,7 @@ public class PlayerMovement : MonoBehaviour
     {
         Collider2D[] col = Physics2D.OverlapCircleAll(groundcheck_position.position, groundcheck_radius, groundlayer);
         canJump = col.Length > 0;
+        playerAnimation.SetAnimationState("bool", "onGround", canJump.ToString(), playerAnimation.default_animator);
     }
 
     private void WallCheck()
@@ -97,7 +110,7 @@ public class PlayerMovement : MonoBehaviour
         canGrip = wallcol.Length > 0 && canJump == false;
     }
 
-    private void ChangeRigidbodyState(bool freeze)
+    public void ChangeRigidbodyState(bool freeze)
     {
         switch (freeze)
         {
@@ -111,6 +124,30 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public void ChangeRigidbodyState(bool freezex, bool freezey)
+    {
+        switch (freezex)
+        {
+            case true:
+                rigidbody2D.constraints = RigidbodyConstraints2D.FreezePositionX;
+                break;
+            case false:
+                rigidbody2D.constraints = RigidbodyConstraints2D.FreezePositionX;
+                rigidbody2D.constraints = RigidbodyConstraints2D.FreezeRotation;
+                break;
+        }
+        switch (freezey)
+        {
+            case true:
+                rigidbody2D.constraints = RigidbodyConstraints2D.FreezePositionY;
+                break;
+            case false:
+                rigidbody2D.constraints = RigidbodyConstraints2D.None;
+                rigidbody2D.constraints = RigidbodyConstraints2D.FreezeRotation;
+                break;
+        }
+    }
+    
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = new Color(1f, 0f, 0.02f);

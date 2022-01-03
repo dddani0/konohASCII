@@ -2,6 +2,11 @@
 
 public class PlayerAnimation : MonoBehaviour
 {
+    [Header("Resources")] 
+    public PlayerMovement playerMovement;
+    public PlayerActionAttribute playerActionAttribute;
+    [Space(20f)]
+    [Header("Animator")]
     public Animator default_animator;
     public AnimatorOverrideController animatorcontroller;
 
@@ -13,6 +18,7 @@ public class PlayerAnimation : MonoBehaviour
     void Update()
     {
         SetAnimationState("int","movement",Input.GetAxisRaw("Horizontal").ToString(),default_animator);
+        SetAnimationState("int", "ydelta", playerMovement.rigidbody2D.velocity.y.ToString(), default_animator);
     }
 
     private void LateUpdate()

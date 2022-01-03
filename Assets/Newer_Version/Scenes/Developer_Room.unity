@@ -576,6 +576,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b45545cb9c6195f98b559004afcab7cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMovement: {fileID: 1402611398}
+  playerActionAttribute: {fileID: 1402611399}
   default_animator: {fileID: 975498286}
   animatorcontroller: {fileID: 22100000, guid: 560d7d85284a2706c93f5292d5116c5a, type: 2}
 --- !u!95 &975498286
@@ -611,7 +613,7 @@ GameObject:
   - component: {fileID: 1402611397}
   - component: {fileID: 1402611396}
   m_Layer: 0
-  m_Name: Player_GameObject
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -695,6 +697,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rigidbody2D: {fileID: 0}
   playerAnimation: {fileID: 975498285}
+  playerActionAttribute: {fileID: 1402611399}
   groundcheck_radius: 1
   canJump: 1
   groundcheck_position: {fileID: 1788864991}
@@ -725,6 +728,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88f96bc10fc1f177d8ec40f3a482693a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playermovement: {fileID: 1402611398}
+  playeranimation: {fileID: 975498285}
+  maximum_health: 750
+  current_health: 0
+  chakra_maximum: 12
+  chakra_current: 0
+  isBusy: 0
+  isStaggered: 0
+  enemylayer:
+    serializedVersion: 2
+    m_Bits: 0
+  attack_keycode: 323
+  rangeattack_keycode: 324
 --- !u!1 &1551328279
 GameObject:
   m_ObjectHideFlags: 0
