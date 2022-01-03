@@ -17,8 +17,8 @@ public class PlayerAnimation : MonoBehaviour
 
     void Update()
     {
-        SetAnimationState("int","movement",Input.GetAxisRaw("Horizontal").ToString(),default_animator);
-        SetAnimationState("int", "ydelta", playerMovement.rigidbody2D.velocity.y.ToString(), default_animator);
+        SetAnimationState("movement",Input.GetAxisRaw("Horizontal"),default_animator);
+        SetAnimationState("ydelta",playerMovement.rigidbody2D.velocity.y,default_animator);
     }
 
     private void LateUpdate()
@@ -29,27 +29,24 @@ public class PlayerAnimation : MonoBehaviour
             transform.localEulerAngles = new Vector3(0, 180, 0);
     }
 
-    public void SetAnimationState(string parametertype, string parametername, string value,Animator _animator)
-    {
-        //float - Needs value
-        //int - Needs value
-        //bool - Needs value
-        //trigger - Doesn't need value
 
-        switch (parametertype.ToLower())
-        {
-            case "float":
-                _animator.SetFloat(parametername,int.Parse(value));
-                break;
-            case "int":
-                _animator.SetInteger(parametername, int.Parse(value));
-                break;
-            case "bool":
-                _animator.SetBool(parametername,bool.Parse(value));
-                break;
-            case "trigger":
-                _animator.SetTrigger(parametername);
-                break;
-        }
+    public void SetAnimationState(string parametername, int integervalue, Animator _animator)
+    {
+        _animator.SetInteger(parametername,integervalue);
+    }
+    
+    public void SetAnimationState(string parametername, Animator _animator)
+    {
+        _animator.SetTrigger(parametername);
+    }
+    
+    public void SetAnimationState(string parametername, float floatvalue, Animator _animator)
+    {
+        _animator.SetFloat(parametername,floatvalue);
+    }
+    
+    public void SetAnimationState(string parametername, bool booleanvalue, Animator _animator)
+    {
+        _animator.SetBool(parametername,booleanvalue);
     }
 }

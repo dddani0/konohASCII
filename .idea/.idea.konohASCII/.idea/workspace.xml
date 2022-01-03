@@ -40,6 +40,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="rider.run.widget.enabled.cache" value="false" />
     <property name="settings.editor.selected.configurable" value="ReSpellerSettingsId" />
+    <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RiderProblemsViewState">
     <option name="showPreview" value="true" />
@@ -78,8 +79,13 @@
       <workItem from="1640647330775" duration="652000" />
       <workItem from="1640781511538" duration="22761000" />
       <workItem from="1640896145564" duration="10442000" />
+      <workItem from="1641247320066" duration="53000" />
+      <workItem from="1641247403068" duration="869000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="UnityProjectConfiguration" hasMinimizedUI="true" />

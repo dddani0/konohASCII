@@ -36,14 +36,14 @@ public class PlayerActionAttribute : MonoBehaviour
     private void CQCAttack()
     {
         if (Input.GetKey(attack_keycode) && !isBusy)
-            playeranimation.SetAnimationState("trigger","attack","",playeranimation.default_animator);
+            playeranimation.SetAnimationState("attack",playeranimation.default_animator);
     }
 
     private void RangeAttack()
     {
         if (Input.GetKey(rangeattack_keycode) && !isBusy)
         {
-            playeranimation.SetAnimationState("trigger","range_attack","",playeranimation.default_animator);
+            playeranimation.SetAnimationState("range_attack",playeranimation.default_animator);
         }
     }
 
