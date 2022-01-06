@@ -24,7 +24,7 @@ public class PlayerAnimation : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (!playerActionAttribute.isBusy)
+        if (!playerActionAttribute.isBusy && !playermovement.isGripped)
             PlayerSpriteRotation();
     }
 

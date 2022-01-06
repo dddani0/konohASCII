@@ -154,6 +154,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void ChangeRigidbodyState(bool freeze, Rigidbody2D _rigidbody)
     {
+        //It may seem stupid, but only works if "wallgripped" animation state isn't agged with "action"
         switch (freeze)
         {
             case true:
