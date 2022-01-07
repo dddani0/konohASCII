@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
     public Rigidbody2D rigidbody2D;
     [FormerlySerializedAs("playerAnimation")] [Header("Resources")] 
     public PlayerAnimation playeranimation;
-    public PlayerActionAttribute playerActionAttribute;
+    public PlayerActionAttribute playeractionattribute;
     [Space(20f)]
     [Header("Basic movement agility")]
     [Range(1f,5f)]public float groundcheck_radius;
@@ -18,7 +18,7 @@ public class PlayerMovement : MonoBehaviour
     public bool canJump = true;
     public Transform groundcheck_position;
     [Space]
-    public float movementSpeed;
+    public float movement_speed;
     [Space]
     public float jump_force;
     [Space(20f)]
@@ -33,8 +33,8 @@ public class PlayerMovement : MonoBehaviour
     public Transform wallcheck_position;
     [Space(20f)]
     [Header("Layermasks and button mapping")]
-    public LayerMask groundlayer;
-    public LayerMask walllayer;
+    public LayerMask ground_layer;
+    public LayerMask wall_layer;
     [Space]
     public KeyCode jump_keycode;
     public KeyCode grip_keycode;
@@ -61,7 +61,7 @@ public class PlayerMovement : MonoBehaviour
     private void InputDetection()
     {
         isJumpActionTaken = Input.GetKey(jump_keycode) && canJump;
-        isGrippedActionTaken = Input.GetKeyDown(grip_keycode) && !playerActionAttribute.isBusy && canGrip;
+        isGrippedActionTaken = Input.GetKeyDown(grip_keycode) && !playeractionattribute.isBusy && canGrip;
     }
     
     private void Basic_Agility()
@@ -71,14 +71,14 @@ public class PlayerMovement : MonoBehaviour
         //-Jump
         
         //Movement
-        switch (playerActionAttribute.isBusy)
+        switch (playeractionattribute.isBusy)
         {
             case true:
                 rigidbody2D.velocity = new Vector2(0, 0);
 
                 break;
             case false:
-                rigidbody2D.velocity = new Vector2(movementSpeed * Time.fixedDeltaTime * Input.GetAxisRaw("Horizontal"), rigidbody2D.velocity.y);
+                rigidbody2D.velocity = new Vector2(movement_speed * Time.fixedDeltaTime * Input.GetAxisRaw("Horizontal"), rigidbody2D.velocity.y);
                 break;
         }
         //ground check for jumping, only when not in the air or is not gripped on wall
@@ -120,7 +120,7 @@ public class PlayerMovement : MonoBehaviour
             isGrippedActionTaken = false;
             Collider2D[] wallcol = Physics2D.OverlapBoxAll(wallcheck_position.position,
                 new Vector2(wallcheck_width_size, wallcheck_height_size),
-                wallcheck_position.rotation.x, walllayer);
+                wallcheck_position.rotation.x, wall_layer);
             Transform wallpos = null;
             if (wallcol.Length > 0)
                 wallpos = wallcol[0].transform;
@@ -139,7 +139,7 @@ public class PlayerMovement : MonoBehaviour
     private void GroundCheck()
     {
         //Checks jump condition
-        Collider2D[] col = Physics2D.OverlapCircleAll(groundcheck_position.position, groundcheck_radius, groundlayer);
+        Collider2D[] col = Physics2D.OverlapCircleAll(groundcheck_position.position, groundcheck_radius, ground_layer);
         canJump = col.Length > 0;
         playeranimation.SetAnimationState("onGround",canJump,playeranimation.default_animator);
     }
@@ -148,25 +148,23 @@ public class PlayerMovement : MonoBehaviour
     {
         //Checks wallgrip condition
         Collider2D[] wallcol = Physics2D.OverlapBoxAll(wallcheck_position.position, new Vector2(wallcheck_width_size, wallcheck_height_size),
-            wallcheck_position.rotation.x, walllayer);
+            wallcheck_position.rotation.x, wall_layer);
         canGrip = wallcol.Length > 0 && canJump == false;
     }
 
     public void ChangeRigidbodyState(bool freeze, Rigidbody2D _rigidbody)
     {
-        //It may seem stupid, but only works if "wallgripped" animation state isn't agged with "action"
+        //It only works if "wallgripped" animation state isn't agged with "action"
         switch (freeze)
         {
             case true:
                 var constraints = _rigidbody.constraints;
                 constraints = RigidbodyConstraints2D.FreezePosition;
                 _rigidbody.constraints = constraints;
-                print("freeze happened");
                 break;
             case false:
                 _rigidbody.constraints = RigidbodyConstraints2D.None;
                 _rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
-                print("unfreeze happened");
                 break;
         }
     }

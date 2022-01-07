@@ -3,28 +3,27 @@ using UnityEngine.Serialization;
 
 public class PlayerAnimation : MonoBehaviour
 {
-    [FormerlySerializedAs("playerMovement")] [Header("Resources")] 
-    public PlayerMovement playermovement;
+    public PlayerMovement player_movement;
     public PlayerActionAttribute playerActionAttribute;
     [Space(20f)]
     [Header("Animator")]
     public Animator default_animator;
-    public AnimatorOverrideController animatorcontroller;
+    public AnimatorOverrideController animator_controller;
 
     void Start()
     {
-        default_animator.runtimeAnimatorController = animatorcontroller;
+        default_animator.runtimeAnimatorController = animator_controller;
     }
 
     void Update()
     {
         SetAnimationState("movement", int.Parse(Input.GetAxisRaw("Horizontal").ToString()),default_animator);
-        SetAnimationState("ydelta",playermovement.rigidbody2D.velocity.y,default_animator);
+        SetAnimationState("ydelta",player_movement.rigidbody2D.velocity.y,default_animator);
     }
 
     private void LateUpdate()
     {
-        if (!playerActionAttribute.isBusy && !playermovement.isGripped)
+        if (!playerActionAttribute.isBusy && !player_movement.isGripped)
             PlayerSpriteRotation();
     }
 

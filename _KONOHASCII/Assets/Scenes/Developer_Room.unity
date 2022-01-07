@@ -575,10 +575,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b45545cb9c6195f98b559004afcab7cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playermovement: {fileID: 1402611398}
+  player_movement: {fileID: 1402611398}
   playerActionAttribute: {fileID: 1402611399}
   default_animator: {fileID: 975498286}
-  animatorcontroller: {fileID: 22100000, guid: 560d7d85284a2706c93f5292d5116c5a, type: 2}
+  animator_controller: {fileID: 22100000, guid: 560d7d85284a2706c93f5292d5116c5a, type: 2}
 --- !u!95 &975498286
 Animator:
   serializedVersion: 3
@@ -696,21 +696,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rigidbody2D: {fileID: 0}
   playeranimation: {fileID: 975498285}
-  playerActionAttribute: {fileID: 1402611399}
+  playeractionattribute: {fileID: 1402611399}
   groundcheck_radius: 1
   canJump: 1
   groundcheck_position: {fileID: 1788864991}
-  movementSpeed: 1200
+  movement_speed: 1250
   jump_force: 1000
   wallcheck_height_size: 5
   wallcheck_width_size: 4
   canGrip: 0
   isGripped: 0
   wallcheck_position: {fileID: 1655336894}
-  groundlayer:
+  ground_layer:
     serializedVersion: 2
     m_Bits: 256
-  walllayer:
+  wall_layer:
     serializedVersion: 2
     m_Bits: 512
   jump_keycode: 32
@@ -729,6 +729,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playermovement: {fileID: 1402611398}
   playeranimation: {fileID: 975498285}
+  current_weapon: {fileID: 0}
+  weapon_quantity: 0
   maximum_health: 750
   current_health: 0
   chakra_maximum: 12
@@ -737,7 +739,7 @@ MonoBehaviour:
   isStaggered: 0
   enemylayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1024
   attack_keycode: 323
   rangeattack_keycode: 324
 --- !u!1 &1551328279

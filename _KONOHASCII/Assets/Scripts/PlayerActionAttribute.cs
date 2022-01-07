@@ -7,6 +7,11 @@ public class PlayerActionAttribute : MonoBehaviour
     [Header("Resources")]
     public PlayerMovement playermovement;
     public PlayerAnimation playeranimation;
+    [Space(20f)]
+    [Header("Weapon_Attribute")]
+    public Weapon current_weapon;
+    [Space] 
+    public int weapon_quantity;
     [Space(20f)] 
     [Header("Health")] 
     public float maximum_health;
