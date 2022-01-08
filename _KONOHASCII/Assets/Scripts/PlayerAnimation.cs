@@ -24,7 +24,9 @@ public class PlayerAnimation : MonoBehaviour
     private void LateUpdate()
     {
         if (!playerActionAttribute.isBusy && !player_movement.isGripped)
-            PlayerSpriteRotation();
+            PlayerSpriteRotation(); // After jumping, the player refuses to remain to face the left area
+        else
+            print("didn't run");
     }
 
     private void PlayerSpriteRotation()

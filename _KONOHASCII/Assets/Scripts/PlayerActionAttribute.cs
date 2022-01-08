@@ -57,6 +57,6 @@ public class PlayerActionAttribute : MonoBehaviour
         isBusy = playeranimation.default_animator.GetCurrentAnimatorStateInfo(0).IsTag("Action");
         
         if (isBusy || isStaggered) //freeze if staggered or action is taking place
-            playermovement.ChangeRigidbodyState(true,false);
+            playermovement.ChangeRigidbodyState(true,false,playermovement.rigidbody2D);
     }
 }

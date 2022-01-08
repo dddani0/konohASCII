@@ -10,9 +10,6 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="HighlightingSettingsPerFile">
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/81986b7de77f470c8157a969000b3a001b400/49/0b2b8632/Rigidbody2D.cs" root0="SKIP_HIGHLIGHTING" />
-  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -35,6 +32,14 @@
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
+    <configuration name="Standalone Player" type="RunUnityExe" factoryName="Unity Executable">
+      <option name="EXE_PATH" value="$PROJECT_DIR$/../../../Testbuilds/testbuild1.x86_64" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../../../Testbuilds" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <method v="2" />
+    </configuration>
     <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
@@ -66,6 +71,8 @@
       <updated>1641505398121</updated>
       <workItem from="1641505412161" duration="3596000" />
       <workItem from="1641548653685" duration="1647000" />
+      <workItem from="1641658150116" duration="4032000" />
+      <workItem from="1641673085025" duration="915000" />
     </task>
     <servers />
   </component>
@@ -83,15 +90,8 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Scripts/PlayerMovement.cs</url>
-          <line>155</line>
-          <properties documentPath="D:\Projects\Unity_Projects\Github_Repo\konohASCII\_KONOHASCII\Assets\Scripts\PlayerMovement.cs" initialLine="154" containingFunctionPresentation="method 'ChangeRigidbodyState'">
-            <startOffsets>
-              <option value="5436" />
-            </startOffsets>
-            <endOffsets>
-              <option value="5437" />
-            </endOffsets>
-          </properties>
+          <line>160</line>
+          <properties documentPath="D:\Projects\Unity_Projects\Github_Repo\konohASCII\_KONOHASCII\Assets\Scripts\PlayerMovement.cs" initialLine="154" containingFunctionPresentation="method 'ChangeRigidbodyState'" />
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>

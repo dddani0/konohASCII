@@ -48,6 +48,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        print("jump action is taken: " + isJumpActionTaken);
+        print(Input.GetKey(jump_keycode) && canJump);
         InputDetection();
         WallGrip();
     }
@@ -87,6 +89,7 @@ public class PlayerMovement : MonoBehaviour
         //Jump
         if (isJumpActionTaken)
         {
+            print("jumped");
             playeranimation.SetAnimationState("jump",playeranimation.default_animator);
             rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, jump_force * Time.fixedDeltaTime);
             if (isGripped)
@@ -150,6 +153,8 @@ public class PlayerMovement : MonoBehaviour
         Collider2D[] wallcol = Physics2D.OverlapBoxAll(wallcheck_position.position, new Vector2(wallcheck_width_size, wallcheck_height_size),
             wallcheck_position.rotation.x, wall_layer);
         canGrip = wallcol.Length > 0 && canJump == false;
+        if (!isGripped)
+            ChangeRigidbodyState(false,false,rigidbody2D);
     }
 
     public void ChangeRigidbodyState(bool freeze, Rigidbody2D _rigidbody)
@@ -169,26 +174,31 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    public void ChangeRigidbodyState(bool freezex, bool freezey)
+    public void ChangeRigidbodyState(bool _freeze_x, bool _freeze_y, Rigidbody2D _rigidbody)
     {
-        switch (freezex)
+        bool _isotheraxisfrozen = false;
+        switch (_freeze_x)
         {
             case true:
-                rigidbody2D.constraints = RigidbodyConstraints2D.FreezePositionX;
+                _rigidbody.constraints = RigidbodyConstraints2D.FreezePositionX;
                 break;
             case false:
-                rigidbody2D.constraints = RigidbodyConstraints2D.FreezePositionX;
-                rigidbody2D.constraints = RigidbodyConstraints2D.FreezeRotation;
+                _rigidbody.constraints = RigidbodyConstraints2D.None;
+                _rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
                 break;
         }
-        switch (freezey)
+        switch (_freeze_y)
         {
             case true:
-                rigidbody2D.constraints = RigidbodyConstraints2D.FreezePositionY;
+                _rigidbody.constraints = RigidbodyConstraints2D.FreezePositionY;
                 break;
             case false:
-                rigidbody2D.constraints = RigidbodyConstraints2D.None;
-                rigidbody2D.constraints = RigidbodyConstraints2D.FreezeRotation;
+                if (_freeze_x)
+                    _isotheraxisfrozen = true;
+                _rigidbody.constraints = RigidbodyConstraints2D.None;
+                _rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
+                if (_isotheraxisfrozen)
+                    _rigidbody.constraints = RigidbodyConstraints2D.FreezePositionX;
                 break;
         }
     }
