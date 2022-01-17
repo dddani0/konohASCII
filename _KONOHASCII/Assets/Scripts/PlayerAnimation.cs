@@ -25,16 +25,13 @@ public class PlayerAnimation : MonoBehaviour
     {
         if (!playerActionAttribute.isBusy && !player_movement.isGripped)
             PlayerSpriteRotation(); // After jumping, the player refuses to remain to face the left area
-        else
-            print("didn't run");
     }
-
     private void PlayerSpriteRotation()
     {
-        if (Input.GetAxisRaw("Horizontal") > 0)
-            transform.localEulerAngles = new Vector3(0, 0, 0);
-        else if (Input.GetAxisRaw("Horizontal") < 0)
-            transform.localEulerAngles = new Vector3(0, 180, 0);
+        if (Input.GetAxis("Horizontal") > 0)
+            transform.localScale = new Vector3(1, 1, 1);
+        else if (Input.GetAxis("Horizontal") < 0)
+            transform.localScale = new Vector3(-1, 1, 1);
     }
 
 

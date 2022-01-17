@@ -11,6 +11,8 @@ public class PlayerActionAttribute : MonoBehaviour
     [Header("Weapon_Attribute")]
     public Weapon current_weapon;
     [Space] 
+    public Transform[] weapon_position;
+    [Space] 
     public int weapon_quantity;
     [Space(20f)] 
     [Header("Health")] 
@@ -46,9 +48,27 @@ public class PlayerActionAttribute : MonoBehaviour
 
     private void RangeAttack()
     {
-        if (Input.GetKey(rangeattack_keycode) && !isBusy)
+        if (Input.GetKey(rangeattack_keycode) && !isBusy && !playeranimation.default_animator.GetCurrentAnimatorStateInfo(0).IsName("wallgrip"))
         {
             playeranimation.SetAnimationState("range_attack",playeranimation.default_animator);
+            GameObject t_weapon;
+            switch (playeranimation.gameObject.transform.localScale.x > 0)
+            {
+                case true:
+                    t_weapon = Instantiate(
+                        GameObject.FindGameObjectWithTag("Gamemanager").GetComponent<Gamemanager>().weapon_container,
+                        weapon_position[0].position, weapon_position[0].rotation);
+                    t_weapon.GetComponent<Weapon_Container>().AssingNewWeapon(current_weapon,1);
+                    break;
+                case false:
+                    t_weapon = Instantiate(
+                        GameObject.FindGameObjectWithTag("Gamemanager").GetComponent<Gamemanager>().weapon_container,
+                        weapon_position[1].position, weapon_position[1].rotation);
+                    t_weapon.GetComponent<Weapon_Container>().AssingNewWeapon(current_weapon,-1);
+                    break;
+            }
+
+            
         }
     }
 

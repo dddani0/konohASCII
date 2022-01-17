@@ -7,7 +7,7 @@ using UnityEngine.Serialization;
 [RequireComponent(typeof(PlayerAnimation))]
 public class PlayerMovement : MonoBehaviour
 {
-    public Rigidbody2D rigidbody2D;
+    public new Rigidbody2D rigidbody2D;
     [FormerlySerializedAs("playerAnimation")] [Header("Resources")] 
     public PlayerAnimation playeranimation;
     public PlayerActionAttribute playeractionattribute;
@@ -28,8 +28,8 @@ public class PlayerMovement : MonoBehaviour
     [Space]
     public bool canGrip;
     public bool isGripped = false;
-    private bool isGrippedActionTaken; //This is a discard boolean: i need to call the input from outside fixed update
-    private bool isJumpActionTaken;    //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    private bool isGrippedActionTaken;
+    private bool isJumpActionTaken;    
     public Transform wallcheck_position;
     [Space(20f)]
     [Header("Layermasks and button mapping")]
@@ -48,8 +48,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        print("jump action is taken: " + isJumpActionTaken);
-        print(Input.GetKey(jump_keycode) && canJump);
         InputDetection();
         WallGrip();
     }
@@ -89,7 +87,6 @@ public class PlayerMovement : MonoBehaviour
         //Jump
         if (isJumpActionTaken)
         {
-            print("jumped");
             playeranimation.SetAnimationState("jump",playeranimation.default_animator);
             rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, jump_force * Time.fixedDeltaTime);
             if (isGripped)
