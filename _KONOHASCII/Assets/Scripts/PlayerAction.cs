@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerActionAttribute : MonoBehaviour
+public class PlayerAction : MonoBehaviour
 {
     [Header("Resources")]
     public PlayerMovement playermovement;
     public PlayerAnimation playeranimation;
     [Space(20f)]
     [Header("Weapon_Attribute")]
-    public Weapon current_weapon;
+    public WeaponSource currentWeaponSource;
     [Space] 
     public Transform[] weapon_position;
     [Space] 
@@ -58,13 +58,13 @@ public class PlayerActionAttribute : MonoBehaviour
                     t_weapon = Instantiate(
                         GameObject.FindGameObjectWithTag("Gamemanager").GetComponent<Gamemanager>().weapon_container,
                         weapon_position[0].position, weapon_position[0].rotation);
-                    t_weapon.GetComponent<Weapon_Container>().AssingNewWeapon(current_weapon,1);
+                    t_weapon.GetComponent<WeaponContainer>().AssignNewWeapon(currentWeaponSource,1);
                     break;
                 case false:
                     t_weapon = Instantiate(
                         GameObject.FindGameObjectWithTag("Gamemanager").GetComponent<Gamemanager>().weapon_container,
                         weapon_position[1].position, weapon_position[1].rotation);
-                    t_weapon.GetComponent<Weapon_Container>().AssingNewWeapon(current_weapon,-1);
+                    t_weapon.GetComponent<WeaponContainer>().AssignNewWeapon(currentWeaponSource,-1);
                     break;
             }
 

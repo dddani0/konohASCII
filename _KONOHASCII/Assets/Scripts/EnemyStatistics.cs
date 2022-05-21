@@ -1,10 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
 using UnityEngine;
 
-public class EnemyAttribute : MonoBehaviour
+public class EnemyStatistics : MonoBehaviour
 {
     public float health_maximum;
     [SerializeField] private float health_current;

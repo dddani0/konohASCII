@@ -548,8 +548,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 975498283}
-  - component: {fileID: 975498284}
   - component: {fileID: 975498285}
+  - component: {fileID: 975498284}
   - component: {fileID: 975498286}
   m_Layer: 0
   m_Name: Player_Sprite
@@ -635,8 +635,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b45545cb9c6195f98b559004afcab7cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player_movement: {fileID: 1402611398}
-  playerActionAttribute: {fileID: 1402611399}
+  playerMovement: {fileID: 1402611398}
+  playerAction: {fileID: 1402611399}
   default_animator: {fileID: 975498286}
   animator_controller: {fileID: 22100000, guid: 560d7d85284a2706c93f5292d5116c5a, type: 2}
 --- !u!95 &975498286
@@ -757,12 +757,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rigidbody2D: {fileID: 0}
-  playeranimation: {fileID: 975498285}
-  playeractionattribute: {fileID: 1402611399}
-  groundcheck_radius: 1
+  playerAnimation: {fileID: 0}
+  playerAction: {fileID: 0}
+  groundCheckRadius: 1
   canJump: 1
-  groundcheck_position: {fileID: 1788864991}
-  movement_speed: 1250
+  groundCheckPosition: {fileID: 1788864991}
+  movementSpeed: 1250
   jump_force: 1000
   wallcheck_height_size: 5
   wallcheck_width_size: 4
@@ -791,7 +791,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playermovement: {fileID: 1402611398}
   playeranimation: {fileID: 975498285}
-  current_weapon: {fileID: 11400000, guid: e41a986f459618b459266d5922802a24, type: 2}
+  currentWeaponSource: {fileID: 0}
   weapon_position:
   - {fileID: 839666891}
   - {fileID: 146298661}
