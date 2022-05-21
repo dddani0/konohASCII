@@ -11,17 +11,17 @@ public class PlayerAction : MonoBehaviour
     [Header("Weapon_Attribute")]
     public WeaponSource currentWeaponSource;
     [Space] 
-    public Transform[] weapon_position;
+    public Transform[] weaponPosition;
     [Space] 
-    public int weapon_quantity;
+    public int rangeWeaponAmmunition;
     [Space(20f)] 
     [Header("Health")] 
-    public float maximum_health;
-    [SerializeField] private float current_health;
+    public float maximumHealthPoints = 750;
+    [SerializeField] private float healthPoints;
     [Space(20f)] 
     [Header("Chakra")] 
-    public float chakra_maximum;
-    [SerializeField] private float chakra_current;
+    public float maximumChakra = 12;
+    [SerializeField] private float chakra;
     [Space(20f)] 
     [Header("Brakes")] 
     public bool isBusy;
@@ -30,8 +30,8 @@ public class PlayerAction : MonoBehaviour
     [Header("Layermasks and Button mapping")]
     public LayerMask enemylayer;
     [Space]
-    public KeyCode attack_keycode;
-    public KeyCode rangeattack_keycode; 
+    public KeyCode attackKeycode;
+    public KeyCode rangeAttackKeycode; 
 
     void Update()
     {
@@ -42,13 +42,16 @@ public class PlayerAction : MonoBehaviour
 
     private void CQCAttack()
     {
-        if (Input.GetKey(attack_keycode) && !isBusy)
+        if (Input.GetKey(attackKeycode) && !isBusy)
             playeranimation.SetAnimationState("attack",playeranimation.default_animator);
     }
 
     private void RangeAttack()
     {
-        if (Input.GetKey(rangeattack_keycode) && !isBusy && !playeranimation.default_animator.GetCurrentAnimatorStateInfo(0).IsName("wallgrip"))
+        //Creates instance of weapon prefab.
+        //Modifies said instance from selected asset.
+        
+        if (Input.GetKey(rangeAttackKeycode) && !isBusy && !playeranimation.default_animator.GetCurrentAnimatorStateInfo(0).IsName("wallgrip"))
         {
             playeranimation.SetAnimationState("range_attack",playeranimation.default_animator);
             GameObject t_weapon;
@@ -57,13 +60,13 @@ public class PlayerAction : MonoBehaviour
                 case true:
                     t_weapon = Instantiate(
                         GameObject.FindGameObjectWithTag("Gamemanager").GetComponent<Gamemanager>().weapon_container,
-                        weapon_position[0].position, weapon_position[0].rotation);
+                        weaponPosition[0].position, weaponPosition[0].rotation);
                     t_weapon.GetComponent<WeaponContainer>().AssignNewWeapon(currentWeaponSource,1);
                     break;
                 case false:
                     t_weapon = Instantiate(
                         GameObject.FindGameObjectWithTag("Gamemanager").GetComponent<Gamemanager>().weapon_container,
-                        weapon_position[1].position, weapon_position[1].rotation);
+                        weaponPosition[1].position, weaponPosition[1].rotation);
                     t_weapon.GetComponent<WeaponContainer>().AssignNewWeapon(currentWeaponSource,-1);
                     break;
             }

@@ -1,0 +1,13 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Throwing_Star
+  m_Controller: {fileID: 9100000, guid: 07546f4d8688e1848b5926d514f62bfd, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 32f23d14f169bce46bc026192c5aed78, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 5424a3139aa8fda4f8db224b4c99f834, type: 2}

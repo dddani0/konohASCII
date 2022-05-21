@@ -791,22 +791,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playermovement: {fileID: 1402611398}
   playeranimation: {fileID: 975498285}
-  currentWeaponSource: {fileID: 0}
-  weapon_position:
+  currentWeaponSource: {fileID: 11400000, guid: e41a986f459618b459266d5922802a24, type: 2}
+  weaponPosition:
   - {fileID: 839666891}
   - {fileID: 146298661}
-  weapon_quantity: 0
-  maximum_health: 750
-  current_health: 0
-  chakra_maximum: 12
-  chakra_current: 0
+  rangeWeaponAmmunition: 0
+  maximumHealthPoints: 750
+  healthPoints: 0
+  maximumChakra: 12
+  chakra: 0
   isBusy: 0
   isStaggered: 0
   enemylayer:
     serializedVersion: 2
     m_Bits: 1024
-  attack_keycode: 323
-  rangeattack_keycode: 324
+  attackKeycode: 323
+  rangeAttackKeycode: 324
 --- !u!1 &1549197125
 GameObject:
   m_ObjectHideFlags: 0
@@ -833,7 +833,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1549197125}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87084919db618224bb0281ef368dec27, type: 3}
+  m_Script: {fileID: 11500000, guid: c3f101097bc61348fbc7caca343a889a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   weapon_container: {fileID: 3334364660915891361, guid: 829ff4fd0617b5a49af4c75d90d8787f, type: 3}

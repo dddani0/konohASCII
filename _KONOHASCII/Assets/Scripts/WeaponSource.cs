@@ -7,11 +7,9 @@ public class WeaponSource : ScriptableObject
     /// Manual creation for new weapons.
     /// </summary>
     
-    [Tooltip("Weapon name starts with capital letter, like 'Shuriken'.")]
+    [Tooltip("Weapon name starts with capital letter, like 'Kunai'.")]
     public string weaponName;
     public Sprite weaponSprite;
-    [Tooltip("Default template of weapon animation")]
-    public Animator defaultWeaponAnimator;
     [Tooltip("Animation override controller for diverse animations")]
     public AnimatorOverrideController weaponAnimatorController;
     [Space] 

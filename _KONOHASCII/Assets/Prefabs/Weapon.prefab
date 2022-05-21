@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3334364660915891363}
   - component: {fileID: 3334364660915891362}
   - component: {fileID: 3094365187035047358}
+  - component: {fileID: 3218124634045596185}
   m_Layer: 0
   m_Name: Weapon
   m_TagString: Untagged
@@ -45,12 +46,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 345ed515be2674348b0d69c9e8170f3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rigidbody: {fileID: 0}
-  container_weapon: {fileID: 0}
-  weapon_sprite: {fileID: 0}
-  weapon_sprite_renderer: {fileID: 0}
-  weapon_animator: {fileID: 0}
-  weapon_override_controller: {fileID: 0}
+  weaponRigidbody: {fileID: 0}
+  weaponSourceSource: {fileID: 0}
+  weaponSprite: {fileID: 0}
+  weaponSpriteRenderer: {fileID: 0}
+  weaponAnimator: {fileID: 1951735609177401473}
+  weaponOverrideController: {fileID: 0}
+  isAirborne: 1
 --- !u!50 &3094365187035047358
 Rigidbody2D:
   serializedVersion: 4
@@ -72,6 +74,22 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 2
+--- !u!58 &3218124634045596185
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3334364660915891361}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
 --- !u!1 &6971642832417864740
 GameObject:
   m_ObjectHideFlags: 0
@@ -114,7 +132,7 @@ Animator:
   m_GameObject: {fileID: 6971642832417864740}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 07546f4d8688e1848b5926d514f62bfd, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

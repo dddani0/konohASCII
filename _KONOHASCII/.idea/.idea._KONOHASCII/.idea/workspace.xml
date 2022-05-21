@@ -10,10 +10,6 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/EnemyStatistics.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/WeaponContainer.cs" root0="FORCE_HIGHLIGHTING" />
-  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -80,6 +76,7 @@
       <workItem from="1641673085025" duration="915000" />
       <workItem from="1641804697542" duration="5282000" />
       <workItem from="1642409870562" duration="4059000" />
+      <workItem from="1653143502557" duration="2466000" />
     </task>
     <servers />
   </component>
@@ -97,7 +94,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Scripts/PlayerMovement.cs</url>
-          <line>175</line>
+          <line>187</line>
           <properties documentPath="D:\Projects\Unity_Projects\Github_Repo\konohASCII\_KONOHASCII\Assets\Scripts\PlayerMovement.cs" initialLine="154" containingFunctionPresentation="method 'ChangeRigidbodyState'" />
           <option name="timeStamp" value="1" />
         </line-breakpoint>

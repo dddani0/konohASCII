@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a86917d9edb0f5f42a293a22bc5b7405, type: 3}
+  m_Name: Kunai
+  m_EditorClassIdentifier: 
+  weaponName: Kunai
+  weaponSprite: {fileID: 1124458870577314530, guid: 6538a68c910803043a3713f065a0291b, type: 3}
+  defaultWeaponAnimator: {fileID: 0}
+  weaponAnimatorController: {fileID: 0}
+  damage: 70
+  isRange: 1
+  weaponSpeed: 3000
+  isWeaponFlying: 0
