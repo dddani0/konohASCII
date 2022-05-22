@@ -1,18 +1,18 @@
 fileFormatVersion: 2
-guid: 4d2f53d42f5e67f4c838f2bd3449314b
+guid: 460b545d65bfe2a48907d28beb34a9fd
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5778806711867469986
-    second: Naruto_fall_0
+      213: -6420639728042880347
+    second: Naruto_fall_Spritesheet_0
   - first:
-      213: 7669499418587561507
-    second: Naruto_fall_1
+      213: -2479244163769373267
+    second: Naruto_fall_Spritesheet_1
   - first:
-      213: -2619662039074318007
-    second: Naruto_fall_2
+      213: -7084818717249775898
+    second: Naruto_fall_Spritesheet_2
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -32,6 +32,7 @@ TextureImporter:
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -66,13 +67,15 @@ TextureImporter:
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 2
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -84,7 +87,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 2
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -95,13 +98,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Naruto_fall_0
+      name: Naruto_fall_Spritesheet_0
       rect:
         serializedVersion: 2
-        x: 97
-        y: 965
-        width: 140
-        height: 165
+        x: 93
+        y: 28
+        width: 174
+        height: 187
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -109,20 +112,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a623039cc29cedb43aedded4032f2f2d
-      internalID: 5778806711867469986
+      spriteID: 5a25e337f2e45e6a0800000000000000
+      internalID: -6420639728042880347
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Naruto_fall_1
+      name: Naruto_fall_Spritesheet_1
       rect:
         serializedVersion: 2
-        x: 322
-        y: 970
-        width: 152
-        height: 165
+        x: 318
+        y: 28
+        width: 196
+        height: 187
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -130,20 +133,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1953164f8e363d446a251eb0358c4444
-      internalID: 7669499418587561507
+      spriteID: dade0139194f79dd0800000000000000
+      internalID: -2479244163769373267
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Naruto_fall_2
+      name: Naruto_fall_Spritesheet_2
       rect:
         serializedVersion: 2
-        x: 1625
-        y: 1009
-        width: 200
-        height: 165
+        x: 603
+        y: 28
+        width: 219
+        height: 187
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -151,8 +154,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b46c1a6ef11837442b7fbd1f25bc774a
-      internalID: -2619662039074318007
+      spriteID: 6e6d944e9eaadad90800000000000000
+      internalID: -7084818717249775898
       vertices: []
       indices: 
       edges: []

@@ -1,21 +1,18 @@
 fileFormatVersion: 2
-guid: 8531a792d85c9414793dd8702d2530aa
+guid: 9f9bf37c6814df043af9bcd8d819b92a
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2722355692632362492
-    second: Naruto_jutsu_handseals_0
+      213: -8631902492633211850
+    second: Naruto_Punch_Spritesheet_0
   - first:
-      213: -6731313335737701187
-    second: Naruto_jutsu_handseals_1
+      213: -2401432630597796016
+    second: Naruto_Punch_Spritesheet_1
   - first:
-      213: 3116450334516385848
-    second: Naruto_jutsu_handseals_2
-  - first:
-      213: 8327235360203651639
-    second: Naruto_jutsu_handseals_3
+      213: 8935875355604933529
+    second: Naruto_Punch_Spritesheet_2
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -35,6 +32,7 @@ TextureImporter:
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -69,13 +67,15 @@ TextureImporter:
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 2
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -87,19 +87,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 2
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -110,13 +98,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Naruto_jutsu_handseals_0
+      name: Naruto_Punch_Spritesheet_0
       rect:
         serializedVersion: 2
-        x: 240
-        y: 1078
-        width: 139
-        height: 189
+        x: 347
+        y: 17
+        width: 183
+        height: 198
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -124,20 +112,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b5fc9d3a0d3f9c243acf805b6289fa4d
-      internalID: -2722355692632362492
+      spriteID: 63cd9ceaa62553880800000000000000
+      internalID: -8631902492633211850
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Naruto_jutsu_handseals_1
+      name: Naruto_Punch_Spritesheet_1
       rect:
         serializedVersion: 2
-        x: 433
-        y: 1078
-        width: 136
-        height: 192
+        x: 575
+        y: 17
+        width: 186
+        height: 198
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -145,20 +133,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 810c7445e880cba49962444027ead032
-      internalID: -6731313335737701187
+      spriteID: 05fbf2deeb56caed0800000000000000
+      internalID: -2401432630597796016
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Naruto_jutsu_handseals_2
+      name: Naruto_Punch_Spritesheet_2
       rect:
         serializedVersion: 2
-        x: 634
-        y: 1078
-        width: 138
-        height: 191
+        x: 787
+        y: 17
+        width: 218
+        height: 198
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -166,29 +154,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 036a6aa13e705a442ad485dbee30406f
-      internalID: 3116450334516385848
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Naruto_jutsu_handseals_3
-      rect:
-        serializedVersion: 2
-        x: 828
-        y: 1078
-        width: 138
-        height: 194
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8ecfd5c939f4b4e468917e98d19732c3
-      internalID: 8327235360203651639
+      spriteID: 99bdff7aa4b920c70800000000000000
+      internalID: 8935875355604933529
       vertices: []
       indices: 
       edges: []

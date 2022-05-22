@@ -1,18 +1,18 @@
 fileFormatVersion: 2
-guid: fa8f909716570b548b858226a05773e6
+guid: c5631417623c02443b9c8fb48acf4770
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 687632740493316942
-    second: Naruto_punch_0
+      213: 5778806711867469986
+    second: Naruto_fall_0
   - first:
-      213: -1346720859447278902
-    second: Naruto_punch_1
+      213: 7669499418587561507
+    second: Naruto_fall_1
   - first:
-      213: -1657152542800277341
-    second: Naruto_punch_2
+      213: -2619662039074318007
+    second: Naruto_fall_2
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -32,6 +32,7 @@ TextureImporter:
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -40,7 +41,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: -1
     mipBias: -100
     wrapU: 1
@@ -49,12 +50,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 25
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -66,13 +67,15 @@ TextureImporter:
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 2
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -84,19 +87,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 2
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -107,12 +98,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Naruto_punch_0
+      name: Naruto_fall_0
       rect:
         serializedVersion: 2
-        x: 1110
-        y: 937
-        width: 204
+        x: 98
+        y: 29
+        width: 164
         height: 186
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -121,19 +112,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b504e53980dfab74f8e392f83b6d4ad5
-      internalID: 687632740493316942
+      spriteID: 2a0f0864612723050800000000000000
+      internalID: 5778806711867469986
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Naruto_punch_1
+      name: Naruto_fall_1
       rect:
         serializedVersion: 2
-        x: 912
-        y: 935
-        width: 177
+        x: 313
+        y: 28
+        width: 197
         height: 187
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -142,19 +133,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 46a4c41386c926742805fd87fdd818a0
-      internalID: -1346720859447278902
+      spriteID: 32ef9f126198f6a60800000000000000
+      internalID: 7669499418587561507
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Naruto_punch_2
+      name: Naruto_fall_2
       rect:
         serializedVersion: 2
-        x: 714
-        y: 933
-        width: 176
+        x: 604
+        y: 28
+        width: 215
         height: 187
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -163,8 +154,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 91b222242804abf489c927caff022032
-      internalID: -1657152542800277341
+      spriteID: 9495669414715abd0800000000000000
+      internalID: -2619662039074318007
       vertices: []
       indices: 
       edges: []
@@ -181,7 +172,7 @@ TextureImporter:
     secondaryTextures: []
   spritePackingTag: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
+  pSDShowRemoveMatteOption: 1
   userData: 
   assetBundleName: 
   assetBundleVariant: 

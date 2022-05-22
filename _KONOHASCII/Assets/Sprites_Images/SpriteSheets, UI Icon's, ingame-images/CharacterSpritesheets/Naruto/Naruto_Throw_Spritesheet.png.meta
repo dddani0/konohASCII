@@ -1,18 +1,18 @@
 fileFormatVersion: 2
-guid: 7cc541df8de7ec24b86bae9f55afc1f7
+guid: e8d1e2f115d6d81469b71da3b563e092
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7388017801398452263
-    second: Naruto_Throw_kunai_0
+      213: -2490906184776554583
+    second: Naruto_Throw_Spritesheet_0
   - first:
-      213: -16755629720632242
-    second: Naruto_Throw_kunai_1
+      213: 6367474396128674311
+    second: Naruto_Throw_Spritesheet_1
   - first:
-      213: 584763010798191175
-    second: Naruto_Throw_kunai_2
+      213: -206815638445921865
+    second: Naruto_Throw_Spritesheet_2
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -32,6 +32,7 @@ TextureImporter:
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -66,13 +67,15 @@ TextureImporter:
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 2
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -84,19 +87,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 2
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -107,34 +98,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Naruto_Throw_kunai_0
+      name: Naruto_Throw_Spritesheet_0
       rect:
         serializedVersion: 2
-        x: 653
-        y: 932
-        width: 128
-        height: 186
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 7, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: dcfeab99bf0c8b64387df0828cf62912
-      internalID: -7388017801398452263
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Naruto_Throw_kunai_1
-      rect:
-        serializedVersion: 2
-        x: 873
-        y: 932
-        width: 175
-        height: 186
+        x: 382
+        y: 16
+        width: 155
+        height: 199
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -142,29 +112,50 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2933b1bfcd3337a4cbb371963a3555a8
-      internalID: -16755629720632242
+      spriteID: 9a7e197b5068e6dd0800000000000000
+      internalID: -2490906184776554583
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Naruto_Throw_kunai_2
+      name: Naruto_Throw_Spritesheet_1
       rect:
         serializedVersion: 2
-        x: 1150
-        y: 931
-        width: 214
-        height: 186
+        x: 579
+        y: 16
+        width: 196
+        height: 199
       alignment: 0
       pivot: {x: 0, y: 0}
-      border: {x: 7, y: 0, z: 0, w: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f0401a667e7cc6b45845059804143daf
-      internalID: 584763010798191175
+      spriteID: 70205a91a30dd5850800000000000000
+      internalID: 6367474396128674311
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Naruto_Throw_Spritesheet_2
+      rect:
+        serializedVersion: 2
+        x: 873
+        y: 16
+        width: 237
+        height: 199
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7b96f68c54e312df0800000000000000
+      internalID: -206815638445921865
       vertices: []
       indices: 
       edges: []
