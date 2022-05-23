@@ -138,11 +138,11 @@ public class PlayerMovement : MonoBehaviour
             {
                 case true:
                     playerAnimation.gameObject.transform.localScale =
-                        new Vector2(playerAnimation.gameObject.transform.localScale.x, -1f);
+                        new Vector2(playerAnimation.gameObject.transform.localScale.x, 1f);
                     break;
                 case false:
                     playerAnimation.gameObject.transform.localScale =
-                        new Vector2(playerAnimation.gameObject.transform.localScale.x, 1f);
+                        new Vector2(playerAnimation.gameObject.transform.localScale.x, -1f);
                     break;
             }
         }

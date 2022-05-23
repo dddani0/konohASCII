@@ -15,8 +15,13 @@ public class WeaponSource : ScriptableObject
     [Space] 
     public int damage;
     [Space] 
+    [Header("Long range weapon attributes")]
     public bool isRange;
     public float weaponSpeed;
     [Space] 
     public bool isWeaponFlying;
+    [Space] 
+    [Header("Short range weapon attributes")]
+    [Tooltip("Delays animation to balance. Animation speed multiplier / animationDelay")]
+    public float animationDelay = 1;
 }

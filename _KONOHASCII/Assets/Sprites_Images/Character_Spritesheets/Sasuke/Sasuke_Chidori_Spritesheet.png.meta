@@ -1,0 +1,406 @@
+fileFormatVersion: 2
+guid: 097aba876eab97046ae02a6ae7f51c47
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 7718795744864704142
+    second: Sasuke_Chidori_Spritesheet_0
+  - first:
+      213: 1508020848817158015
+    second: Sasuke_Chidori_Spritesheet_1
+  - first:
+      213: 6610153612072408565
+    second: Sasuke_Chidori_Spritesheet_2
+  - first:
+      213: 5268732850844214273
+    second: Sasuke_Chidori_Spritesheet_3
+  - first:
+      213: -3730231327098773419
+    second: Sasuke_Chidori_Spritesheet_4
+  - first:
+      213: -1440392667374989912
+    second: Sasuke_Chidori_Spritesheet_5
+  - first:
+      213: -9113104238601017544
+    second: Sasuke_Chidori_Spritesheet_6
+  - first:
+      213: 5747158460913294144
+    second: Sasuke_Chidori_Spritesheet_7
+  - first:
+      213: -5234652689778152367
+    second: Sasuke_Chidori_Spritesheet_8
+  - first:
+      213: 5777904908398417718
+    second: Sasuke_Chidori_Spritesheet_9
+  - first:
+      213: -7243821298016111435
+    second: Sasuke_Chidori_Spritesheet_10
+  - first:
+      213: 526500892034794107
+    second: Sasuke_Chidori_Spritesheet_11
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 25
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 8192
+    resizeAlgorithm: 1
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 8192
+    resizeAlgorithm: 1
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 8192
+    resizeAlgorithm: 1
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Sasuke_Chidori_Spritesheet_0
+      rect:
+        serializedVersion: 2
+        x: 85
+        y: 1145
+        width: 320
+        height: 235
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b2ba75a1abd44b74998dc0a9f480a3ad
+      internalID: 7718795744864704142
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sasuke_Chidori_Spritesheet_1
+      rect:
+        serializedVersion: 2
+        x: 530
+        y: 702
+        width: 320
+        height: 235
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: df7d4bfcfd4892b4eba5cdf4ac355588
+      internalID: 1508020848817158015
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sasuke_Chidori_Spritesheet_2
+      rect:
+        serializedVersion: 2
+        x: 880
+        y: 1145
+        width: 320
+        height: 235
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f8aa44af038b00f418a938df7495e7c2
+      internalID: 6610153612072408565
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sasuke_Chidori_Spritesheet_3
+      rect:
+        serializedVersion: 2
+        x: 1297
+        y: 1145
+        width: 320
+        height: 235
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 870f154c21200424586dfe9dbea24e2c
+      internalID: 5268732850844214273
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sasuke_Chidori_Spritesheet_4
+      rect:
+        serializedVersion: 2
+        x: 1803
+        y: 1145
+        width: 320
+        height: 235
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d6b2ae17b389a614ea8e0db21c469d41
+      internalID: -3730231327098773419
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sasuke_Chidori_Spritesheet_5
+      rect:
+        serializedVersion: 2
+        x: 94
+        y: 705
+        width: 320
+        height: 235
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cddfe81616c796244b3925069fcbdcab
+      internalID: -1440392667374989912
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sasuke_Chidori_Spritesheet_6
+      rect:
+        serializedVersion: 2
+        x: 1029
+        y: 737
+        width: 320
+        height: 235
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 203a378fa1084a540808ace3fe7d9323
+      internalID: -9113104238601017544
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sasuke_Chidori_Spritesheet_7
+      rect:
+        serializedVersion: 2
+        x: 1685
+        y: 741
+        width: 320
+        height: 235
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0cbb769b289c98140b06b3fae1c0620e
+      internalID: 5747158460913294144
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sasuke_Chidori_Spritesheet_8
+      rect:
+        serializedVersion: 2
+        x: 78
+        y: 271
+        width: 320
+        height: 235
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d384c32c6327bbd4396921d3064ed91f
+      internalID: -5234652689778152367
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sasuke_Chidori_Spritesheet_9
+      rect:
+        serializedVersion: 2
+        x: 758
+        y: 270
+        width: 320
+        height: 235
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 966eeb1076795934f8ab2bb5c3337239
+      internalID: 5777904908398417718
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sasuke_Chidori_Spritesheet_10
+      rect:
+        serializedVersion: 2
+        x: 492
+        y: 1145
+        width: 320
+        height: 235
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7084b1d9dd53f154093ff1f1436e6f23
+      internalID: -7243821298016111435
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sasuke_Chidori_Spritesheet_11
+      rect:
+        serializedVersion: 2
+        x: 1312
+        y: 270
+        width: 320
+        height: 235
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a2ca0f1fb66991d4d95e11282d1fcff9
+      internalID: 526500892034794107
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

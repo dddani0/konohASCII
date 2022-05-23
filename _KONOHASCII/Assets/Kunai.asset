@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Kunai
   m_EditorClassIdentifier: 
   weaponName: Kunai
-  weaponSprite: {fileID: 1124458870577314530, guid: 6538a68c910803043a3713f065a0291b, type: 3}
-  defaultWeaponAnimator: {fileID: 0}
+  weaponSprite: {fileID: -5925524448596082248, guid: 1c4d3c7b5957de44187b8a28d87e7e08, type: 3}
   weaponAnimatorController: {fileID: 0}
   damage: 70
   isRange: 1
   weaponSpeed: 3000
   isWeaponFlying: 0
+  animationDelay: 1
