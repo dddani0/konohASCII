@@ -5,27 +5,73 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f509f050-b68b-46bb-891c-6810656fb82b" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Assets/HeavyEnemy.asset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/HeavyEnemy.asset.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/EnemyBehavior.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/EnemyBehavior.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/EnemyMovement.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/EnemyMovement.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/ScriptableObject.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/ScriptableObject/EnemyTemplate.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/ScriptableObject/EnemyTemplate.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Buru_Enemy.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Buru_Enemy/98889.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Buru_Enemy/98889.png.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Buru_Enemy/Buru_Idle.psd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Buru_Enemy/Buru_Idle.psd.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Buru_Enemy/debug.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Buru_Enemy/debug.log.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Iwakata_Enemy.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Iwakata_Enemy/14414.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Iwakata_Enemy/14414.gif.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Iwakata_Enemy/Iwakata_Idle.psd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Iwakata_Enemy/Iwakata_Idle.psd.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Jirobo_Enemy/14413.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Jirobo_Enemy/14413.gif.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Jirobo_Enemy/Jirobo_Idle.psd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Jirobo_Enemy/Jirobo_Idle.psd.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Takama_Enemy.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Takama_Enemy/13531.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Takama_Enemy/13531.gif.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Tamo_Enemy.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Tamo_Enemy/98845.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Tamo_Enemy/98845.png.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Teru_Enemy.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Teru_Enemy/13532.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Teru_Enemy/13532.gif.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Yoroi_Enemy/14410.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Yoroi_Enemy/14410.gif.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Zukushi_Enemy.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Zukushi_Enemy/14395.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Zukushi_Enemy/14395.gif.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Sprites_Images/Misc.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Sprites_Images/Misc.gif.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Sprites_Images/debug.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Sprites_Images/debug.log.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Sprites_Images/konohascii_boxart.psd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Sprites_Images/konohascii_boxart.psd.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Weapons.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea._KONOHASCII/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea._KONOHASCII/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Animation/Naruto/Punch.anim" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animation/Naruto/Punch.anim" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Explosive_Tag_Kunai.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Explosive_Tag_Kunai.asset.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Giant_Shuriken.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Giant_Shuriken.asset.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Katana.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Katana.asset.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Kunai.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Kunai.asset.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Kusagi.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Kusagi.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Explosive_Tag_Kunai.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Weapons/Explosive_Tag_Kunai.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Explosive_Tag_Kunai.asset.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Weapons/Explosive_Tag_Kunai.asset.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Giant_Shuriken.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Weapons/Giant_Shuriken.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Giant_Shuriken.asset.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Weapons/Giant_Shuriken.asset.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Katana.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Weapons/Katana.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Katana.asset.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Weapons/Katana.asset.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Kunai.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Weapons/Kunai.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Kunai.asset.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Weapons/Kunai.asset.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Kusagi.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Weapons/Kusagi.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Kusagi.asset.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Weapons/Kusagi.asset.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/Developer_Room.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Developer_Room.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/PlayerAction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PlayerAction.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/PlayerAnimation.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PlayerAnimation.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/WeaponContainer.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/WeaponContainer.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/WeaponSource.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/WeaponSource.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Shuriken.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Shuriken.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/WeaponContainer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/SecondaryWeaponContainer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/WeaponContainer.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/SecondaryWeaponContainer.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/WeaponSource.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/ScriptableObject/WeaponTemplate.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/WeaponSource.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/ScriptableObject/WeaponTemplate.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Shuriken.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Weapons/Shuriken.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Shuriken.asset.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Weapons/Shuriken.asset.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/konohascii_boxart.png" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sprites_Images/konohascii_boxart.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" afterDir="false" />
     </list>
@@ -120,7 +166,7 @@
       <workItem from="1653316807797" duration="1191000" />
       <workItem from="1654522966987" duration="4202000" />
       <workItem from="1654530986780" duration="3361000" />
-      <workItem from="1659363846459" duration="1663000" />
+      <workItem from="1659363846459" duration="2099000" />
     </task>
     <servers />
   </component>
