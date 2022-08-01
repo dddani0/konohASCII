@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(fileName = "Weapon", menuName = "Weapon/Weapon", order = 1)]
-public class WeaponSource : ScriptableObject
+[CreateAssetMenu(fileName = "Weapon", menuName = "Weapon/new Weapon Template", order = 1)]
+public class WeaponTemplate : ScriptableObject
 {
     /// <summary>
     /// Manual creation for new weapons.

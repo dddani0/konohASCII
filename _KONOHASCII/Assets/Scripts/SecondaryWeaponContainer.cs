@@ -2,10 +2,10 @@
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class WeaponContainer : MonoBehaviour
+public class SecondaryWeaponContainer : MonoBehaviour
 {
     [SerializeField] private Rigidbody2D weaponRigidbody;
-    [Space] public WeaponSource weaponSourceSource;
+    [Space] public WeaponTemplate weaponTemplateTemplate;
     [Space] public Sprite weaponSprite;
     public SpriteRenderer weaponSpriteRenderer;
     public Animator weaponAnimator;
@@ -23,15 +23,15 @@ public class WeaponContainer : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (weaponSourceSource != null)
-            if (weaponSourceSource.isRange)
-                Throwable_Weapon(weaponSourceSource, weaponAirborneSpeed);
+        if (weaponTemplateTemplate != null)
+            if (weaponTemplateTemplate.isRange)
+                Throwable_Weapon(weaponTemplateTemplate, weaponAirborneSpeed);
     }
 
     private void Update()
     {
-        if (!weaponSourceSource) //Is weaponSource asigned?
-            switch (weaponSourceSource.isRange)
+        if (!weaponTemplateTemplate) //Is weaponSource asigned?
+            switch (weaponTemplateTemplate.isRange)
             {
                 case true: /*Throwable_Weapon();*/ break;
                 case false: /* Melee_Weapon();*/ break;
@@ -52,16 +52,16 @@ public class WeaponContainer : MonoBehaviour
         weaponRigidbody = GetComponent<Rigidbody2D>();
     }
 
-    public void AssignNewWeapon(WeaponSource weaponSource, int _ismovingright)
+    public void AssignNewWeapon(WeaponTemplate weaponTemplate, int _ismovingright)
     {
-        weaponSourceSource = weaponSource;
-        weaponAirborneSpeed = weaponSource.weaponSpeed;
-        weaponSprite = weaponSource.weaponSprite;
+        weaponTemplateTemplate = weaponTemplate;
+        weaponAirborneSpeed = weaponTemplate.weaponSpeed;
+        weaponSprite = weaponTemplate.weaponSprite;
         weaponMovementDirection = _ismovingright;
-        switch (weaponSource.weaponAnimatorController != null)
+        switch (weaponTemplate.weaponAnimatorController != null)
         {
             case true:
-                weaponAnimator.runtimeAnimatorController = weaponSource.weaponAnimatorController;
+                weaponAnimator.runtimeAnimatorController = weaponTemplate.weaponAnimatorController;
                 break;
             case false:
                 print("No attached OverrideController attached to weapon source");
@@ -69,7 +69,7 @@ public class WeaponContainer : MonoBehaviour
         }
     }
 
-    private void Throwable_Weapon(WeaponSource weaponSource, float _speed)
+    private void Throwable_Weapon(WeaponTemplate weaponTemplate, float _speed)
     {
         switch (isAirborne)
         {
@@ -84,11 +84,6 @@ public class WeaponContainer : MonoBehaviour
                 break;
         }
     }
-
-    private void Melee_Weapon()
-    {
-    }
-
     private void OnTriggerEnter2D(Collider2D col)
     {
         if (col.CompareTag("Ground"))

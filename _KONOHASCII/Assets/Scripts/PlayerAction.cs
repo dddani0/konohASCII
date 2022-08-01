@@ -10,10 +10,14 @@ public class PlayerAction : MonoBehaviour
     public PlayerAnimation playeranimation;
     [Space(20f)]
     [Header("Weapon_Attribute")]
-    [Tooltip("Primary weapon is always close range weapon. Like Katana")]
-    public WeaponSource activePrimaryWeaponSource;
+    [Tooltip("Primary weapon is always close range weapon. Like Katana. If null, will attribute as fist attack")]
+    public WeaponTemplate activePrimaryWeaponTemplate;
+    [Space]
+    public int fistDamage;
+    [Space] 
+    public int attackRadius;
     [Tooltip("Secondary weapon is always throwable. Like Shuriken")]
-    public WeaponSource activeSecondaryWeaponSource;
+    public WeaponTemplate activeSecondaryWeaponTemplate;
     [Space] 
     public Transform[] weaponPosition;
     [Space] 
@@ -30,6 +34,7 @@ public class PlayerAction : MonoBehaviour
     [Header("Brakes")] 
     public bool isBusy;
     public bool isStaggered;
+    public bool isFacingRight;
     [Space(20f)] 
     [Header("Layermasks and Button mapping")]
     public LayerMask enemylayer;
@@ -39,24 +44,20 @@ public class PlayerAction : MonoBehaviour
 
     private void Start()
     {
-        gamemanager.GetComponent<Gamemanager>().uimanager.primaryWeaponIcon.sprite =
-            activePrimaryWeaponSource.weaponSprite;
-        gamemanager.GetComponent<Gamemanager>().uimanager.secondaryWeaponIcon.sprite =
-            activeSecondaryWeaponSource.weaponSprite;
-        gamemanager.GetComponent<Gamemanager>().uimanager.primaryWeaponIcon.SetNativeSize();
-        gamemanager.GetComponent<Gamemanager>().uimanager.secondaryWeaponIcon.SetNativeSize();
+        //AssingNewPrimaryWeapon(activePrimaryWeaponTemplate);
     }
 
     void Update()
     {
+        isFacingRight = CheckObjectOrientation();
         CheckBusyBooleanStatement();
-        CQCAttack();
+        PrimaryShortRangeAttack();
         RangeAttack();
     }
 
-    private void CQCAttack()
+    private void PrimaryShortRangeAttack()
     {
-        switch (activePrimaryWeaponSource == null)
+        switch (activePrimaryWeaponTemplate == null)
         {
             case true:
                 if (Input.GetKey(attackKeycode) && !isBusy)
@@ -78,19 +79,19 @@ public class PlayerAction : MonoBehaviour
         {
             playeranimation.SetAnimationState("range_attack",playeranimation.default_animator);
             GameObject t_weapon;
-            switch (playeranimation.gameObject.transform.localScale.x > 0)
+            switch (isFacingRight)
             {
                 case true:
                     t_weapon = Instantiate(
                         GameObject.FindGameObjectWithTag("Gamemanager").GetComponent<Gamemanager>().weapon_container,
                         weaponPosition[0].position, weaponPosition[0].rotation);
-                    t_weapon.GetComponent<WeaponContainer>().AssignNewWeapon(activeSecondaryWeaponSource,1);
+                    t_weapon.GetComponent<SecondaryWeaponContainer>().AssignNewWeapon(activeSecondaryWeaponTemplate,1);
                     break;
                 case false:
                     t_weapon = Instantiate(
                         GameObject.FindGameObjectWithTag("Gamemanager").GetComponent<Gamemanager>().weapon_container,
                         weaponPosition[1].position, weaponPosition[1].rotation);
-                    t_weapon.GetComponent<WeaponContainer>().AssignNewWeapon(activeSecondaryWeaponSource,-1);
+                    t_weapon.GetComponent<SecondaryWeaponContainer>().AssignNewWeapon(activeSecondaryWeaponTemplate,-1);
                     break;
             }
 
@@ -98,11 +99,32 @@ public class PlayerAction : MonoBehaviour
         }
     }
 
+    private bool CheckObjectOrientation()
+    {
+        return playeranimation.gameObject.transform.localScale.x > 0;
+    }
+    
     private void CheckBusyBooleanStatement()
     {
         isBusy = playeranimation.default_animator.GetCurrentAnimatorStateInfo(0).IsTag("Action");
         
         if (isBusy || isStaggered) //freeze if staggered or action is taking place
             playermovement.ChangeRigidbodyState(true,false,playermovement.rigidbody2D);
+    }
+
+    private void AssingNewPrimaryWeapon(WeaponTemplate _primaryWeapon)
+    {
+        gamemanager.GetComponent<Gamemanager>().uimanager.primaryWeaponIcon.sprite =
+            _primaryWeapon.weaponSprite;
+        gamemanager.GetComponent<Gamemanager>().uimanager.secondaryWeaponIcon.sprite =
+            _primaryWeapon.weaponSprite;
+        gamemanager.GetComponent<Gamemanager>().uimanager.primaryWeaponIcon.SetNativeSize();
+        gamemanager.GetComponent<Gamemanager>().uimanager.secondaryWeaponIcon.SetNativeSize();
+    }
+    
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(weaponPosition[0].position,attackRadius);
     }
 }
