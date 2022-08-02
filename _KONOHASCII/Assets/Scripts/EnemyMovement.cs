@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
+    public EnemyBehavior enemyBehavior;
+    [Space]
+    public float movementSpeed;
+    
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -12,6 +17,21 @@ public class EnemyMovement : MonoBehaviour
 
     // Update is called once per frame
     void Update()
+    {
+        
+    }
+
+    private void PatrolState()
+    {
+        
+    }
+
+    private void IdleState()
+    {
+        
+    }
+
+    private void FollowState()
     {
         
     }

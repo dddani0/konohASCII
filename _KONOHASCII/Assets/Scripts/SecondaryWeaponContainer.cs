@@ -12,6 +12,7 @@ public class SecondaryWeaponContainer : MonoBehaviour
     public AnimatorOverrideController weaponOverrideController;
     [Space] private float weaponAirborneSpeed;
     [Space] public bool isAirborne = true;
+    [Space] public int weaponDamage;
 
     [Space] [Tooltip("Determines the direction of weapon movement. 1 = right and -1 = left")]
     private int weaponMovementDirection = 1;
@@ -58,6 +59,7 @@ public class SecondaryWeaponContainer : MonoBehaviour
         weaponAirborneSpeed = weaponTemplate.weaponSpeed;
         weaponSprite = weaponTemplate.weaponSprite;
         weaponMovementDirection = _ismovingright;
+        weaponDamage = weaponTemplate.damage;
         switch (weaponTemplate.weaponAnimatorController != null)
         {
             case true:
@@ -89,7 +91,6 @@ public class SecondaryWeaponContainer : MonoBehaviour
         if (col.CompareTag("Ground"))
         {
             isAirborne = false;
-            
         }
     }
 }

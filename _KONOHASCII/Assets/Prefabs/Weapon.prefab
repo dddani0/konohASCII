@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3218124634045596185}
   m_Layer: 0
   m_Name: Weapon
-  m_TagString: Untagged
+  m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponRigidbody: {fileID: 0}
-  weaponSourceSource: {fileID: 0}
+  weaponTemplateTemplate: {fileID: 0}
   weaponSprite: {fileID: 0}
   weaponSpriteRenderer: {fileID: 0}
   weaponAnimator: {fileID: 1951735609177401473}
