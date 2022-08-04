@@ -111,7 +111,6 @@ public class PlayerMovement : MonoBehaviour
     private void AdvancedMovementAgility()
     {
         //Advanced character mobility
-        //-Wall walk
         //-Wall jump
 
         WallCheck();

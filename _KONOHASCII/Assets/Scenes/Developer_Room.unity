@@ -553,6 +553,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e99ecc5b701c47478daf39d842b0e23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyBehavior: {fileID: 0}
+  movementSpeed: 0
 --- !u!114 &320617216
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -567,13 +569,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyTemplate: {fileID: 11400000, guid: d913d7b9d1d8c1c43a6e8ceffce0ce63, type: 2}
   enemyMovement: {fileID: 0}
-  enemyAnimation: {fileID: 0}
+  enemyAnimation: {fileID: 1142494413}
   enemyName: 
   maximumHealth: 0
   health: 0
   isEnemyDetected: 0
   isStationary: 0
   enemyLevel: 0
+  enemyRigidbody2D: {fileID: 0}
   detectionPoints:
   - {fileID: 1709271053}
   - {fileID: 1163251460}
@@ -617,7 +620,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 4
+  m_Constraints: 5
 --- !u!61 &320617219
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1790,7 +1793,10 @@ MonoBehaviour:
   activePrimaryWeaponTemplate: {fileID: 0}
   fistDamage: 70
   attackRadius: 2
-  activeSecondaryWeaponTemplate: {fileID: 11400000, guid: e41a986f459618b459266d5922802a24, type: 2}
+  isCombo: 0
+  canProceedWithCombo: 0
+  punchAnimationTimeLeft: 0
+  activeSecondaryWeaponTemplate: {fileID: 11400000, guid: 0ba158657ea2a394ca855cbdadc04815, type: 2}
   weaponPosition:
   - {fileID: 839666891}
   - {fileID: 146298661}

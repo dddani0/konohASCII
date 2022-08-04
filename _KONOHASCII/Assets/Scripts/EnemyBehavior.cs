@@ -19,6 +19,8 @@ public class EnemyBehavior : MonoBehaviour
     [SerializeField] private bool isEnemyDetected;
     public bool isStationary;
     public int enemyLevel;
+    [Space] 
+    public Rigidbody2D enemyRigidbody2D;
     [Header("Enemy Behavior type variables")]
     [SerializeField] private Transform[] detectionPoints;
     [SerializeField] private float detectionPointSize;
@@ -30,6 +32,7 @@ public class EnemyBehavior : MonoBehaviour
     void Start()
     {
         FetchDataFromTemplate(enemyTemplate);
+        FetchRudimentaryValues();
     }
     
     void Update()
@@ -107,6 +110,20 @@ public class EnemyBehavior : MonoBehaviour
         health -= _damage;
         print($"old hp {health + _damage} | new hp {health}");
     }
+
+    public void TakeInjury(int _damage, int _knockbackForce)
+    {
+        health -= _damage;
+        // switch (isFacingRight)
+        // {
+        //     case true:
+        //         
+        //         break;
+        //     case false:
+        //         
+        //         break;
+        // }
+    }
     private void FetchDataFromTemplate(EnemyTemplate _enemyTemplate)
     {
         enemyName = _enemyTemplate.enemyName;
@@ -116,10 +133,27 @@ public class EnemyBehavior : MonoBehaviour
         enemyLevel = _enemyTemplate.enemyComplexityLevel;
     }
 
+    private void FetchRudimentaryValues()
+    {
+        enemyMovement = GetComponent<EnemyMovement>();
+        enemyAnimation = GetComponentInChildren<EnemyAnimation>();
+    }
+
     private void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.GetComponent<SecondaryWeaponContainer>() != null)
+        if (col.GetComponent<SecondaryWeaponContainer>())
+        {
+            //Damages the enemy
             health -= col.GetComponent<SecondaryWeaponContainer>().weaponDamage;
+            //Makes it so, that 
+            SecondaryWeaponContainer temporaryWeapon = col.gameObject.GetComponent<SecondaryWeaponContainer>();
+            temporaryWeapon.transform.SetParent(enemyAnimation.gameObject.transform);
+            temporaryWeapon.isAirborne = false;
+            temporaryWeapon.GetComponent<Collider2D>().enabled = false;
+            temporaryWeapon.GetComponent<Rigidbody2D>().simulated = false;
+            temporaryWeapon.weaponAnimator.enabled = false;
+            temporaryWeapon.enabled = false;
+        }
     }
 
     private void OnDrawGizmosSelected()

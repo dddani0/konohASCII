@@ -21,6 +21,7 @@ public class PlayerAnimation : MonoBehaviour
     {
         SetAnimationState("movement", int.Parse(Input.GetAxisRaw("Horizontal").ToString()), default_animator);
         SetAnimationState("ydelta", playerMovement.rigidbody2D.velocity.y, default_animator);
+        SetAnimationState("nextFrameDeadline",playerAction.punchAnimationTimeLeft,default_animator);
     }
 
     private void LateUpdate()
@@ -47,7 +48,6 @@ public class PlayerAnimation : MonoBehaviour
         playerAction = GetComponentInParent<PlayerAction>();
         default_animator.runtimeAnimatorController = animator_controller;
     }
-
     #region Set this.player animation properties
     public void SetAnimationState(string parametername, int integervalue, Animator _animator)
     {
@@ -68,13 +68,11 @@ public class PlayerAnimation : MonoBehaviour
     {
         _animator.SetBool(parametername, booleanvalue);
     }
-    
-
     #endregion
     public void ACALLANIMATIONEVENTInflictDamage()
     {
-        //Animation event, which is called everytime the player 
-        //Takes damage if raycast detects an object with EnemyBehavior.cs script
+        //Animation event
+        //Takes damage if raycast detects an object with EnemyBehavior.cs script attached
         //Tagging is not necessary, if it can access the above-mentioned script
         Transform _attackPosition = null;
         int _damage;

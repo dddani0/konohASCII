@@ -6,11 +6,82 @@
   <component name="ChangeListManager">
     <list default="true" id="f509f050-b68b-46bb-891c-6810656fb82b" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea._KONOHASCII/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea._KONOHASCII/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Weapon.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Weapon.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Animation/Default_Animations/Player_Character/Player_Sprite.controller" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animation/Default_Animations/Player_Character/Player_Sprite.controller" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Animation/Default_Animations/Player_Character/Punch.anim" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Animation/Default_Animations/Player_Character/Punch.anim.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Animation/Default_Animations/Player_Character/weapon_attack.anim" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Animation/Default_Animations/Player_Character/weapon_attack.anim.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Animation/Naruto/Punch.anim" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Animation/Naruto/Punch.anim.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Animation/Naruto/Weapon_Attack.anim" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Animation/Naruto/Weapon_Attack.anim.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/EnemyAnimation.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/EnemyAnimation.cs.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/Developer_Room.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Developer_Room.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/EnemyBehavior.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/EnemyBehavior.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/SecondaryWeaponContainer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/SecondaryWeaponContainer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PlayerAction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PlayerAction.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PlayerAnimation.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PlayerAnimation.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PlayerMovement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PlayerMovement.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Naruto.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Naruto/Naruto_Handsigns.psd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Naruto/Naruto_Handsigns.psd.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Naruto/Naruto_Handsigns_Spritesheet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Naruto/Naruto_Handsigns_Spritesheet.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Naruto/Naruto_Idle.psd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Naruto/Naruto_Idle.psd.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Naruto/Naruto_Idle_Spritesheet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Naruto/Naruto_Idle_Spritesheet.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Naruto/Naruto_Jump_Fall_Land.psd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Naruto/Naruto_Jump_Fall_Land.psd.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Naruto/Naruto_Jump_Fall_Land_Spritesheet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Naruto/Naruto_Jump_Fall_Land_Spritesheet.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Naruto/Naruto_Punch.psd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Naruto/Naruto_Punch.psd.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Naruto/Naruto_Punch_Spritesheet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Naruto/Naruto_Punch_Spritesheet.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Naruto/Naruto_Run.psd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Naruto/Naruto_Run.psd.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Naruto/Naruto_Run_Spritesheet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Naruto/Naruto_Run_Spritesheet.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Naruto/Naruto_Throw.psd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Naruto/Naruto_Throw.psd.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Naruto/Naruto_Throw_Spritesheet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Naruto/Naruto_Throw_Spritesheet.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Naruto/Naruto_Weapon_Attack.psd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Naruto/Naruto_Weapon_Attack.psd.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Naruto/Naruto_Weapon_Attack_Spritesheet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Naruto/Naruto_Weapon_Attack_Spritesheet.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Naruto/Naruto_fall.psd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Naruto/Naruto_fall.psd.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Naruto/Naruto_fall_Spritesheet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Naruto/Naruto_fall_Spritesheet.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Sasuke.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Sasuke/Sasuke_Chidori_Spritesheet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Sasuke/Sasuke_Chidori_Spritesheet.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Sasuke/Sasuke_Chidori_Spritesheet.psd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Sasuke/Sasuke_Chidori_Spritesheet.psd.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Sasuke/Sasuke_Falling_Spritesheet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Sasuke/Sasuke_Falling_Spritesheet.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Sasuke/Sasuke_Fireball_Jutsu_Spritesheet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Sasuke/Sasuke_Fireball_Jutsu_Spritesheet.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Sasuke/Sasuke_Fireball_Jutsu_Spritesheet.psd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Sasuke/Sasuke_Fireball_Jutsu_Spritesheet.psd.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Sasuke/Sasuke_Idle_sprite_sheet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Sasuke/Sasuke_Idle_sprite_sheet.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Sasuke/Sasuke_Jump_Spritesheet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Sasuke/Sasuke_Jump_Spritesheet.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Sasuke/Sasuke_Jutsu_Spritesheet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Sasuke/Sasuke_Jutsu_Spritesheet.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Sasuke/Sasuke_Punch_Spritesheet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Sasuke/Sasuke_Punch_Spritesheet.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Sasuke/Sasuke_run_sprite_sheet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Sasuke/Sasuke_run_sprite_sheet.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Sasuke/Sasuke_throw_sprite_sheet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Sasuke/Sasuke_throw_sprite_sheet.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Sasuke/sharingan_animation_sheet.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Character_Spritesheets/Sasuke/sharingan_animation_sheet.png.meta" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,7 +97,12 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/93cc9d9dd3cb438f827b811749b7e4863400/b0/4eb9aaf9/NativeInputSystem.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/fb001e01371b4adca20013e0ac7638963e2400/d1/bd19b4c9/String.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../../../../Steam/Unity Editors/2020.1.3f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.ugui/Runtime/UI/Core/Layout/HorizontalOrVerticalLayoutGroup.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/49f4e7e791cc4fffacd88f729e2b1e4c128000/2f/b0d854ef/UnitySynchronizationContext.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.cinemachine@2.6.11/Runtime/Core/CinemachineVirtualCameraBase.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/49f4e7e791cc4fffacd88f729e2b1e4c128000/7f/0f7e86d7/SetupCoroutine.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -45,7 +121,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="XThreadsFramesViewSplitterKey" value="0.36401674" />
+    <property name="XThreadsFramesViewSplitterKey" value="0.2801724" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
@@ -105,7 +181,9 @@
       <workItem from="1654522966987" duration="4202000" />
       <workItem from="1654530986780" duration="3361000" />
       <workItem from="1659363846459" duration="7153000" />
-      <workItem from="1659441391374" duration="3182000" />
+      <workItem from="1659441391374" duration="5131000" />
+      <workItem from="1659521405600" duration="9616000" />
+      <workItem from="1659607846674" duration="2592000" />
     </task>
     <servers />
   </component>
@@ -117,17 +195,5 @@
   <component name="UnityUnitTestConfiguration" currentTestLauncher="EditMode" />
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/PlayerMovement.cs</url>
-          <line>187</line>
-          <properties documentPath="D:\Projects\Unity_Projects\Github_Repo\konohASCII\_KONOHASCII\Assets\Scripts\PlayerMovement.cs" initialLine="154" containingFunctionPresentation="method 'ChangeRigidbodyState'" />
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>
