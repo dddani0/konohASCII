@@ -42,4 +42,4 @@ The users who ripped said spritesheets, which I used for this project:
 If you have any inquries about this or any of my other projects you can reach me at my email:<br>
 daniel.mikus03@gmail.com
 <br><br>
-I highly appreaciate every feedback!
+I highly appreaciate every feedback! Stay tuned for more, as I expand the project.
