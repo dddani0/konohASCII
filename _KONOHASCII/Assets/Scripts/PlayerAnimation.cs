@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.Serialization;
 
 //Prerequisites components:
 [RequireComponent(typeof(PlayerMovement))]
@@ -9,8 +8,8 @@ public class PlayerAnimation : MonoBehaviour
 {
     public PlayerMovement playerMovement;
     public PlayerAction playerAction;
-    [Space(20f)] [Header("Animator")] public Animator default_animator;
-    public AnimatorOverrideController animator_controller;
+    [Header("Animator")] public Animator defaultAnimator;
+    public bool canFollowUpCombo;
 
     void Start()
     {
@@ -19,15 +18,15 @@ public class PlayerAnimation : MonoBehaviour
 
     void Update()
     {
-        SetAnimationState("movement", int.Parse(Input.GetAxisRaw("Horizontal").ToString()), default_animator);
-        SetAnimationState("ydelta", playerMovement.rigidbody2D.velocity.y, default_animator);
-        SetAnimationState("nextFrameDeadline",playerAction.punchAnimationTimeLeft,default_animator);
+        SetAnimationState("movement", int.Parse(Input.GetAxisRaw("Horizontal").ToString()), defaultAnimator);
+        SetAnimationState("ydelta", playerMovement.rigidbody2D.velocity.y, defaultAnimator);
+        SetAnimationState("nextFrameDeadline", playerAction.punchAnimationTimeLeft, defaultAnimator);
     }
 
     private void LateUpdate()
     {
         if (!playerAction.isBusy && !playerMovement.isGripped)
-            PlayerSpriteRotation(); 
+            PlayerSpriteRotation();
     }
 
     private void PlayerSpriteRotation()
@@ -43,12 +42,13 @@ public class PlayerAnimation : MonoBehaviour
     private void FetchRudimentaryVariables()
     {
         //Calls once on scene load, which fetches the important values from the gameobjects
-        default_animator = GetComponent<Animator>();
+        defaultAnimator = GetComponent<Animator>();
         playerMovement = GetComponentInParent<PlayerMovement>();
         playerAction = GetComponentInParent<PlayerAction>();
-        default_animator.runtimeAnimatorController = animator_controller;
     }
+
     #region Set this.player animation properties
+
     public void SetAnimationState(string parametername, int integervalue, Animator _animator)
     {
         _animator.SetInteger(parametername, integervalue);
@@ -68,7 +68,9 @@ public class PlayerAnimation : MonoBehaviour
     {
         _animator.SetBool(parametername, booleanvalue);
     }
+
     #endregion
+
     public void ACALLANIMATIONEVENTInflictDamage()
     {
         //Animation event
@@ -90,8 +92,21 @@ public class PlayerAnimation : MonoBehaviour
                 _attackPosition = playerAction.weaponPosition[1];
                 break;
         }
+
         Collider2D hit = Physics2D.OverlapCircle(_attackPosition.position, _attackRadius);
         if (hit.GetComponent<EnemyBehavior>() != null)
             hit.GetComponent<EnemyBehavior>().TakeInjury(_damage);
+    }
+
+    public void ACALLANIMATIONEVENTSignalComboFollowUp()
+    {
+        //Tells the playeraction script, if the player can proceed with combo
+        canFollowUpCombo = true;
+    }
+
+    public void CALLANIMATIONEVENTSignalComboOff()
+    {
+        //Tells the playeraction script, if the player cannot proceed with combo
+        canFollowUpCombo = false;
     }
 }

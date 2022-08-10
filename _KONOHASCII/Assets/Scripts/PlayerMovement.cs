@@ -95,7 +95,7 @@ public class PlayerMovement : MonoBehaviour
         //Jump
         if (isJumpActionTaken)
         {
-            playerAnimation.SetAnimationState("jump", playerAnimation.default_animator);
+            playerAnimation.SetAnimationState("jump", playerAnimation.defaultAnimator);
             rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, jump_force * Time.fixedDeltaTime);
             if (isGripped)
             {
@@ -114,7 +114,7 @@ public class PlayerMovement : MonoBehaviour
         //-Wall jump
 
         WallCheck();
-        playerAnimation.SetAnimationState("gripped", isGripped, playerAnimation.default_animator);
+        playerAnimation.SetAnimationState("gripped", isGripped, playerAnimation.defaultAnimator);
     }
 
     private void WallGrip()
@@ -152,7 +152,7 @@ public class PlayerMovement : MonoBehaviour
         //Checks jump condition
         Collider2D[] col = Physics2D.OverlapCircleAll(groundCheckPosition.position, groundCheckRadius, ground_layer);
         canJump = col.Length > 0;
-        playerAnimation.SetAnimationState("onGround", canJump, playerAnimation.default_animator);
+        playerAnimation.SetAnimationState("onGround", canJump, playerAnimation.defaultAnimator);
     }
 
     private void WallCheck()

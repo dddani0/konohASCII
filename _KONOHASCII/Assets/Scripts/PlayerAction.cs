@@ -6,8 +6,8 @@ using UnityEngine;
 public class PlayerAction : MonoBehaviour
 {
     [Header("Resources")] public GameObject gamemanager;
-    public PlayerMovement playermovement;
-    public PlayerAnimation playeranimation;
+    public PlayerMovement playerMovement;
+    public PlayerAnimation playerAnimation;
 
     [Space(20f)]
     [Header("Weapon_Attribute")]
@@ -25,9 +25,9 @@ public class PlayerAction : MonoBehaviour
 
     [Space] public Transform[] weaponPosition;
     [Space] public int rangeWeaponAmmunition;
-    [Space(20f)] [Header("Health")] public float maximumHealthPoints = 750;
+    [Space(20f)] [Header("Health")] public float maximumHealthPoints;
     [SerializeField] private float healthPoints;
-    [Space(20f)] [Header("Chakra")] public float maximumChakra = 12;
+    [Space(20f)] [Header("Chakra")] public float maximumChakra;
     [SerializeField] private float chakra;
     [Space(20f)] [Header("Brakes")] public bool isBusy;
     public bool isStaggered;
@@ -41,23 +41,13 @@ public class PlayerAction : MonoBehaviour
 
     private void Start()
     {
-        AssingNewPrimaryWeapon(activePrimaryWeaponTemplate);
+        FetchRudimentaryValues();
     }
 
     void Update()
     {
         if (isCombo)
         {
-            if (!playeranimation.default_animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
-                isCombo = true;
-            else
-                isCombo = false;
-            if (!playeranimation.default_animator.GetCurrentAnimatorStateInfo(0).IsName("Idle") &&
-                !playeranimation.default_animator.GetCurrentAnimatorStateInfo(0).IsName("ThirdPunch"))
-                canProceedWithCombo = true;
-            else
-                canProceedWithCombo = false;
-
             isCombo = CheckComboState(); //Cancels Combo state, when returning to "Idle" animation state
             canProceedWithCombo = CheckComboFollowUpState(); 
             //Checks if the current punch animation is on it's last animation ("ThirdPunch")
@@ -74,6 +64,13 @@ public class PlayerAction : MonoBehaviour
             punchAnimationTimeLeft -= Time.deltaTime;
     }
 
+    private void FetchRudimentaryValues()
+    {
+        gamemanager = GameObject.FindGameObjectWithTag("Gamemanager");
+        playerMovement = GetComponent<PlayerMovement>();
+        playerAnimation = GetComponentInChildren<PlayerAnimation>();
+    }
+    
     private void PrimaryShortRangeAttack()
     {
         switch (isCombo)
@@ -84,17 +81,17 @@ public class PlayerAction : MonoBehaviour
                     case true:
                         if (Input.GetKey(attackKeycode) && canProceedWithCombo)
                         {
-                            playeranimation.SetAnimationState("attack", playeranimation.default_animator);
+                            playerAnimation.SetAnimationState("attack", playerAnimation.defaultAnimator);
                             punchAnimationTimeLeft =
-                                playeranimation.default_animator.GetCurrentAnimatorStateInfo(0).length / 2;
+                                playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).length / 2;
                         }
                         break;
                     case false:
                         if (Input.GetKey(attackKeycode) && canProceedWithCombo)
                         {
-                            playeranimation.SetAnimationState("weapon_attack", playeranimation.default_animator);
+                            playerAnimation.SetAnimationState("weapon_attack", playerAnimation.defaultAnimator);
                             punchAnimationTimeLeft =
-                                playeranimation.default_animator.GetCurrentAnimatorStateInfo(0).length / 2;
+                                playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).length / 2;
                         }
                         break;
                 }
@@ -105,20 +102,20 @@ public class PlayerAction : MonoBehaviour
                     case true:
                         if (Input.GetKey(attackKeycode) && !isBusy)
                         {
-                            playeranimation.SetAnimationState("attack", playeranimation.default_animator);
+                            playerAnimation.SetAnimationState("attack", playerAnimation.defaultAnimator);
                             isCombo = true;
                             punchAnimationTimeLeft =
-                                playeranimation.default_animator.GetCurrentAnimatorStateInfo(0).length / 2;
+                                playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).length / 2;
                         }
 
                         break;
                     case false:
                         if (Input.GetKey(attackKeycode) && !isBusy)
                         {
-                            playeranimation.SetAnimationState("weapon_attack", playeranimation.default_animator);
+                            playerAnimation.SetAnimationState("weapon_attack", playerAnimation.defaultAnimator);
                             isCombo = true;
                             punchAnimationTimeLeft =
-                                playeranimation.default_animator.GetCurrentAnimatorStateInfo(0).length / 2;
+                                playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).length / 2;
                         }
                         break;
                 }
@@ -133,9 +130,9 @@ public class PlayerAction : MonoBehaviour
         //Modifies said instance from selected asset.
 
         if (Input.GetKey(rangeAttackKeycode) && !isBusy &&
-            !playeranimation.default_animator.GetCurrentAnimatorStateInfo(0).IsName("wallgrip"))
+            !playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).IsName("wallgrip"))
         {
-            playeranimation.SetAnimationState("range_attack", playeranimation.default_animator);
+            playerAnimation.SetAnimationState("range_attack", playerAnimation.defaultAnimator);
             GameObject t_weapon;
             switch (isFacingRight)
             {
@@ -158,34 +155,35 @@ public class PlayerAction : MonoBehaviour
 
     private bool CheckObjectOrientation()
     {
-        return playeranimation.gameObject.transform.localScale.x > 0;
+        return playerAnimation.gameObject.transform.localScale.x > 0;
     }
 
     private bool CheckComboState()
     {
-        return !playeranimation.default_animator.GetCurrentAnimatorStateInfo(0).IsName("Idle");
+        return !playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle");
     }
 
     private bool CheckComboFollowUpState()
     {
         //
         bool isLastAnimationState =
-            playeranimation.default_animator.GetCurrentAnimatorStateInfo(0).IsName("ThirdPunch");
-        bool isIdleAnimationState = playeranimation.default_animator.GetCurrentAnimatorStateInfo(0).IsName("Idle");
+            playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).IsName("ThirdPunch");
+        bool isIdleAnimationState = playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle");
         bool hasPunchTimeLeft = punchAnimationTimeLeft < 0;
+        bool hasComboFollowUpAllowed = playerAnimation.canFollowUpCombo;
 
-        return !isLastAnimationState && !isIdleAnimationState && hasPunchTimeLeft;
+        return !isLastAnimationState && !isIdleAnimationState && hasPunchTimeLeft && hasComboFollowUpAllowed;
     }
 
     private void CheckBusyBooleanStatement()
     {
-        isBusy = playeranimation.default_animator.GetCurrentAnimatorStateInfo(0).IsTag("Action");
+        isBusy = playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).IsTag("Action");
 
         if (isBusy || isStaggered) //freeze if staggered or action is taking place
-            playermovement.ChangeRigidbodyState(true, false, playermovement.rigidbody2D);
+            playerMovement.ChangeRigidbodyState(true, false, playerMovement.rigidbody2D);
     }
 
-    private void AssingNewPrimaryWeapon(WeaponTemplate _primaryWeapon)
+    public void AssingNewPrimaryWeapon(WeaponTemplate _primaryWeapon)
     {
         UIManager _uiManager = gamemanager.GetComponent<Gamemanager>().uimanager;
         _uiManager.primaryWeaponIcon.sprite = _primaryWeapon.weaponSprite;

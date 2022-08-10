@@ -5,15 +5,12 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Player", menuName = "Player/new Player Template", order = 2)]
 public class PlayableCharacterTemplate : ScriptableObject
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public string playerName;
+    [Header("Player action values")] public int playerHealth;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    [Tooltip("Value should be atleast 1250")]
+    public float playerSpeed;
+
+    [Space] public int chakraReserve;
+    [Header("Player animation")] public AnimatorOverrideController playerAnimatorOverrideController;
 }
