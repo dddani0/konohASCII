@@ -80,8 +80,16 @@ public class PlayerMovement : MonoBehaviour
         switch (playerAction.isBusy)
         {
             case true:
-                rigidbody2D.velocity = new Vector2(0, 0);
-
+                switch (playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).IsName("AirAttack"))
+                {
+                    case true:
+                        //In air attack
+                        rigidbody2D.velocity = new Vector2(0, rigidbody2D.velocity.y);
+                        break;
+                    case false:
+                        rigidbody2D.velocity = new Vector2(0, 0);
+                        break;
+                }
                 break;
             case false:
                 rigidbody2D.velocity = new Vector2(movementSpeed * Time.fixedDeltaTime * Input.GetAxisRaw("Horizontal"),

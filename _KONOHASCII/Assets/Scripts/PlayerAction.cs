@@ -9,13 +9,14 @@ public class PlayerAction : MonoBehaviour
     public PlayerMovement playerMovement;
     public PlayerAnimation playerAnimation;
 
-    [Space(20f)] [Header("Weapon_Attribute")] [SerializeField]
-    private bool weaponSwapped;
-
+    [Space(20f)]
+    [Header("Weapon_Attribute")]
+    [SerializeField]
     [Tooltip("Primary weapon is always close range weapon. Like Katana. If null, will attribute as fist attack")]
     public WeaponTemplate activePrimaryWeapon;
 
     [Space] public int fistDamage;
+    [Space] public int kickDamage;
     [Space] public int attackRadius;
     [Space] public bool isCombo;
     [SerializeField] private bool canProceedWithCombo;
@@ -80,52 +81,65 @@ public class PlayerAction : MonoBehaviour
 
     private void PrimaryShortRangeAttack()
     {
-        switch (isCombo)
+        switch (playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).IsName("fall") || playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).IsName("jump"))
         {
             case true:
-                switch (activePrimaryWeapon == null)
+                if (Input.GetKey(attackKeycode) && !isBusy)
                 {
-                    case true:
-                        if (Input.GetKey(attackKeycode) && canProceedWithCombo)
-                        {
-                            playerAnimation.SetAnimationState("attack", playerAnimation.defaultAnimator);
-                            punchAnimationTimeLeft =
-                                playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).length / 2;
-                        }
-
-                        break;
-                    case false:
-                        if (Input.GetKey(attackKeycode) && canProceedWithCombo)
-                        {
-                            playerAnimation.SetAnimationState("weapon_attack", playerAnimation.defaultAnimator);
-                            punchAnimationTimeLeft =
-                                playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).length / 2;
-                        }
-
-                        break;
+                    playerAnimation.SetAnimationState("airAttack", playerAnimation.defaultAnimator);
                 }
 
                 break;
             case false:
-                switch (activePrimaryWeapon == null)
+                switch (isCombo)
                 {
                     case true:
-                        if (Input.GetKey(attackKeycode) && !isBusy)
+                        switch (activePrimaryWeapon == null)
                         {
-                            playerAnimation.SetAnimationState("attack", playerAnimation.defaultAnimator);
-                            isCombo = true;
-                            punchAnimationTimeLeft =
-                                playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).length / 2;
+                            case true:
+                                if (Input.GetKey(attackKeycode) && canProceedWithCombo)
+                                {
+                                    playerAnimation.SetAnimationState("attack", playerAnimation.defaultAnimator);
+                                    punchAnimationTimeLeft =
+                                        playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).length / 2;
+                                }
+
+                                break;
+                            case false:
+                                if (Input.GetKey(attackKeycode) && canProceedWithCombo)
+                                {
+                                    playerAnimation.SetAnimationState("weapon_attack", playerAnimation.defaultAnimator);
+                                    punchAnimationTimeLeft =
+                                        playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).length / 2;
+                                }
+
+                                break;
                         }
 
                         break;
                     case false:
-                        if (Input.GetKey(attackKeycode) && !isBusy)
+                        switch (activePrimaryWeapon == null)
                         {
-                            playerAnimation.SetAnimationState("weapon_attack", playerAnimation.defaultAnimator);
-                            isCombo = true;
-                            punchAnimationTimeLeft =
-                                playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).length / 2;
+                            case true:
+                                if (Input.GetKey(attackKeycode) && !isBusy)
+                                {
+                                    playerAnimation.SetAnimationState("attack", playerAnimation.defaultAnimator);
+                                    isCombo = true;
+                                    punchAnimationTimeLeft =
+                                        playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).length / 2;
+                                }
+
+                                break;
+                            case false:
+                                if (Input.GetKey(attackKeycode) && !isBusy)
+                                {
+                                    playerAnimation.SetAnimationState("weapon_attack", playerAnimation.defaultAnimator);
+                                    isCombo = true;
+                                    punchAnimationTimeLeft =
+                                        playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).length / 2;
+                                }
+
+                                break;
                         }
 
                         break;
@@ -205,10 +219,17 @@ public class PlayerAction : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(weaponPosition[0].position, attackRadius);
+        Gizmos.DrawWireSphere(weaponPosition[1].position, attackRadius);
     }
 
     private void OnTriggerEnter2D(Collider2D col)
     {
+        if (col.CompareTag("Enemy"))
+        {
+            //This is when the bottomcollider (lol) detects an enemy, when enabled
+            //Used by AirAttack
+            col.GetComponent<EnemyBehavior>().TakeInjury(kickDamage);
+        }
         switch (activePrimaryWeapon != null)
         {
             case true:

@@ -84,21 +84,36 @@ public class PlayerAnimation : MonoBehaviour
             _damage = playerAction.activePrimaryWeapon.damage;
         else
             _damage = playerAction.fistDamage;
-        switch (playerAction.isFacingRight)
+        switch (defaultAnimator.GetCurrentAnimatorStateInfo(0).IsName("fall") ||
+                defaultAnimator.GetCurrentAnimatorStateInfo(0).IsName("jump"))
         {
             case true:
-                _attackPosition = playerAction.weaponPosition[0];
+                playerAction.weaponPosition[2].GetComponent<BoxCollider2D>().enabled = true;
                 break;
             case false:
-                _attackPosition = playerAction.weaponPosition[1];
+                switch (playerAction.isFacingRight)
+                {
+                    case true:
+                        _attackPosition = playerAction.weaponPosition[0];
+                        break;
+                    case false:
+                        _attackPosition = playerAction.weaponPosition[1];
+                        break;
+                }
                 break;
         }
+        
 
         Collider2D hit = Physics2D.OverlapCircle(_attackPosition.position, _attackRadius);
         if (hit.GetComponent<EnemyBehavior>() != null)
             hit.GetComponent<EnemyBehavior>().TakeInjury(_damage);
     }
 
+    public void ACALLANIMATIONEVENTResetAirAttackCollider()
+    {
+        playerAction.weaponPosition[2].GetComponent<BoxCollider2D>().enabled = true;
+    }
+    
     public void ACALLANIMATIONEVENTSignalComboFollowUp()
     {
         //Tells the playeraction script, if the player can proceed with combo

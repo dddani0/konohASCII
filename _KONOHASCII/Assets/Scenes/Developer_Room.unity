@@ -521,6 +521,63 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &209636730
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 209636731}
+  - component: {fileID: 209636732}
+  m_Layer: 0
+  m_Name: Weapon_Position_Bottom
+  m_TagString: Untagged
+  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &209636731
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 209636730}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -2.45, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1402611395}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &209636732
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 209636730}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.052694798, y: -0.86130047}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 4.721368, y: 2.722601}
+  m_EdgeRadius: 0
 --- !u!1 &320617214
 GameObject:
   m_ObjectHideFlags: 0
@@ -536,7 +593,7 @@ GameObject:
   - component: {fileID: 320617219}
   m_Layer: 8
   m_Name: HeavyEnemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1795,6 +1852,7 @@ Transform:
   - {fileID: 1655336894}
   - {fileID: 839666891}
   - {fileID: 146298661}
+  - {fileID: 209636731}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1860,7 +1918,7 @@ MonoBehaviour:
   rigidbody2D: {fileID: 0}
   playerAnimation: {fileID: 0}
   playerAction: {fileID: 0}
-  groundCheckRadius: 1
+  groundCheckRadius: 1.5
   canJump: 1
   groundCheckPosition: {fileID: 1788864991}
   movementSpeed: 1250
@@ -1893,10 +1951,10 @@ MonoBehaviour:
   gamemanager: {fileID: 1549197125}
   playerMovement: {fileID: 0}
   playerAnimation: {fileID: 0}
-  weaponSwapped: 0
   activePrimaryWeapon: {fileID: 0}
   fistDamage: 70
-  attackRadius: 2
+  kickDamage: 110
+  attackRadius: 3
   isCombo: 0
   canProceedWithCombo: 0
   punchAnimationTimeLeft: 0
@@ -1904,6 +1962,7 @@ MonoBehaviour:
   weaponPosition:
   - {fileID: 839666891}
   - {fileID: 146298661}
+  - {fileID: 209636731}
   rangeWeaponAmmunition: 0
   maximumHealthPoints: 750
   healthPoints: 0
@@ -2696,7 +2755,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1788864990}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -3, z: 0}
+  m_LocalPosition: {x: -0.16, y: -3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1402611395}
