@@ -13,12 +13,15 @@ public class UIManager : MonoBehaviour
     public Image secondaryWeaponIcon;
 
     // Start is called before the first frame update
-    void Start()
+    public void ReplacePrimaryWeaponUIIcon(Sprite _replacementSprite)
     {
+        primaryWeaponIcon.sprite = _replacementSprite;
+        primaryWeaponIcon.SetNativeSize();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ReplaceSecondaryWeaponUIIcon(Sprite _replacementSprite)
     {
+        secondaryWeaponIcon.sprite = _replacementSprite;
+        secondaryWeaponIcon.SetNativeSize();
     }
 }

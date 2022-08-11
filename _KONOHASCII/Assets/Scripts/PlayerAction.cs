@@ -9,10 +9,11 @@ public class PlayerAction : MonoBehaviour
     public PlayerMovement playerMovement;
     public PlayerAnimation playerAnimation;
 
-    [Space(20f)]
-    [Header("Weapon_Attribute")]
+    [Space(20f)] [Header("Weapon_Attribute")] [SerializeField]
+    private bool weaponSwapped;
+
     [Tooltip("Primary weapon is always close range weapon. Like Katana. If null, will attribute as fist attack")]
-    public WeaponTemplate activePrimaryWeaponTemplate;
+    public WeaponTemplate activePrimaryWeapon;
 
     [Space] public int fistDamage;
     [Space] public int attackRadius;
@@ -38,6 +39,7 @@ public class PlayerAction : MonoBehaviour
 
     [Space] public KeyCode attackKeycode;
     public KeyCode rangeAttackKeycode;
+    public KeyCode weaponSwapKeycode;
 
     private void Start()
     {
@@ -49,13 +51,18 @@ public class PlayerAction : MonoBehaviour
         if (isCombo)
         {
             isCombo = CheckComboState(); //Cancels Combo state, when returning to "Idle" animation state
-            canProceedWithCombo = CheckComboFollowUpState(); 
+            canProceedWithCombo = CheckComboFollowUpState();
             //Checks if the current punch animation is on it's last animation ("ThirdPunch")
         }
+
         isFacingRight = CheckObjectOrientation();
         CheckBusyBooleanStatement();
         PrimaryShortRangeAttack();
         RangeAttack();
+    }
+
+    private void LateUpdate()
+    {
     }
 
     private void FixedUpdate()
@@ -70,13 +77,13 @@ public class PlayerAction : MonoBehaviour
         playerMovement = GetComponent<PlayerMovement>();
         playerAnimation = GetComponentInChildren<PlayerAnimation>();
     }
-    
+
     private void PrimaryShortRangeAttack()
     {
         switch (isCombo)
         {
             case true:
-                switch (activePrimaryWeaponTemplate == null)
+                switch (activePrimaryWeapon == null)
                 {
                     case true:
                         if (Input.GetKey(attackKeycode) && canProceedWithCombo)
@@ -85,6 +92,7 @@ public class PlayerAction : MonoBehaviour
                             punchAnimationTimeLeft =
                                 playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).length / 2;
                         }
+
                         break;
                     case false:
                         if (Input.GetKey(attackKeycode) && canProceedWithCombo)
@@ -93,11 +101,13 @@ public class PlayerAction : MonoBehaviour
                             punchAnimationTimeLeft =
                                 playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).length / 2;
                         }
+
                         break;
                 }
+
                 break;
             case false:
-                switch (activePrimaryWeaponTemplate == null)
+                switch (activePrimaryWeapon == null)
                 {
                     case true:
                         if (Input.GetKey(attackKeycode) && !isBusy)
@@ -117,6 +127,7 @@ public class PlayerAction : MonoBehaviour
                             punchAnimationTimeLeft =
                                 playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).length / 2;
                         }
+
                         break;
                 }
 
@@ -185,16 +196,45 @@ public class PlayerAction : MonoBehaviour
 
     public void AssingNewPrimaryWeapon(WeaponTemplate _primaryWeapon)
     {
-        UIManager _uiManager = gamemanager.GetComponent<Gamemanager>().uimanager;
-        _uiManager.primaryWeaponIcon.sprite = _primaryWeapon.weaponSprite;
-        _uiManager.secondaryWeaponIcon.sprite = _primaryWeapon.weaponSprite;
-        _uiManager.primaryWeaponIcon.SetNativeSize();
-        _uiManager.secondaryWeaponIcon.SetNativeSize();
+        activePrimaryWeapon = _primaryWeapon;
+        GameObject _uiGameObject = GameObject.Find("UI");
+        _uiGameObject.GetComponent<UIManager>().ReplacePrimaryWeaponUIIcon(activePrimaryWeapon.weaponSprite);
     }
 
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(weaponPosition[0].position, attackRadius);
+    }
+
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        switch (activePrimaryWeapon != null)
+        {
+            case true:
+                if (col.CompareTag("PrimaryWeapon") && Input.GetKeyDown(weaponSwapKeycode))
+                {
+                    AssingNewPrimaryWeapon(col.GetComponent<PrimaryWeaponContainer>().primaryWeapon);
+                    Destroy(col.gameObject);
+                }
+
+                break;
+            case false:
+                if (col.CompareTag("PrimaryWeapon"))
+                {
+                    AssingNewPrimaryWeapon(col.GetComponent<PrimaryWeaponContainer>().primaryWeapon);
+                    Destroy(col.gameObject);
+                }
+
+                break;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("PrimaryWeapon"))
+        {
+            //Set UI feedback disabled
+        }
     }
 }

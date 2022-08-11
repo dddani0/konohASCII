@@ -598,7 +598,7 @@ Transform:
   - {fileID: 1709271053}
   - {fileID: 1163251460}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &320617218
 Rigidbody2D:
@@ -1313,7 +1313,6 @@ MonoBehaviour:
   playerMovement: {fileID: 1402611398}
   playerAction: {fileID: 1402611399}
   defaultAnimator: {fileID: 975498286}
-  animatorOverrideController: {fileID: 0}
   canFollowUpCombo: 0
 --- !u!95 &975498286
 Animator:
@@ -1398,7 +1397,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1106520287
 GameObject:
@@ -1478,7 +1477,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -678022192254141297, guid: 1c4d3c7b5957de44187b8a28d87e7e08, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1661,7 +1660,7 @@ Transform:
   - {fileID: 843309261}
   - {fileID: 1969108999}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1328173745
 GameObject:
@@ -1797,7 +1796,7 @@ Transform:
   - {fileID: 839666891}
   - {fileID: 146298661}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &1402611396
 BoxCollider2D:
@@ -1894,7 +1893,8 @@ MonoBehaviour:
   gamemanager: {fileID: 1549197125}
   playerMovement: {fileID: 0}
   playerAnimation: {fileID: 0}
-  activePrimaryWeaponTemplate: {fileID: 0}
+  weaponSwapped: 0
+  activePrimaryWeapon: {fileID: 0}
   fistDamage: 70
   attackRadius: 2
   isCombo: 0
@@ -1917,6 +1917,7 @@ MonoBehaviour:
     m_Bits: 1024
   attackKeycode: 323
   rangeAttackKeycode: 324
+  weaponSwapKeycode: 101
 --- !u!114 &1402611400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1932,6 +1933,7 @@ MonoBehaviour:
   playableCharacter: {fileID: 11400000, guid: 75d5598a0589dd64f8aa0b986d37f1d7, type: 2}
   playerAction: {fileID: 0}
   playerMovement: {fileID: 0}
+  playerAnimatorOverrideController: {fileID: 0}
 --- !u!1 &1549197125
 GameObject:
   m_ObjectHideFlags: 0
@@ -2042,7 +2044,7 @@ Transform:
   m_Children:
   - {fileID: 104663368}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1562736234
 GameObject:
@@ -2984,7 +2986,7 @@ RectTransform:
   m_Children:
   - {fileID: 1763543850}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -3073,7 +3075,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1939503109
 MonoBehaviour:
@@ -3191,3 +3193,72 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1001 &6743832126324342580
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2353952556687028357, guid: a79f933fa93e04c4f9aa16720b81c563, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2353952556687028357, guid: a79f933fa93e04c4f9aa16720b81c563, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5636714744558268188, guid: a79f933fa93e04c4f9aa16720b81c563, type: 3}
+      propertyPath: m_Name
+      value: PrimaryWeapon
+      objectReference: {fileID: 0}
+    - target: {fileID: 5636714744558268190, guid: a79f933fa93e04c4f9aa16720b81c563, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 8.86
+      objectReference: {fileID: 0}
+    - target: {fileID: 5636714744558268190, guid: a79f933fa93e04c4f9aa16720b81c563, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.78
+      objectReference: {fileID: 0}
+    - target: {fileID: 5636714744558268190, guid: a79f933fa93e04c4f9aa16720b81c563, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5636714744558268190, guid: a79f933fa93e04c4f9aa16720b81c563, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5636714744558268190, guid: a79f933fa93e04c4f9aa16720b81c563, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5636714744558268190, guid: a79f933fa93e04c4f9aa16720b81c563, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5636714744558268190, guid: a79f933fa93e04c4f9aa16720b81c563, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5636714744558268190, guid: a79f933fa93e04c4f9aa16720b81c563, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5636714744558268190, guid: a79f933fa93e04c4f9aa16720b81c563, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5636714744558268190, guid: a79f933fa93e04c4f9aa16720b81c563, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5636714744558268190, guid: a79f933fa93e04c4f9aa16720b81c563, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819289437985441859, guid: a79f933fa93e04c4f9aa16720b81c563, type: 3}
+      propertyPath: primaryWeapon
+      value: 
+      objectReference: {fileID: 11400000, guid: 754600f9bc738fe40bd1693f3d92b522, type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a79f933fa93e04c4f9aa16720b81c563, type: 3}

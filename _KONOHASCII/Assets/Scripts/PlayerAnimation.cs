@@ -79,8 +79,9 @@ public class PlayerAnimation : MonoBehaviour
         Transform _attackPosition = null;
         int _damage;
         float _attackRadius = playerAction.attackRadius;
-        if (playerAction.activePrimaryWeaponTemplate != null)
-            _damage = playerAction.activePrimaryWeaponTemplate.damage;
+        bool _isPrimaryWeaponEquipped = playerAction.activePrimaryWeapon;
+        if (_isPrimaryWeaponEquipped)
+            _damage = playerAction.activePrimaryWeapon.damage;
         else
             _damage = playerAction.fistDamage;
         switch (playerAction.isFacingRight)
