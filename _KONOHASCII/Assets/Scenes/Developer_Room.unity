@@ -559,7 +559,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 209636730}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
@@ -1951,6 +1951,7 @@ MonoBehaviour:
   gamemanager: {fileID: 1549197125}
   playerMovement: {fileID: 0}
   playerAnimation: {fileID: 0}
+  isBlocking: 0
   activePrimaryWeapon: {fileID: 0}
   fistDamage: 70
   kickDamage: 110
@@ -1971,12 +1972,19 @@ MonoBehaviour:
   isBusy: 0
   isStaggered: 0
   isFacingRight: 0
+  maximumTimeBtwChakraRegeneratingProcedure: 5
+  timeBtwChakraRegeneratingProcedure: 0
+  hasChakraRegenerationCooldownPassed: 0
+  maximumIntervalBtwChakraRegeneration: 2
+  intervalBtwChakraRegeneration: 0
+  chakraRegenerationRate: 1
   enemylayer:
     serializedVersion: 2
     m_Bits: 1024
   attackKeycode: 323
   rangeAttackKeycode: 324
   weaponSwapKeycode: 101
+  blockKeyCode: 114
 --- !u!114 &1402611400
 MonoBehaviour:
   m_ObjectHideFlags: 0

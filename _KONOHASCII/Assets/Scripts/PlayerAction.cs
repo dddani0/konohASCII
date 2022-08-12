@@ -9,7 +9,8 @@ public class PlayerAction : MonoBehaviour
     public PlayerMovement playerMovement;
     public PlayerAnimation playerAnimation;
 
-    [Space(20f)]
+    [Space(20f)] public bool isBlocking;
+
     [Header("Weapon_Attribute")]
     [SerializeField]
     [Tooltip("Primary weapon is always close range weapon. Like Katana. If null, will attribute as fist attack")]
@@ -29,11 +30,18 @@ public class PlayerAction : MonoBehaviour
     [Space] public int rangeWeaponAmmunition;
     [Space(20f)] [Header("Health")] public float maximumHealthPoints;
     [SerializeField] private float healthPoints;
-    [Space(20f)] [Header("Chakra")] public float maximumChakra;
-    [SerializeField] private float chakra;
+    [Space(20f)] [Header("Chakra")] public int maximumChakra;
+    [SerializeField] private int chakra;
     [Space(20f)] [Header("Brakes")] public bool isBusy;
     public bool isStaggered;
     public bool isFacingRight;
+
+    [Header("ChakraAttribute")] public float maximumTimeBtwChakraRegeneratingProcedure;
+    [SerializeField] private float timeBtwChakraRegeneratingProcedure;
+    [SerializeField] private bool hasChakraRegenerationCooldownPassed;
+    [Space] public float maximumIntervalBtwChakraRegeneration;
+    [SerializeField] private float intervalBtwChakraRegeneration;
+    public int chakraRegenerationRate;
 
     [Space(20f)] [Header("Layermasks and Button mapping")]
     public LayerMask enemylayer;
@@ -41,6 +49,7 @@ public class PlayerAction : MonoBehaviour
     [Space] public KeyCode attackKeycode;
     public KeyCode rangeAttackKeycode;
     public KeyCode weaponSwapKeycode;
+    public KeyCode blockKeyCode;
 
     private void Start()
     {
@@ -56,10 +65,12 @@ public class PlayerAction : MonoBehaviour
             //Checks if the current punch animation is on it's last animation ("ThirdPunch")
         }
 
+        isBlocking = CheckBlockState();
         isFacingRight = CheckObjectOrientation();
         CheckBusyBooleanStatement();
         PrimaryShortRangeAttack();
         RangeAttack();
+        ChakraBlock();
     }
 
     private void LateUpdate()
@@ -77,11 +88,15 @@ public class PlayerAction : MonoBehaviour
         gamemanager = GameObject.FindGameObjectWithTag("Gamemanager");
         playerMovement = GetComponent<PlayerMovement>();
         playerAnimation = GetComponentInChildren<PlayerAnimation>();
+        chakra = maximumChakra;
+        timeBtwChakraRegeneratingProcedure = maximumTimeBtwChakraRegeneratingProcedure;
+        intervalBtwChakraRegeneration = maximumIntervalBtwChakraRegeneration;
     }
 
     private void PrimaryShortRangeAttack()
     {
-        switch (playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).IsName("fall") || playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).IsName("jump"))
+        switch (playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).IsName("fall") ||
+                playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).IsName("jump"))
         {
             case true:
                 if (Input.GetKey(attackKeycode) && !isBusy)
@@ -178,6 +193,53 @@ public class PlayerAction : MonoBehaviour
         }
     }
 
+    private void ChakraBlock()
+    {
+        //Indicates if chakra regeneration can begin
+        //That can only happen, if the cooldown is completed.
+        //This is so, that the player has to consider using chakra block
+        hasChakraRegenerationCooldownPassed = CheckCanChakraRegenerate();
+
+        playerAnimation.SetAnimationState("chakraValue", chakra, playerAnimation.defaultAnimator);
+        playerAnimation.SetAnimationState("isBlocking", isBlocking, playerAnimation.defaultAnimator);
+        switch (hasChakraRegenerationCooldownPassed)
+        {
+            case true:
+                if (intervalBtwChakraRegeneration <= 0)
+                {
+                    chakra += chakraRegenerationRate;
+                    intervalBtwChakraRegeneration = maximumIntervalBtwChakraRegeneration;
+                }
+                else
+                    intervalBtwChakraRegeneration -= Time.deltaTime;
+
+                break;
+            case false:
+                if (timeBtwChakraRegeneratingProcedure > 0)
+                {
+                    timeBtwChakraRegeneratingProcedure -= Time.deltaTime;
+                }
+
+                break;
+        }
+
+
+
+    }
+
+    private bool CheckBlockState()
+    {
+        var isPressingBlockKey = Input.GetKey(blockKeyCode);
+        return isPressingBlockKey;
+    }
+
+    private bool CheckCanChakraRegenerate()
+    {
+        bool hasTimePassedToRegenerateChakra = timeBtwChakraRegeneratingProcedure <= 0;
+        bool doesChakraNeedRegeneration = chakra < maximumChakra;
+        return hasTimePassedToRegenerateChakra && doesChakraNeedRegeneration;
+    }
+
     private bool CheckObjectOrientation()
     {
         return playerAnimation.gameObject.transform.localScale.x > 0;
@@ -208,6 +270,13 @@ public class PlayerAction : MonoBehaviour
             playerMovement.ChangeRigidbodyState(true, false, playerMovement.rigidbody2D);
     }
 
+    public void DepleteChakraWithRate(int _chakraDepletionRate)
+    {
+        chakra -= _chakraDepletionRate;
+        //Resets chakra cooldowns timer, once chakra is consumed
+        timeBtwChakraRegeneratingProcedure = maximumTimeBtwChakraRegeneratingProcedure;
+    }
+
     public void AssingNewPrimaryWeapon(WeaponTemplate _primaryWeapon)
     {
         activePrimaryWeapon = _primaryWeapon;
@@ -230,6 +299,7 @@ public class PlayerAction : MonoBehaviour
             //Used by AirAttack
             col.GetComponent<EnemyBehavior>().TakeInjury(kickDamage);
         }
+
         switch (activePrimaryWeapon != null)
         {
             case true:

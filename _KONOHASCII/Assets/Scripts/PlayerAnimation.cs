@@ -73,6 +73,7 @@ public class PlayerAnimation : MonoBehaviour
 
     public void ACALLANIMATIONEVENTInflictDamage()
     {
+        print("inflict damage called");
         //Animation event
         //Takes damage if raycast detects an object with EnemyBehavior.cs script attached
         //Tagging is not necessary, if it can access the above-mentioned script
