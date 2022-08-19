@@ -28,6 +28,7 @@ public class EnemyBehavior : MonoBehaviour
     public Transform[] attackPoints;
     [Space] public GameObject targetCrosshairGameObject;
     public int crosshairMaximumHeight;
+    public Vector3 crosshairOffset;
     [Space] public float deTargetMaximumDistance;
     [SerializeField] private float detectionPointSize;
     [Space] public List<GameObject> targetList;
@@ -197,16 +198,13 @@ public class EnemyBehavior : MonoBehaviour
 
     private Vector3 DetermineTargetCrosshair()
     {
-        Vector3 _crosshairPosition = targetCrosshairGameObject.transform.position;
-        bool _isMainTargetAcquired = mainTarget;
-        float _isFacingRight = isFacingRight ? -1 : 1;
-        if (_isMainTargetAcquired)
-        {
-            //clamp is hard coded value
-            float _targetCrosshairYPosition = Mathf.Clamp(mainTarget.transform.position.y,-crosshairMaximumHeight,crosshairMaximumHeight);
-            _crosshairPosition = new Vector3(targetCrosshairGameObject.transform.position.x * _isFacingRight,
-                _targetCrosshairYPosition);
-        }
+        float _targetCrosshairYPosition = Mathf.Clamp(mainTarget.transform.position.y, -crosshairMaximumHeight,
+            crosshairMaximumHeight);
+        Vector3 _crosshairPosition = isFacingRight
+                ? new Vector3((transform.position.x + crosshairOffset.x) * -1,
+                    _targetCrosshairYPosition)
+                : new Vector3((transform.position.x + crosshairOffset.x),
+            _targetCrosshairYPosition);
         return _crosshairPosition;
     }
 
@@ -218,7 +216,7 @@ public class EnemyBehavior : MonoBehaviour
 
     private bool CheckObjectOrientation()
     {
-        return gameObject.transform.localScale.x < 0;
+        return enemyAnimation.gameObject.transform.localScale.x < 0;
     }
 
     public void TakeInjury(int _damage)

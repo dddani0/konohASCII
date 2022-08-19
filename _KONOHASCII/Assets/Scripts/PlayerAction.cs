@@ -248,8 +248,7 @@ public class PlayerAction : MonoBehaviour
         castWeaponAngle = CalculateCrosshairYAngle(castWeaponAngle, false);
         float _verticalMouseInput = castWeaponAngle;
         bool _isFacingRight = isFacingRight;
-        Vector3 _crosshairPosition = Vector3.zero;
-        _crosshairPosition = _isFacingRight
+        Vector3 _crosshairPosition = _isFacingRight
             ? new Vector3(transform.position.x + crosshairRadius + crosshairOffsetPosition.x,
                 transform.position.y + _verticalMouseInput)
             : new Vector3(transform.position.x + crosshairRadius * -1 + crosshairOffsetPosition.x * -1,

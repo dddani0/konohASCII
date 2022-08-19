@@ -123,11 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &81112556 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5349421487862703808, guid: e9488f9ee2516b344bcc0ff9847462f2, type: 3}
-  m_PrefabInstance: {fileID: 1668885831627211634}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &104663367
 GameObject:
   m_ObjectHideFlags: 3
@@ -2511,12 +2506,8 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1668885831408859250, guid: e9488f9ee2516b344bcc0ff9847462f2, type: 3}
-      propertyPath: targetCrosshairGameObject
-      value: 
-      objectReference: {fileID: 81112556}
-    - target: {fileID: 1668885831408859250, guid: e9488f9ee2516b344bcc0ff9847462f2, type: 3}
-      propertyPath: crosshairMaximumHeight
-      value: 8
+      propertyPath: crosshairOffset.x
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 1668885831408859251, guid: e9488f9ee2516b344bcc0ff9847462f2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2566,9 +2557,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy
       objectReference: {fileID: 0}
-    - target: {fileID: 7422650707641906642, guid: e9488f9ee2516b344bcc0ff9847462f2, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -14.31
+    - target: {fileID: 5349421487862703808, guid: e9488f9ee2516b344bcc0ff9847462f2, type: 3}
+      propertyPath: m_Name
+      value: TargetCrosshair
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9488f9ee2516b344bcc0ff9847462f2, type: 3}
