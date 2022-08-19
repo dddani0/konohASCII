@@ -21,13 +21,13 @@ public class EnemyAnimation : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (enemyBehavior.target)
+        if (enemyBehavior.targetList.Count > 0)
             SpriteRotation();
     }
 
     private void SpriteRotation()
     {
-        if (enemyBehavior.target.transform.position.x < enemyBehavior.gameObject.transform.position.x)
+        if (enemyBehavior.mainTarget.transform.position.x < enemyBehavior.gameObject.transform.position.x)
             transform.localScale = new Vector3(1, 1, 1);
         else
             transform.localScale = new Vector3(-1, 1, 1);

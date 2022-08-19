@@ -8,7 +8,10 @@ public class EnemyTemplate : ScriptableObject
     public string enemyName;
     public int maximumHealth;
     public bool isStationary;
-    [Space] 
-    [Tooltip("Level 1 = Primitive AI | level 2 = advanced | level 3 = true shinobi")]
-    [Range(1,3)]public int enemyComplexityLevel;
+
+    [Space] [Tooltip("Only throwable weapons!")]
+    public WeaponTemplate weapon;
+
+    [Tooltip("Level 1 = Primitive AI | level 2 = advanced | level 3 = true shinobi")] [Range(1, 3)]
+    public int enemyComplexityLevel;
 }

@@ -6,35 +6,41 @@ using UnityEngine;
 
 public class EnemyBehavior : MonoBehaviour
 {
-    public EnemyTemplate enemyTemplate;
-    [Space] 
-    public EnemyMovement enemyMovement;
+    [Header("Resources")] public EnemyTemplate enemyTemplate;
+    [Space] public EnemyMovement enemyMovement;
     public EnemyAnimation enemyAnimation;
-    [Space]
-    public string enemyName;
-    [Space]
-    public int maximumHealth;
+    [Space] public Gamemanager gamemanager;
+    [Space] public WeaponTemplate secondaryWeapon;
+    [Space] public string enemyName;
+    [Space] public int maximumHealth;
     [SerializeField] private int health;
-    [Space] 
-    [SerializeField] private bool isEnemyDetected;
+    [Space] [SerializeField] private bool isEnemyDetected;
     public bool isStationary;
     public int enemyLevel;
-    [Space] 
-    public Rigidbody2D enemyRigidbody2D;
+    [Space] public Rigidbody2D enemyRigidbody2D;
+
     [Header("Enemy Behavior type variables")]
-    [SerializeField] private Transform[] detectionPoints;
+    private RaycastHit2D hitcol;
+
+    public float maximumTimeBtwEnemyChecks;
+    [SerializeField] private float timeBtwEnemyChecks;
+    public Transform[] detectionPoints;
+    public Transform[] attackPoints;
+    [Space] public GameObject targetCrosshairGameObject;
+    public int crosshairMaximumHeight;
+    [Space] public float deTargetMaximumDistance;
     [SerializeField] private float detectionPointSize;
-    [Space] 
-    public GameObject target;
-    [Space] 
-    [SerializeField] private bool isFacingRight;
-    
+    [Space] public List<GameObject> targetList;
+    public GameObject mainTarget;
+    [Space] public bool isFacingRight;
+    [Space(10)] [SerializeField] private bool isMainTargetWithinRadius;
+
     void Start()
     {
         FetchDataFromTemplate(enemyTemplate);
         FetchRudimentaryValues();
     }
-    
+
     void Update()
     {
         isFacingRight = CheckObjectOrientation();
@@ -51,7 +57,7 @@ public class EnemyBehavior : MonoBehaviour
 
     private void LateUpdate()
     {
-        
+        isEnemyDetected = CheckDetection();
     }
 
     private void FixedUpdate()
@@ -61,50 +67,160 @@ public class EnemyBehavior : MonoBehaviour
 
     private void NonStationaryEnemy()
     {
+        //See the list of non-stationary basic enemies at the issue
+        // https://github.com/marloss/konohASCII/issues/4
         switch (isEnemyDetected)
+        {
+            case true:
+                if (!mainTarget)
+                    mainTarget = DetermineMainTarget();
+                targetCrosshairGameObject.transform.position = DetermineTargetCrosshair();
+                CastWeapon();
+                break;
+            case false:
+
+                break;
+        }
+    }
+
+    private void StationaryEnemy()
+    {
+    }
+
+    private void DetectEnemy()
+    {
+        switch (isEnemyDetected)
+        {
+            case true:
+                if (timeBtwEnemyChecks <= 0)
+                {
+                    print("checked");
+                    hitcol = new RaycastHit2D();
+                    switch (isFacingRight)
+                    {
+                        case true: //Facing Right
+                            hitcol = Physics2D.CircleCast(detectionPoints[1].transform.position, detectionPointSize,
+                                detectionPoints[1].right);
+                            break;
+                        case false: //Facing left
+                            hitcol = Physics2D.CircleCast(detectionPoints[0].transform.position, detectionPointSize,
+                                -detectionPoints[0].right);
+                            break;
+                    }
+                }
+                else
+                {
+                    timeBtwEnemyChecks -= Time.deltaTime;
+                }
+
+                break;
+            case false:
+                //Raycasts without cooldown
+                hitcol = new RaycastHit2D();
+                switch (isFacingRight)
+                {
+                    case true: //Facing Right
+                        hitcol = Physics2D.CircleCast(detectionPoints[1].transform.position, detectionPointSize,
+                            detectionPoints[1].right);
+                        break;
+                    case false: //Facing left
+                        hitcol = Physics2D.CircleCast(detectionPoints[0].transform.position, detectionPointSize,
+                            -detectionPoints[0].right);
+                        break;
+                }
+
+                break;
+        }
+
+        if (hitcol.collider.gameObject.name.Contains("Player") && !targetList.Contains(hitcol.collider.gameObject))
+        {
+            print($"{hitcol.collider.gameObject.name} detected");
+            targetList.Add(hitcol.collider.gameObject);
+            //Only temporarly, to check for enemy
+            mainTarget = hitcol.collider.gameObject;
+        }
+    }
+
+    private void CastWeapon()
+    {
+        GameObject _temporaryWeapon = null;
+        switch (isFacingRight)
+        {
+            case true:
+                _temporaryWeapon = Instantiate(gamemanager.GetComponent<Gamemanager>().weapon_container,
+                    attackPoints[1].position, attackPoints[1].rotation);
+                _temporaryWeapon.GetComponent<SecondaryWeaponContainer>()
+                    .AssignNewWeapon(secondaryWeapon, CalculateWeaponAngle(), 1);
+                break;
+            case false:
+                _temporaryWeapon = Instantiate(gamemanager.GetComponent<Gamemanager>().weapon_container,
+                    attackPoints[0].position, attackPoints[0].rotation);
+                _temporaryWeapon.GetComponent<SecondaryWeaponContainer>()
+                    .AssignNewWeapon(secondaryWeapon, CalculateWeaponAngle(), -1);
+                break;
+        }
+    }
+
+    private GameObject DetermineMainTarget()
+    {
+        GameObject _mainTarget = null;
+        switch (targetList.Count > 1)
         {
             case true:
 
                 break;
             case false:
-                
+
+                mainTarget = targetList[0];
                 break;
         }
-    }
-    
-    private void StationaryEnemy()
-    {
-        
+
+        return _mainTarget;
     }
 
-    private void DetectEnemy()
+    private float CalculateWeaponAngle()
     {
-        if (!isEnemyDetected)
+        Transform weaponStartPositionTransform = isFacingRight ? attackPoints[1] : attackPoints[0];
+        Vector3 weaponStartPosition =
+            isFacingRight ? -weaponStartPositionTransform.right : weaponStartPositionTransform.right;
+
+        Vector3 WeaponStartPositionCrosshairCurrentPositionVector =
+            targetCrosshairGameObject.transform.position - weaponStartPosition;
+
+        float hasReachedOtherSide = targetCrosshairGameObject.transform.position.y < weaponStartPosition.y ? -1 : 1;
+
+        float _viewAngle = Vector2.Angle(weaponStartPosition, WeaponStartPositionCrosshairCurrentPositionVector) *
+                           hasReachedOtherSide;
+
+        return _viewAngle;
+    }
+
+    private Vector3 DetermineTargetCrosshair()
+    {
+        Vector3 _crosshairPosition = targetCrosshairGameObject.transform.position;
+        bool _isMainTargetAcquired = mainTarget;
+        float _isFacingRight = isFacingRight ? -1 : 1;
+        if (_isMainTargetAcquired)
         {
-            RaycastHit2D hitcol = new RaycastHit2D();
-            switch (isFacingRight)
-            {
-                case true: //Facing Right
-                    hitcol = Physics2D.CircleCast(detectionPoints[1].transform.position, detectionPointSize,detectionPoints[1].right);
-                    break;
-                case false: //Facing left
-                    hitcol = Physics2D.CircleCast(detectionPoints[0].transform.position, detectionPointSize,-detectionPoints[0].right);
-                    break;
-            }
-            if (hitcol.collider.gameObject.name == "Player")
-            {
-                print($"{hitcol.collider.gameObject.name} detected");
-                target = hitcol.collider.gameObject;
-                isEnemyDetected = true;
-            }
+            //clamp is hard coded value
+            float _targetCrosshairYPosition = Mathf.Clamp(mainTarget.transform.position.y,-crosshairMaximumHeight,crosshairMaximumHeight);
+            _crosshairPosition = new Vector3(targetCrosshairGameObject.transform.position.x * _isFacingRight,
+                _targetCrosshairYPosition);
         }
+        return _crosshairPosition;
+    }
+
+    private bool CheckDetection()
+    {
+        bool isMainTargetDetected = mainTarget;
+        return isMainTargetDetected;
     }
 
     private bool CheckObjectOrientation()
     {
         return gameObject.transform.localScale.x < 0;
     }
-    
+
     public void TakeInjury(int _damage)
     {
         health -= _damage;
@@ -124,6 +240,7 @@ public class EnemyBehavior : MonoBehaviour
         //         break;
         // }
     }
+
     private void FetchDataFromTemplate(EnemyTemplate _enemyTemplate)
     {
         enemyName = _enemyTemplate.enemyName;
@@ -131,12 +248,15 @@ public class EnemyBehavior : MonoBehaviour
         health = maximumHealth;
         isStationary = _enemyTemplate.isStationary;
         enemyLevel = _enemyTemplate.enemyComplexityLevel;
+        secondaryWeapon = _enemyTemplate.weapon;
     }
 
     private void FetchRudimentaryValues()
     {
         enemyMovement = GetComponent<EnemyMovement>();
         enemyAnimation = GetComponentInChildren<EnemyAnimation>();
+        gamemanager = GameObject.FindGameObjectWithTag("Gamemanager").GetComponent<Gamemanager>();
+        timeBtwEnemyChecks = maximumTimeBtwEnemyChecks;
     }
 
     private void OnTriggerEnter2D(Collider2D col)
@@ -145,7 +265,9 @@ public class EnemyBehavior : MonoBehaviour
         {
             //Damages the enemy
             health -= col.GetComponent<SecondaryWeaponContainer>().weaponDamage;
-            //Makes it so, that 
+            //Visual implementation:
+            //The weapon, which hits the enemy, stays on the enemy.
+            //Makes it more dramatic.
             SecondaryWeaponContainer temporaryWeapon = col.gameObject.GetComponent<SecondaryWeaponContainer>();
             temporaryWeapon.transform.SetParent(enemyAnimation.gameObject.transform);
             temporaryWeapon.isAirborne = false;
@@ -159,6 +281,6 @@ public class EnemyBehavior : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(detectionPoints[0].position,detectionPointSize);
+        Gizmos.DrawWireSphere(detectionPoints[0].position, detectionPointSize);
     }
 }

@@ -2,7 +2,7 @@
 
 public class PlayableCharacter : MonoBehaviour
 {
-    [Header("Resources")] [SerializeField] private PlayableCharacterTemplate playableCharacter;
+    [Header("Resources")] public PlayableCharacterTemplate playableCharacter;
     [Space] public PlayerAction playerAction;
     public PlayerMovement playerMovement;
     [Space] public AnimatorOverrideController playerAnimatorOverrideController;
@@ -11,17 +11,18 @@ public class PlayableCharacter : MonoBehaviour
     void Start()
     {
         FetchRudimentaryValues();
-        AssignNewPlayableCharacter(playableCharacter);
+        //AssignNewPlayableCharacter(playableCharacter);
     }
 
-    private void AssignNewPlayableCharacter(PlayableCharacterTemplate _playableCharacterTemplate)
+    public void AssignNewPlayableCharacter(PlayableCharacterTemplate _playableCharacterTemplate)
     {
+        //Call after every important variable value is fetched in PlayerAction.cs
         if (_playableCharacterTemplate)
         {
-            playerAction.playerAnimation.defaultAnimator.runtimeAnimatorController =
-                _playableCharacterTemplate.playerAnimatorOverrideController;
             playerMovement.movementSpeed = _playableCharacterTemplate.playerSpeed;
             playerAction.maximumChakra = _playableCharacterTemplate.chakraReserve;
+            playerAnimatorOverrideController = _playableCharacterTemplate.playerAnimatorOverrideController;
+            playerAction.playerAnimation.defaultAnimator.runtimeAnimatorController = playerAnimatorOverrideController;
         }
         else
         {

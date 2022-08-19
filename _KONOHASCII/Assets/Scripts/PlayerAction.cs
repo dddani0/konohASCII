@@ -35,6 +35,13 @@ public class PlayerAction : MonoBehaviour
     [Space(20f)] [Header("Brakes")] public bool isBusy;
     public bool isStaggered;
     public bool isFacingRight;
+    [Space] public float maximumCastWeaponAngle; //Two values -x and x
+    [SerializeField] private float castWeaponAngle;
+    [Header("Visible Crosshair")] public GameObject crosshairGameObject;
+    public Vector3 crosshairOffsetPosition;
+    public float crosshairRadius;
+    public float crosshairVisualSpeed;
+    [SerializeField] private Sprite crosshairSprite;
 
     [Header("ChakraAttribute")] public float maximumTimeBtwChakraRegeneratingProcedure;
     [SerializeField] private float timeBtwChakraRegeneratingProcedure;
@@ -71,6 +78,7 @@ public class PlayerAction : MonoBehaviour
         PrimaryShortRangeAttack();
         RangeAttack();
         ChakraBlock();
+        CrosshairDisplay();
     }
 
     private void LateUpdate()
@@ -88,9 +96,13 @@ public class PlayerAction : MonoBehaviour
         gamemanager = GameObject.FindGameObjectWithTag("Gamemanager");
         playerMovement = GetComponent<PlayerMovement>();
         playerAnimation = GetComponentInChildren<PlayerAnimation>();
+        GetComponent<PlayableCharacter>()
+            .AssignNewPlayableCharacter(GetComponent<PlayableCharacter>().playableCharacter);
         chakra = maximumChakra;
         timeBtwChakraRegeneratingProcedure = maximumTimeBtwChakraRegeneratingProcedure;
         intervalBtwChakraRegeneration = maximumIntervalBtwChakraRegeneration;
+        crosshairGameObject.transform.position = CalculateCrosshairPosition();
+        crosshairGameObject.GetComponent<SpriteRenderer>().sprite = crosshairSprite;
     }
 
     private void PrimaryShortRangeAttack()
@@ -173,21 +185,22 @@ public class PlayerAction : MonoBehaviour
             !playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).IsName("wallgrip"))
         {
             playerAnimation.SetAnimationState("range_attack", playerAnimation.defaultAnimator);
-            GameObject t_weapon;
+            GameObject _temporaryWeapon;
             switch (isFacingRight)
             {
                 case true:
-                    t_weapon = Instantiate(
+                    _temporaryWeapon = Instantiate(
                         GameObject.FindGameObjectWithTag("Gamemanager").GetComponent<Gamemanager>().weapon_container,
                         weaponPosition[0].position, weaponPosition[0].rotation);
-                    t_weapon.GetComponent<SecondaryWeaponContainer>().AssignNewWeapon(activeSecondaryWeaponTemplate, 1);
+                    _temporaryWeapon.GetComponent<SecondaryWeaponContainer>()
+                        .AssignNewWeapon(activeSecondaryWeaponTemplate, CalculateWeaponAngle(), 1);
                     break;
                 case false:
-                    t_weapon = Instantiate(
+                    _temporaryWeapon = Instantiate(
                         GameObject.FindGameObjectWithTag("Gamemanager").GetComponent<Gamemanager>().weapon_container,
                         weaponPosition[1].position, weaponPosition[1].rotation);
-                    t_weapon.GetComponent<SecondaryWeaponContainer>()
-                        .AssignNewWeapon(activeSecondaryWeaponTemplate, -1);
+                    _temporaryWeapon.GetComponent<SecondaryWeaponContainer>()
+                        .AssignNewWeapon(activeSecondaryWeaponTemplate, CalculateWeaponAngle(), -1);
                     break;
             }
         }
@@ -222,9 +235,56 @@ public class PlayerAction : MonoBehaviour
 
                 break;
         }
+    }
 
+    private void CrosshairDisplay()
+    {
+        castWeaponAngle = CalculateCrosshairYAngle(castWeaponAngle, false);
+        crosshairGameObject.transform.position = CalculateCrosshairPosition();
+    }
 
+    private Vector3 CalculateCrosshairPosition()
+    {
+        castWeaponAngle = CalculateCrosshairYAngle(castWeaponAngle, false);
+        float _verticalMouseInput = castWeaponAngle;
+        bool _isFacingRight = isFacingRight;
+        Vector3 _crosshairPosition = Vector3.zero;
+        _crosshairPosition = _isFacingRight
+            ? new Vector3(transform.position.x + crosshairRadius + crosshairOffsetPosition.x,
+                transform.position.y + _verticalMouseInput)
+            : new Vector3(transform.position.x + crosshairRadius * -1 + crosshairOffsetPosition.x * -1,
+                transform.position.y + _verticalMouseInput);
 
+        return _crosshairPosition;
+    }
+
+    private float CalculateWeaponAngle()
+    {
+        Transform weaponStartPositionTransform = isFacingRight ? weaponPosition[1] : weaponPosition[0];
+        Vector3 weaponStartPosition = isFacingRight
+            ? -weaponStartPositionTransform.right
+            : weaponStartPositionTransform.right;
+
+        Vector3 WeaponStartPositionCrosshairCurrentPositionVector =
+            crosshairGameObject.transform.position - weaponStartPositionTransform.position;
+
+        float hasReachedOtherSide =
+            crosshairGameObject.transform.position.y < weaponStartPositionTransform.position.y ? -1 : 1;
+        float _viewAngle = Vector2.Angle(weaponStartPosition, WeaponStartPositionCrosshairCurrentPositionVector) *
+                           hasReachedOtherSide;
+
+        return _viewAngle;
+    }
+
+    private float CalculateCrosshairYAngle(float _crosshairYAngle, bool _isInvert)
+    {
+        //Invert fuck shit
+        _crosshairYAngle += _isInvert
+            ? -Input.GetAxis("Mouse Y") * crosshairVisualSpeed
+            : Input.GetAxis("Mouse Y") * crosshairVisualSpeed;
+        _crosshairYAngle = Mathf.Clamp(_crosshairYAngle, -maximumCastWeaponAngle, maximumCastWeaponAngle);
+
+        return _crosshairYAngle;
     }
 
     private bool CheckBlockState()
@@ -268,6 +328,19 @@ public class PlayerAction : MonoBehaviour
 
         if (isBusy || isStaggered) //freeze if staggered or action is taking place
             playerMovement.ChangeRigidbodyState(true, false, playerMovement.rigidbody2D);
+    }
+
+    public void TakeInjury(int _damage)
+    {
+        switch (isBlocking)
+        {
+            case true:
+                chakra--;
+                break;
+            case false:
+                healthPoints -= _damage;
+                break;
+        }
     }
 
     public void DepleteChakraWithRate(int _chakraDepletionRate)

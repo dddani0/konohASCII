@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Net.Http.Headers;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 public class SecondaryWeaponContainer : MonoBehaviour
 {
     [SerializeField] private Rigidbody2D weaponRigidbody;
-    [Space] public WeaponTemplate weaponTemplateTemplate;
+    [Space] public WeaponTemplate weapon;
     [Space] public Sprite weaponSprite;
     public SpriteRenderer weaponSpriteRenderer;
     public Animator weaponAnimator;
@@ -14,8 +15,11 @@ public class SecondaryWeaponContainer : MonoBehaviour
     [Space] public bool isAirborne = true;
     [Space] public int weaponDamage;
 
-    [Space] [Tooltip("Determines the direction of weapon movement. 1 = right and -1 = left")]
-    private int weaponMovementDirection = 1;
+    [Space]
+    //Determines the direction of weapon movement. 1 = right and -1 = left"
+    private int weaponTurnOtherSideValue = 1;
+
+    [Tooltip("No assignment required")] public float weaponAngle;
 
     private void Start()
     {
@@ -24,25 +28,20 @@ public class SecondaryWeaponContainer : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (weaponTemplateTemplate != null)
-            if (weaponTemplateTemplate.isRange)
-                Throwable_Weapon(weaponTemplateTemplate, weaponAirborneSpeed);
     }
 
     private void Update()
     {
-        if (!weaponTemplateTemplate) //Is weaponSource asigned?
-            switch (weaponTemplateTemplate.isRange)
-            {
-                case true: /*Throwable_Weapon();*/ break;
-                case false: /* Melee_Weapon();*/ break;
-            }
+        if (weapon)
+        {
+            Throwable_Weapon(weapon, weaponAirborneSpeed);
+        }
     }
 
 
     private void LateUpdate()
     {
-        weaponAnimator.SetBool("is_weapon_active",isAirborne);
+        weaponAnimator.SetBool("is_weapon_active", isAirborne);
         weaponSpriteRenderer.sprite = weaponSprite;
     }
 
@@ -53,13 +52,15 @@ public class SecondaryWeaponContainer : MonoBehaviour
         weaponRigidbody = GetComponent<Rigidbody2D>();
     }
 
-    public void AssignNewWeapon(WeaponTemplate weaponTemplate, int _ismovingright)
+    public void AssignNewWeapon(WeaponTemplate weaponTemplate, float _weaponAngle, int _ismovingright)
     {
-        weaponTemplateTemplate = weaponTemplate;
+        weapon = weaponTemplate;
         weaponAirborneSpeed = weaponTemplate.weaponSpeed;
         weaponSprite = weaponTemplate.weaponSprite;
-        weaponMovementDirection = _ismovingright;
+        weaponTurnOtherSideValue = _ismovingright;
         weaponDamage = weaponTemplate.damage;
+        weaponAngle = _weaponAngle;
+        transform.localEulerAngles = new Vector3(0, 0, _weaponAngle);
         switch (weaponTemplate.weaponAnimatorController != null)
         {
             case true:
@@ -76,16 +77,15 @@ public class SecondaryWeaponContainer : MonoBehaviour
         switch (isAirborne)
         {
             case true:
-                weaponRigidbody.velocity = new Vector2(Time.fixedDeltaTime * _speed * weaponMovementDirection,
-                    weaponRigidbody.velocity.y);
-
+                transform.position += transform.right * _speed *Time.deltaTime;
                 break;
             case false:
-                weaponRigidbody.velocity = new Vector2(weaponMovementDirection * 0, weaponRigidbody.velocity.y);
+                weaponRigidbody.velocity = new Vector2(weaponTurnOtherSideValue * 0, weaponRigidbody.velocity.y);
 
                 break;
         }
     }
+
     private void OnTriggerEnter2D(Collider2D col)
     {
         if (col.CompareTag("Ground"))

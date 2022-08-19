@@ -15,4 +15,5 @@ MonoBehaviour:
   enemyName: Jiroku
   maximumHealth: 1500
   isStationary: 0
+  weapon: {fileID: 11400000, guid: 0ba158657ea2a394ca855cbdadc04815, type: 2}
   enemyComplexityLevel: 1

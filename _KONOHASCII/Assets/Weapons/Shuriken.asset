@@ -17,6 +17,6 @@ MonoBehaviour:
   weaponAnimatorController: {fileID: 22100000, guid: b62af717527775c4b873cb38632d2ef7, type: 2}
   damage: 80
   isRange: 1
-  weaponSpeed: 2900
+  weaponSpeed: 60
   isWeaponFlying: 0
   animationDelay: 1
