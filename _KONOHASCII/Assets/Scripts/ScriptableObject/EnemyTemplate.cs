@@ -8,6 +8,8 @@ public class EnemyTemplate : ScriptableObject
     public string enemyName;
     public int maximumHealth;
     public bool isStationary;
+    public float movementSpeed;
+    [Space] public AnimatorOverrideController overrideController;
 
     [Space] [Tooltip("Only throwable weapons!")]
     public WeaponTemplate weapon;

@@ -341,6 +341,19 @@ public class PlayerAction : MonoBehaviour
                 break;
         }
     }
+    public void TakeInjury(int _damage, bool _isTurnSuccessful)
+    {
+        switch (isBlocking)
+        {
+            case true:
+                chakra--;
+                break;
+            case false:
+                healthPoints -= _damage;
+                break;
+        }
+        _isTurnSuccessful = true;
+    }
 
     public void DepleteChakraWithRate(int _chakraDepletionRate)
     {
@@ -370,6 +383,19 @@ public class PlayerAction : MonoBehaviour
             //This is when the bottomcollider (lol) detects an enemy, when enabled
             //Used by AirAttack
             col.GetComponent<EnemyBehavior>().TakeInjury(kickDamage);
+        }
+
+        if (col.CompareTag("Weapon") && col.GetComponent<SecondaryWeaponContainer>())
+        {
+            switch (col.GetComponent<SecondaryWeaponContainer>().canBePickedUp)
+            {
+                case true:
+                    
+                    break;
+                case false:
+                    healthPoints -= col.GetComponent<SecondaryWeaponContainer>().weaponDamage;
+                    break;
+            }
         }
 
         switch (activePrimaryWeapon != null)

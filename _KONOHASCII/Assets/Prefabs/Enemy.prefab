@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1668885830485907385}
   - component: {fileID: 1668885830485907390}
   - component: {fileID: 1668885830485907391}
+  - component: {fileID: 3873376863554462531}
   m_Layer: 0
   m_Name: EnemySprite
   m_TagString: Untagged
@@ -96,9 +97,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyBehavior: {fileID: 1668885831408859250}
-  enemyMovement: {fileID: 1668885831408859533}
   defaultAnimator: {fileID: 0}
   animatorController: {fileID: 0}
+--- !u!95 &3873376863554462531
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1668885830485907384}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 8b57233a7a5e88647abd22df22447a4a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1668885830498208881
 GameObject:
   m_ObjectHideFlags: 0
@@ -169,7 +188,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1668885831408859251}
   - component: {fileID: 1668885831408859250}
-  - component: {fileID: 1668885831408859533}
   - component: {fileID: 1668885831408859248}
   - component: {fileID: 1668885831408859249}
   m_Layer: 8
@@ -196,6 +214,9 @@ Transform:
   - {fileID: 5542429684246933793}
   - {fileID: 2281889368034742771}
   - {fileID: 3777031105495398872}
+  - {fileID: 3799105734781609306}
+  - {fileID: 374139820219623733}
+  - {fileID: 5980585936495555008}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -212,7 +233,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyTemplate: {fileID: 11400000, guid: d913d7b9d1d8c1c43a6e8ceffce0ce63, type: 2}
-  enemyMovement: {fileID: 0}
   enemyAnimation: {fileID: 1668885830485907391}
   gamemanager: {fileID: 0}
   secondaryWeapon: {fileID: 0}
@@ -222,6 +242,8 @@ MonoBehaviour:
   isEnemyDetected: 0
   isStationary: 0
   enemyLevel: 0
+  movementSpeed: 0
+  isObjectInMotion: 0
   enemyRigidbody2D: {fileID: 0}
   maximumTimeBtwEnemyChecks: 1
   timeBtwEnemyChecks: 0
@@ -234,26 +256,22 @@ MonoBehaviour:
   targetCrosshairGameObject: {fileID: 3779019031216476694}
   crosshairMaximumHeight: 8
   crosshairOffset: {x: 7, y: 0, z: 0}
-  deTargetMaximumDistance: 0
+  targetMaximumDistance: 0
   detectionPointSize: 6.5
   targetList: []
   mainTarget: {fileID: 0}
   isFacingRight: 0
-  isMainTargetWithinRadius: 0
---- !u!114 &1668885831408859533
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1668885831408859532}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e99ecc5b701c47478daf39d842b0e23, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemyBehavior: {fileID: 0}
-  movementSpeed: 0
+  drone: {fileID: 0}
+  droneHeightCastMagnitude: 6
+  droneRaycastPosition:
+  - {fileID: 374139820219623733}
+  - {fileID: 5980585936495555008}
+  patrolMagnitude: 35
+  PatrolHaltDistance: 0
+  patrolStartposition: {x: 0, y: 0, z: 0}
+  hasEnemyNotFinishedPatrol: 0
+  maximumWaitingTime: 2
+  waitingTime: 0
 --- !u!50 &1668885831408859248
 Rigidbody2D:
   serializedVersion: 4
@@ -301,6 +319,36 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 6.8918476, y: 8.547942}
   m_EdgeRadius: 0
+--- !u!1 &2543206335457787618
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 374139820219623733}
+  m_Layer: 0
+  m_Name: LinecastPosition0
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &374139820219623733
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2543206335457787618}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 5.32, y: -0.23689741, z: -0.35798705}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1668885831408859251}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3779019031216476694
 GameObject:
   m_ObjectHideFlags: 0
@@ -361,6 +409,66 @@ Transform:
   m_Father: {fileID: 1668885831408859251}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!1 &6336816470599144945
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5980585936495555008}
+  m_Layer: 0
+  m_Name: LinecastPosition1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5980585936495555008
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6336816470599144945}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -5.3199997, y: -0.23689741, z: -0.35798705}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1668885831408859251}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6648104783568324022
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3799105734781609306}
+  m_Layer: 0
+  m_Name: Drone
+  m_TagString: Drone
+  m_Icon: {fileID: 2800000, guid: 1732e542f535d374bbfa7565fc78414e, type: 3}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3799105734781609306
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6648104783568324022}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1668885831408859251}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7388018922521888177
 GameObject:
   m_ObjectHideFlags: 0

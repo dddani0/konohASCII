@@ -15,5 +15,7 @@ MonoBehaviour:
   enemyName: Jiroku
   maximumHealth: 1500
   isStationary: 0
+  movementSpeed: 10
+  overrideController: {fileID: 22100000, guid: ae6913925d8a8c8468c40ebf8d855a72, type: 2}
   weapon: {fileID: 11400000, guid: 0ba158657ea2a394ca855cbdadc04815, type: 2}
   enemyComplexityLevel: 1

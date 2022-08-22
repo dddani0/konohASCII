@@ -14,6 +14,9 @@ TextureImporter:
   - first:
       213: 6256122723451367905
     second: Naruto_Jump_Fall_Land_Spritesheet_3
+  - first:
+      213: 5282923403189006305
+    second: Naruto_Jump_Fall_Land_Spritesheet_4
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -109,7 +112,7 @@ TextureImporter:
         width: 183
         height: 212
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -130,7 +133,7 @@ TextureImporter:
         width: 196
         height: 210
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -151,7 +154,7 @@ TextureImporter:
         width: 164
         height: 212
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -172,7 +175,7 @@ TextureImporter:
         width: 182
         height: 212
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -180,6 +183,27 @@ TextureImporter:
       bones: []
       spriteID: 1e1719a787632d650800000000000000
       internalID: 6256122723451367905
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Naruto_Jump_Fall_Land_Spritesheet_4
+      rect:
+        serializedVersion: 2
+        x: 1123
+        y: 0
+        width: 177
+        height: 214
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1efada658d6b05940800000000000000
+      internalID: 5282923403189006305
       vertices: []
       indices: 
       edges: []
