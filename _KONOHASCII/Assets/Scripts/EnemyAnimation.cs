@@ -39,23 +39,23 @@ public class EnemyAnimation : MonoBehaviour
         enemyBehavior = GetComponentInParent<EnemyBehavior>();
     }
     
-    public void SetAnimationState(string parametername, int integervalue, Animator _animator)
+    public void SetAnimationState(string _parametername, int _integervalue, Animator _animator)
     {
-        _animator.SetInteger(parametername, integervalue);
+        _animator.SetInteger(_parametername, _integervalue);
     }
 
-    public void SetAnimationState(string parametername, Animator _animator)
+    public void SetAnimationState(string _parametername, Animator _animator)
     {
-        _animator.SetTrigger(parametername);
+        _animator.SetTrigger(_parametername);
     }
 
-    public void SetAnimationState(string parametername, float floatvalue, Animator _animator)
+    public void SetAnimationState(string _parametername, float _floatvalue, Animator _animator)
     {
-        _animator.SetFloat(parametername, floatvalue);
+        _animator.SetFloat(_parametername, _floatvalue);
     }
 
-    public void SetAnimationState(string parametername, bool booleanvalue, Animator _animator)
+    public void SetAnimationState(string _parametername, bool _booleanvalue, Animator _animator)
     {
-        _animator.SetBool(parametername, booleanvalue);
+        _animator.SetBool(_parametername, _booleanvalue);
     }
 }

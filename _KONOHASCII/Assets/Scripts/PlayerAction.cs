@@ -26,6 +26,8 @@ public class PlayerAction : MonoBehaviour
     [Tooltip("Secondary weapon is always throwable. Like Shuriken")]
     public WeaponTemplate activeSecondaryWeaponTemplate;
 
+    [SerializeField] private GameObject weaponContainer;
+
     [Space] public Transform[] weaponPosition;
     [Space] public int rangeWeaponAmmunition;
     [Space(20f)] [Header("Health")] public float maximumHealthPoints;
@@ -50,6 +52,13 @@ public class PlayerAction : MonoBehaviour
     [SerializeField] private float intervalBtwChakraRegeneration;
     public int chakraRegenerationRate;
 
+    [Space] [Tooltip("Shadow represents the player's y position relative to ground.")]
+    public GameObject shadow;
+
+    public Vector3 shadowPosition;
+    [SerializeField] private float shadowPositionYOffset;
+    [SerializeField] private float shadowPositionXOffset;
+
     [Space(20f)] [Header("Layermasks and Button mapping")]
     public LayerMask enemylayer;
 
@@ -72,17 +81,19 @@ public class PlayerAction : MonoBehaviour
             //Checks if the current punch animation is on it's last animation ("ThirdPunch")
         }
 
+        shadow.transform.position = shadowPosition;
         isBlocking = CheckBlockState();
         isFacingRight = CheckObjectOrientation();
         CheckBusyBooleanStatement();
         PrimaryShortRangeAttack();
-        RangeAttack();
+        RangeAttack(); //Signals expensive method invocation
         ChakraBlock();
         CrosshairDisplay();
     }
 
     private void LateUpdate()
     {
+        shadowPosition = CalculateShadowPosition(transform);
     }
 
     private void FixedUpdate()
@@ -103,6 +114,7 @@ public class PlayerAction : MonoBehaviour
         intervalBtwChakraRegeneration = maximumIntervalBtwChakraRegeneration;
         crosshairGameObject.transform.position = CalculateCrosshairPosition();
         crosshairGameObject.GetComponent<SpriteRenderer>().sprite = crosshairSprite;
+        weaponContainer = gamemanager.GetComponent<Gamemanager>().weapon_container;
     }
 
     private void PrimaryShortRangeAttack()
@@ -121,7 +133,7 @@ public class PlayerAction : MonoBehaviour
                 switch (isCombo)
                 {
                     case true:
-                        switch (activePrimaryWeapon == null)
+                        switch (activePrimaryWeapon != null)
                         {
                             case true:
                                 if (Input.GetKey(attackKeycode) && canProceedWithCombo)
@@ -189,15 +201,13 @@ public class PlayerAction : MonoBehaviour
             switch (isFacingRight)
             {
                 case true:
-                    _temporaryWeapon = Instantiate(
-                        GameObject.FindGameObjectWithTag("Gamemanager").GetComponent<Gamemanager>().weapon_container,
+                    _temporaryWeapon = Instantiate(weaponContainer,
                         weaponPosition[0].position, weaponPosition[0].rotation);
                     _temporaryWeapon.GetComponent<SecondaryWeaponContainer>()
                         .AssignNewWeapon(activeSecondaryWeaponTemplate, CalculateWeaponAngle(), 1);
                     break;
                 case false:
-                    _temporaryWeapon = Instantiate(
-                        GameObject.FindGameObjectWithTag("Gamemanager").GetComponent<Gamemanager>().weapon_container,
+                    _temporaryWeapon = Instantiate(weaponContainer,
                         weaponPosition[1].position, weaponPosition[1].rotation);
                     _temporaryWeapon.GetComponent<SecondaryWeaponContainer>()
                         .AssignNewWeapon(activeSecondaryWeaponTemplate, CalculateWeaponAngle(), -1);
@@ -255,6 +265,35 @@ public class PlayerAction : MonoBehaviour
                 transform.position.y + _verticalMouseInput);
 
         return _crosshairPosition;
+    }
+
+    private Vector3 CalculateShadowPosition(Transform _shadowPosition)
+    {
+        Vector3 _shadowVerdictPosition = new Vector3(_shadowPosition.transform.position.x,
+            CalculatePreShadowPositionWithRayCast(_shadowPosition).position.y + shadowPositionYOffset);
+
+        return _shadowVerdictPosition;
+    }
+
+    private Transform CalculatePreShadowPositionWithRayCast(Transform _shadowArgumentPosition)
+    {
+        Transform _raycastStartPosition = _shadowArgumentPosition;
+        Transform _shadowPosition = _raycastStartPosition;
+        bool _isFacingRight = isFacingRight;
+        RaycastHit2D _raycastHit2D = _isFacingRight
+            ? Physics2D.Raycast(
+                new Vector3(transform.position.x - shadowPositionXOffset, transform.position.y - shadowPositionYOffset),
+                new Vector2(_raycastStartPosition.position.x - shadowPositionXOffset,
+                    _raycastStartPosition.position.y - 150))
+            : Physics2D.Raycast(
+                new Vector3(transform.position.x + shadowPositionXOffset, transform.position.y - shadowPositionYOffset),
+                new Vector2(_raycastStartPosition.position.x + shadowPositionXOffset,
+                    _raycastStartPosition.position.y - 150));
+        //hardcoded raycast lenght
+        if (_raycastHit2D.collider)
+            if (_raycastHit2D.collider.CompareTag("Untagged"))
+                _shadowPosition = _raycastHit2D.collider.transform;
+        return _shadowPosition;
     }
 
     private float CalculateWeaponAngle()
@@ -341,6 +380,7 @@ public class PlayerAction : MonoBehaviour
                 break;
         }
     }
+
     public void TakeInjury(int _damage, bool _isTurnSuccessful)
     {
         switch (isBlocking)
@@ -352,6 +392,7 @@ public class PlayerAction : MonoBehaviour
                 healthPoints -= _damage;
                 break;
         }
+
         _isTurnSuccessful = true;
     }
 
@@ -374,6 +415,10 @@ public class PlayerAction : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(weaponPosition[0].position, attackRadius);
         Gizmos.DrawWireSphere(weaponPosition[1].position, attackRadius);
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawLine(
+            new Vector3(transform.position.x + shadowPositionXOffset, transform.position.y - shadowPositionYOffset),
+            new Vector3(transform.position.x + shadowPositionXOffset, (transform.position.y - 150)));
     }
 
     private void OnTriggerEnter2D(Collider2D col)
@@ -390,7 +435,7 @@ public class PlayerAction : MonoBehaviour
             switch (col.GetComponent<SecondaryWeaponContainer>().canBePickedUp)
             {
                 case true:
-                    
+
                     break;
                 case false:
                     healthPoints -= col.GetComponent<SecondaryWeaponContainer>().weaponDamage;

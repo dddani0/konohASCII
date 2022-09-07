@@ -82,6 +82,36 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &5774501697538516972
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7332606620193621935}
+  m_Layer: 0
+  m_Name: Shadow
+  m_TagString: Untagged
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7332606620193621935
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5774501697538516972}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7248831842670079686}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7248831842284347867
 GameObject:
   m_ObjectHideFlags: 0
@@ -181,6 +211,7 @@ Transform:
   - {fileID: 7248831843859013408}
   - {fileID: 7248831843913893246}
   - {fileID: 4226233731636312374}
+  - {fileID: 7332606620193621935}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -240,14 +271,18 @@ MonoBehaviour:
   castWeaponAngle: 0
   crosshairGameObject: {fileID: 0}
   crosshairOffsetPosition: {x: 0, y: 0, z: 0}
+  crosshairRadius: 0
+  crosshairVisualSpeed: 0
   crosshairSprite: {fileID: 0}
-  crosshairAngle: 0
   maximumTimeBtwChakraRegeneratingProcedure: 5
   timeBtwChakraRegeneratingProcedure: 0
   hasChakraRegenerationCooldownPassed: 0
   maximumIntervalBtwChakraRegeneration: 2
   intervalBtwChakraRegeneration: 0
   chakraRegenerationRate: 1
+  shadow: {fileID: 5774501697538516972}
+  shadowPosition: {x: 0, y: 0, z: 0}
+  shadowPositionYOffset: 0
   enemylayer:
     serializedVersion: 2
     m_Bits: 1024

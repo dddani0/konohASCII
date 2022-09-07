@@ -37,7 +37,7 @@ public class SecondaryWeaponContainer : MonoBehaviour
 
     private void Update()
     {
-        bodyCollider.enabled = CheckCooldown();
+        //bodyCollider.enabled = CheckCooldown();
         if (weapon)
         {
             Throwable_Weapon(weaponAirborneSpeed);
@@ -55,7 +55,7 @@ public class SecondaryWeaponContainer : MonoBehaviour
     private void Fetch_Rudimentary_Values()
     {
         bodyCollider = GetComponent<BoxCollider2D>();
-        bodyCollider.enabled = false;
+        //bodyCollider.enabled = false;
         castCooldown = maximumCastCooldown;
         weaponSpriteRenderer = GetComponentInChildren<SpriteRenderer>();
         weaponAnimator = GetComponentInChildren<Animator>();
@@ -100,7 +100,7 @@ public class SecondaryWeaponContainer : MonoBehaviour
         switch (isAirborne)
         {
             case true:
-                transform.position += transform.right * _speed * Time.deltaTime;
+                transform.position += transform.right * (_speed * Time.deltaTime);
                 break;
             case false:
                 weaponRigidbody.velocity = new Vector2(weaponTurnOtherSideValue * 0, weaponRigidbody.velocity.y);

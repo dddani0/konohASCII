@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Cinemachine;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class EnemyBehavior : MonoBehaviour
 {
@@ -62,7 +63,10 @@ public class EnemyBehavior : MonoBehaviour
     [Space] public bool isFacingRight;
 
     [Tooltip("Drone marks the destination for the enemy")] [Space(10f)]
-    public GameObject drone;
+    private GameObject drone;
+
+    public List<Transform> checkPointList;
+    [SerializeField] private int checkPointInstancesIndex;
 
     public float droneHeightCastMagnitude;
     public Transform[] droneRaycastPosition;
@@ -106,6 +110,8 @@ public class EnemyBehavior : MonoBehaviour
     private void LateUpdate()
     {
         isEnemyDetected = CheckDetection();
+        if (isEnemyDetected)
+            CalculateDroneCourse();
     }
 
     private void FixedUpdate()
@@ -123,8 +129,9 @@ public class EnemyBehavior : MonoBehaviour
                 if (!mainTarget)
                     mainTarget = DetermineMainTarget();
                 targetCrosshairGameObject.transform.position = DetermineTargetCrosshair();
-                drone.transform.position = DetermineDronePosition();
-                CastWeapon();
+
+                CalculateFinalDrone();
+
                 break;
             case false:
                 Patrol();
@@ -185,7 +192,7 @@ public class EnemyBehavior : MonoBehaviour
         {
             print($"{hitcol.collider.gameObject.name} detected");
             targetList.Add(hitcol.collider.gameObject);
-            //Only temporarly, to check for enemy
+            //Only temporarily, to check for enemy
             mainTarget = hitcol.collider.gameObject;
         }
     }
@@ -216,7 +223,7 @@ public class EnemyBehavior : MonoBehaviour
         if (waitingTime <= 0)
         {
             isObjectInMotion = true;
-            
+
             if (hasOneIterationStarted)
             {
                 enemyAnimation.transform.localScale = isFacingRight ? new Vector3(1, 1, 1) : new Vector3(-1, 1, 1);
@@ -245,12 +252,19 @@ public class EnemyBehavior : MonoBehaviour
         }
         else
             waitingTime -= Time.deltaTime;
-        
     }
 
     private void SetAnimationProperties()
     {
-        enemyAnimation.SetAnimationState("isInMotion",isObjectInMotion,enemyAnimation.defaultAnimator);
+        enemyAnimation.SetAnimationState("isInMotion", isObjectInMotion, enemyAnimation.defaultAnimator);
+    }
+
+    private void CalculateDroneCourse()
+    {
+    }
+
+    private void CalculateFinalDrone()
+    {
     }
 
     private bool CheckLedgeRayCast()
@@ -263,6 +277,14 @@ public class EnemyBehavior : MonoBehaviour
             new Vector2(_raycastPosition.position.x, _raycastPosition.transform.position.y - droneHeightCastMagnitude));
         bool _isOnTheLedge = _ledgeRay.collider != null;
         return _isOnTheLedge;
+    }
+
+    private void CreateDroneInstance(GameObject _drone, string _droneName, int _instanceIndex, Transform _position)
+    {
+        GameObject _temporaryObject = Instantiate(_drone, _position.position, quaternion.identity);
+        _instanceIndex++;
+        _temporaryObject.name = $"{_droneName}_{_instanceIndex}";
+        checkPointList.Add(_temporaryObject.transform);
     }
 
     private GameObject DetermineMainTarget()
@@ -318,6 +340,13 @@ public class EnemyBehavior : MonoBehaviour
             ? new Vector3(mainTarget.transform.position.x, droneHeightCastMagnitude)
             : new Vector3(0, 0);
         return _dronePosition;
+    }
+
+    private bool DroneCastMatchTarget()
+    {
+        bool doesPositionsMatch = false;
+
+        return doesPositionsMatch;
     }
 
     private bool CheckDetection()
