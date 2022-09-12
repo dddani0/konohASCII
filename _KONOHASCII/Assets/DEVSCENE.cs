@@ -6,39 +6,30 @@ using UnityEngine;
 
 public class DEVSCENE : MonoBehaviour
 {
-    public Transform raycastpos;
-    [Space] public float raycastLenght;
-    public bool isGound;
-
+    public float difference = 1;
+    public GameObject checkpoint;
+    public GameObject target;
+    
     // Start is called before the first frame update
     void Start()
     {
+        checkpoint.transform.position = new Vector3(target.transform.position.x, checkpoint.transform.position.y);
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Vector2.Distance(checkpoint.transform.position,target.transform.position) < difference)
+            checkpoint.transform.position = new Vector3(target.transform.position.x, checkpoint.transform.position.y);
     }
 
     private void FixedUpdate()
     {
-        RaycastHit2D ledgeRay = Physics2D.Linecast(raycastpos.transform.position,
-            new Vector2(raycastpos.transform.position.x, raycastpos.transform.position.y - raycastLenght));
-        switch (ledgeRay.collider != null)
-        {
-            case true:
-                isGound = true;
-                break;
-            case false:
-                isGound = false;
-                break;
-        }
+        
     }
 
     private void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.blue;
-        Gizmos.DrawLine(raycastpos.transform.position,
-            new Vector2(raycastpos.transform.position.x, raycastpos.transform.position.y - raycastLenght));
+
     }
 }

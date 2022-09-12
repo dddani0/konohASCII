@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using Cinemachine;
-using Unity.Mathematics;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class EnemyBehavior : MonoBehaviour
 {
@@ -62,12 +57,6 @@ public class EnemyBehavior : MonoBehaviour
 
     [Space] public bool isFacingRight;
 
-    [Tooltip("Drone marks the destination for the enemy")] [Space(10f)]
-    private GameObject drone;
-
-    public List<Transform> checkPointList;
-    [SerializeField] private int checkPointInstancesIndex;
-
     public float droneHeightCastMagnitude;
     public Transform[] droneRaycastPosition;
 
@@ -81,7 +70,7 @@ public class EnemyBehavior : MonoBehaviour
     [SerializeField] private bool hasEnemyNotFinishedPatrol;
     [Space] public float maximumWaitingTime;
     [SerializeField] private float waitingTime;
-    private bool hasOneIterationStarted;
+    private bool hasAnIterationStarted;
 
     private int currentHighestDamage; //Highest damage done to this behavior
     private GameObject highestDamageParticipiant; //The object, which caused the highest damage
@@ -110,8 +99,6 @@ public class EnemyBehavior : MonoBehaviour
     private void LateUpdate()
     {
         isEnemyDetected = CheckDetection();
-        if (isEnemyDetected)
-            CalculateDroneCourse();
     }
 
     private void FixedUpdate()
@@ -129,8 +116,6 @@ public class EnemyBehavior : MonoBehaviour
                 if (!mainTarget)
                     mainTarget = DetermineMainTarget();
                 targetCrosshairGameObject.transform.position = DetermineTargetCrosshair();
-
-                CalculateFinalDrone();
 
                 break;
             case false:
@@ -150,7 +135,6 @@ public class EnemyBehavior : MonoBehaviour
             case true:
                 if (timeBtwEnemyChecks <= 0)
                 {
-                    print("checked");
                     hitcol = new RaycastHit2D();
                     switch (isFacingRight)
                     {
@@ -192,7 +176,7 @@ public class EnemyBehavior : MonoBehaviour
         {
             print($"{hitcol.collider.gameObject.name} detected");
             targetList.Add(hitcol.collider.gameObject);
-            //Only temporarily, to check for enemy
+            //Only temporarily, to check for enemy with multiple conditions.
             mainTarget = hitcol.collider.gameObject;
         }
     }
@@ -224,11 +208,11 @@ public class EnemyBehavior : MonoBehaviour
         {
             isObjectInMotion = true;
 
-            if (hasOneIterationStarted)
+            if (hasAnIterationStarted)
             {
                 enemyAnimation.transform.localScale = isFacingRight ? new Vector3(1, 1, 1) : new Vector3(-1, 1, 1);
                 isFacingRight = CheckObjectOrientation();
-                hasOneIterationStarted = false;
+                hasAnIterationStarted = false;
             }
 
             //This is also inverted, reason: line 231
@@ -245,7 +229,7 @@ public class EnemyBehavior : MonoBehaviour
                 case false:
                     //This is inverted, because the enemy pauses the way it moved before
                     waitingTime = maximumWaitingTime;
-                    hasOneIterationStarted = true;
+                    hasAnIterationStarted = true;
                     isObjectInMotion = false;
                     break;
             }
@@ -259,14 +243,6 @@ public class EnemyBehavior : MonoBehaviour
         enemyAnimation.SetAnimationState("isInMotion", isObjectInMotion, enemyAnimation.defaultAnimator);
     }
 
-    private void CalculateDroneCourse()
-    {
-    }
-
-    private void CalculateFinalDrone()
-    {
-    }
-
     private bool CheckLedgeRayCast()
     {
         Transform _raycastPosition = isFacingRight
@@ -277,14 +253,6 @@ public class EnemyBehavior : MonoBehaviour
             new Vector2(_raycastPosition.position.x, _raycastPosition.transform.position.y - droneHeightCastMagnitude));
         bool _isOnTheLedge = _ledgeRay.collider != null;
         return _isOnTheLedge;
-    }
-
-    private void CreateDroneInstance(GameObject _drone, string _droneName, int _instanceIndex, Transform _position)
-    {
-        GameObject _temporaryObject = Instantiate(_drone, _position.position, quaternion.identity);
-        _instanceIndex++;
-        _temporaryObject.name = $"{_droneName}_{_instanceIndex}";
-        checkPointList.Add(_temporaryObject.transform);
     }
 
     private GameObject DetermineMainTarget()
@@ -331,22 +299,6 @@ public class EnemyBehavior : MonoBehaviour
             : new Vector3((transform.position.x + crosshairOffset.x),
                 _targetCrosshairYPosition);
         return _crosshairPosition;
-    }
-
-    private Vector3 DetermineDronePosition()
-    {
-        bool _isDetected = CheckDetection();
-        Vector3 _dronePosition = _isDetected
-            ? new Vector3(mainTarget.transform.position.x, droneHeightCastMagnitude)
-            : new Vector3(0, 0);
-        return _dronePosition;
-    }
-
-    private bool DroneCastMatchTarget()
-    {
-        bool doesPositionsMatch = false;
-
-        return doesPositionsMatch;
     }
 
     private bool CheckDetection()
@@ -405,9 +357,9 @@ public class EnemyBehavior : MonoBehaviour
         enemyAnimation = GetComponentInChildren<EnemyAnimation>();
         gamemanager = GameObject.FindGameObjectWithTag("Gamemanager").GetComponent<Gamemanager>();
         timeBtwEnemyChecks = maximumTimeBtwEnemyChecks;
-        drone = GameObject.FindGameObjectWithTag("Drone");
         patrolStartposition = transform.position;
         enemyAnimation.defaultAnimator.runtimeAnimatorController = enemyAnimation.animatorController;
+        enemyRigidbody2D = GetComponent<Rigidbody2D>();
     }
 
     private void OnTriggerEnter2D(Collider2D col)
