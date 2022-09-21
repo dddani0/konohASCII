@@ -254,7 +254,8 @@ MonoBehaviour:
   isCombo: 0
   canProceedWithCombo: 0
   punchAnimationTimeLeft: 0
-  activeSecondaryWeaponTemplate: {fileID: 0}
+  activeSecondaryWeaponTemplate: {fileID: 11400000, guid: 325a15d388caa4b41b400c900abab002, type: 2}
+  weaponContainer: {fileID: 0}
   weaponPosition:
   - {fileID: 7248831843216491726}
   - {fileID: 7248831843859013408}
@@ -267,13 +268,13 @@ MonoBehaviour:
   isBusy: 0
   isStaggered: 0
   isFacingRight: 0
-  maximumCastWeaponAngle: 0
+  maximumCastWeaponAngle: 6
   castWeaponAngle: 0
-  crosshairGameObject: {fileID: 0}
-  crosshairOffsetPosition: {x: 0, y: 0, z: 0}
-  crosshairRadius: 0
-  crosshairVisualSpeed: 0
-  crosshairSprite: {fileID: 0}
+  crosshairGameObject: {fileID: 5319332488741370882}
+  crosshairOffsetPosition: {x: 5, y: -1, z: 0}
+  crosshairRadius: 5
+  crosshairVisualSpeed: 1
+  crosshairSprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   maximumTimeBtwChakraRegeneratingProcedure: 5
   timeBtwChakraRegeneratingProcedure: 0
   hasChakraRegenerationCooldownPassed: 0
@@ -282,7 +283,8 @@ MonoBehaviour:
   chakraRegenerationRate: 1
   shadow: {fileID: 5774501697538516972}
   shadowPosition: {x: 0, y: 0, z: 0}
-  shadowPositionYOffset: 0
+  shadowPositionYOffset: 4.55
+  shadowPositionXOffset: 1.35
   enemylayer:
     serializedVersion: 2
     m_Bits: 1024
@@ -317,10 +319,10 @@ MonoBehaviour:
   wallcheck_position: {fileID: 7248831842417354683}
   ground_layer:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 2048
   wall_layer:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 2048
   jump_keycode: 8
   grip_keycode: 101
 --- !u!50 &7248831842670079680
@@ -342,7 +344,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!61 &7248831842670079681
 BoxCollider2D:
@@ -357,7 +359,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.12993646, y: -0.28586006}
+  m_Offset: {x: -0.16260493, y: -0.28586006}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -368,7 +370,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.9230595, y: 6.977066}
+  m_Size: {x: 3.1626284, y: 6.977066}
   m_EdgeRadius: 0
 --- !u!1 &7248831843080676399
 GameObject:

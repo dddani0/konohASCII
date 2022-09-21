@@ -1,22 +1,16 @@
 fileFormatVersion: 2
-guid: 670e1a373d3b31e4e99608472a08be80
+guid: 79b771c2d521d5f4f8944a0273964286
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1346852765805097445
-    second: Naruto_Idle_0
+      213: -811754200848077113
+    second: UI_Healthbar_Element_0
   - first:
-      213: -1983582477364501386
-    second: Naruto_Idle_1
+      213: 518541463749892535
+    second: UI_Healthbar_Element_1
   - first:
-      213: -5132616945758128257
-    second: Naruto_Idle_2
-  - first:
-      213: -533917179490067857
-    second: Naruto_Idle_3
-  - first:
-      213: 40699328708876873
-    second: Naruto_Idle_4
+      213: -3938874382301072665
+    second: UI_Healthbar_Element_2
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -62,7 +56,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 25
-  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteBorder: {x: 156, y: 44, z: 133, w: 67}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
@@ -81,7 +75,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -93,7 +87,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -104,13 +98,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Naruto_Idle_0
+      name: UI_Healthbar_Element_0
       rect:
         serializedVersion: 2
-        x: 74
-        y: 7
-        width: 146
-        height: 208
+        x: 156
+        y: 43
+        width: 246
+        height: 70
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -118,20 +112,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b1e4f61ab840f4de0800000000000000
-      internalID: -1346852765805097445
+      spriteID: 7cee48dead11cb4f0800000000000000
+      internalID: -811754200848077113
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Naruto_Idle_1
+      name: UI_Healthbar_Element_1
       rect:
         serializedVersion: 2
-        x: 293
-        y: 7
-        width: 146
-        height: 208
+        x: 242
+        y: 98
+        width: 140
+        height: 9
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -139,62 +133,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 674effd0f36e874e0800000000000000
-      internalID: -1983582477364501386
+      spriteID: 7b99f14c6ba323700800000000000000
+      internalID: 518541463749892535
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Naruto_Idle_2
+      name: UI_Healthbar_Element_2
       rect:
         serializedVersion: 2
-        x: 512
-        y: 7
-        width: 146
-        height: 208
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f77bfe3e41845c8b0800000000000000
-      internalID: -5132616945758128257
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Naruto_Idle_3
-      rect:
-        serializedVersion: 2
-        x: 749
-        y: 7
-        width: 146
-        height: 208
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f6a140177252798f0800000000000000
-      internalID: -533917179490067857
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Naruto_Idle_4
-      rect:
-        serializedVersion: 2
-        x: 98
-        y: 136
-        width: 95
-        height: 73
+        x: 208
+        y: 6
+        width: 143
+        height: 14
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -202,8 +154,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 94a1a46e2d7909000800000000000000
-      internalID: 40699328708876873
+      spriteID: 7e2fe0c4e9e4659c0800000000000000
+      internalID: -3938874382301072665
       vertices: []
       indices: 
       edges: []
@@ -220,7 +172,7 @@ TextureImporter:
     secondaryTextures: []
   spritePackingTag: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 1
+  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 
