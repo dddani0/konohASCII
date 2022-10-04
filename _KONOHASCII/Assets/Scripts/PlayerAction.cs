@@ -123,10 +123,10 @@ public class PlayerAction : MonoBehaviour
                 playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).IsName("jump"))
         {
             case true:
-                if (Input.GetKey(attackKeycode) && !isBusy)
-                {
-                    playerAnimation.SetAnimationState("airAttack", playerAnimation.defaultAnimator);
-                }
+                // if (Input.GetKey(attackKeycode) && !isBusy)
+                // {
+                //     playerAnimation.SetAnimationState("airAttack", playerAnimation.defaultAnimator);
+                // }
 
                 break;
             case false:
@@ -136,21 +136,21 @@ public class PlayerAction : MonoBehaviour
                         switch (activePrimaryWeapon != null)
                         {
                             case true:
-                                if (Input.GetKey(attackKeycode) && canProceedWithCombo)
-                                {
-                                    playerAnimation.SetAnimationState("attack", playerAnimation.defaultAnimator);
-                                    punchAnimationTimeLeft =
-                                        playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).length / 2;
-                                }
+                                // if (Input.GetKey(attackKeycode) && canProceedWithCombo)
+                                // {
+                                //     playerAnimation.SetAnimationState("attack", playerAnimation.defaultAnimator);
+                                //     punchAnimationTimeLeft =
+                                //         playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).length / 2;
+                                // }
 
                                 break;
                             case false:
-                                if (Input.GetKey(attackKeycode) && canProceedWithCombo)
-                                {
-                                    playerAnimation.SetAnimationState("weapon_attack", playerAnimation.defaultAnimator);
-                                    punchAnimationTimeLeft =
-                                        playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).length / 2;
-                                }
+                                // if (Input.GetKey(attackKeycode) && canProceedWithCombo)
+                                // {
+                                //     playerAnimation.SetAnimationState("weapon_attack", playerAnimation.defaultAnimator);
+                                //     punchAnimationTimeLeft =
+                                //         playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).length / 2;
+                                // }
 
                                 break;
                         }
@@ -160,23 +160,23 @@ public class PlayerAction : MonoBehaviour
                         switch (activePrimaryWeapon == null)
                         {
                             case true:
-                                if (Input.GetKey(attackKeycode) && !isBusy)
-                                {
-                                    playerAnimation.SetAnimationState("attack", playerAnimation.defaultAnimator);
-                                    isCombo = true;
-                                    punchAnimationTimeLeft =
-                                        playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).length / 2;
-                                }
+                                // if (Input.GetKey(attackKeycode) && !isBusy)
+                                // {
+                                //     playerAnimation.SetAnimationState("attack", playerAnimation.defaultAnimator);
+                                //     isCombo = true;
+                                //     punchAnimationTimeLeft =
+                                //         playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).length / 2;
+                                // }
 
                                 break;
                             case false:
-                                if (Input.GetKey(attackKeycode) && !isBusy)
-                                {
-                                    playerAnimation.SetAnimationState("weapon_attack", playerAnimation.defaultAnimator);
-                                    isCombo = true;
-                                    punchAnimationTimeLeft =
-                                        playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).length / 2;
-                                }
+                                // if (Input.GetKey(attackKeycode) && !isBusy)
+                                // {
+                                //     playerAnimation.SetAnimationState("weapon_attack", playerAnimation.defaultAnimator);
+                                //     isCombo = true;
+                                //     punchAnimationTimeLeft =
+                                //         playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).length / 2;
+                                // }
 
                                 break;
                         }
@@ -193,27 +193,27 @@ public class PlayerAction : MonoBehaviour
         //Creates instance of weapon prefab.
         //Modifies said instance from selected asset.
 
-        if (Input.GetKey(rangeAttackKeycode) && !isBusy &&
-            !playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).IsName("wallgrip"))
-        {
-            playerAnimation.SetAnimationState("range_attack", playerAnimation.defaultAnimator);
-            GameObject _temporaryWeapon;
-            switch (isFacingRight)
-            {
-                case true:
-                    _temporaryWeapon = Instantiate(weaponContainer,
-                        weaponPosition[0].position, weaponPosition[0].rotation);
-                    _temporaryWeapon.GetComponent<SecondaryWeaponContainer>()
-                        .AssignNewWeapon(activeSecondaryWeaponTemplate, CalculateWeaponAngle(), 1);
-                    break;
-                case false:
-                    _temporaryWeapon = Instantiate(weaponContainer,
-                        weaponPosition[1].position, weaponPosition[1].rotation);
-                    _temporaryWeapon.GetComponent<SecondaryWeaponContainer>()
-                        .AssignNewWeapon(activeSecondaryWeaponTemplate, CalculateWeaponAngle(), -1);
-                    break;
-            }
-        }
+        //if (Input.GetKey(rangeAttackKeycode) && !isBusy &&
+        //     !playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).IsName("wallgrip"))
+        // {
+        //     playerAnimation.SetAnimationState("range_attack", playerAnimation.defaultAnimator);
+        //     GameObject _temporaryWeapon;
+        //     switch (isFacingRight)
+        //     {
+        //         case true:
+        //             _temporaryWeapon = Instantiate(weaponContainer,
+        //                 weaponPosition[0].position, weaponPosition[0].rotation);
+        //             _temporaryWeapon.GetComponent<SecondaryWeaponContainer>()
+        //                 .AssignNewWeapon(activeSecondaryWeaponTemplate, CalculateWeaponAngle(), 1);
+        //             break;
+        //         case false:
+        //             _temporaryWeapon = Instantiate(weaponContainer,
+        //                 weaponPosition[1].position, weaponPosition[1].rotation);
+        //             _temporaryWeapon.GetComponent<SecondaryWeaponContainer>()
+        //                 .AssignNewWeapon(activeSecondaryWeaponTemplate, CalculateWeaponAngle(), -1);
+        //             break;
+        //     }
+        // }
     }
 
     private void ChakraBlock()
@@ -318,8 +318,8 @@ public class PlayerAction : MonoBehaviour
     {
         //Invert fuck shit
         _crosshairYAngle += _isInvert
-            ? -Input.GetAxis("Mouse Y") * crosshairVisualSpeed
-            : Input.GetAxis("Mouse Y") * crosshairVisualSpeed;
+            ? -playerMovement.mouseYAxisInput * crosshairVisualSpeed
+            : playerMovement.mouseYAxisInput * crosshairVisualSpeed;
         _crosshairYAngle = Mathf.Clamp(_crosshairYAngle, -maximumCastWeaponAngle, maximumCastWeaponAngle);
 
         return _crosshairYAngle;
@@ -327,8 +327,8 @@ public class PlayerAction : MonoBehaviour
 
     private bool CheckBlockState()
     {
-        var isPressingBlockKey = Input.GetKey(blockKeyCode);
-        return isPressingBlockKey;
+        //var isPressingBlockKey = Input.GetKey(blockKeyCode);
+        return false;
     }
 
     private bool CheckCanChakraRegenerate()
@@ -406,7 +406,7 @@ public class PlayerAction : MonoBehaviour
     public void AssingNewPrimaryWeapon(WeaponTemplate _primaryWeapon)
     {
         activePrimaryWeapon = _primaryWeapon;
-        GameObject _uiGameObject = GameObject.Find("UI");
+        GameObject _uiGameObject = GameObject.FindGameObjectWithTag("UI");
         _uiGameObject.GetComponent<UIManager>().ReplacePrimaryWeaponUIIcon(activePrimaryWeapon.weaponSprite);
     }
 
@@ -446,11 +446,11 @@ public class PlayerAction : MonoBehaviour
         switch (activePrimaryWeapon != null)
         {
             case true:
-                if (col.CompareTag("PrimaryWeapon") && Input.GetKeyDown(weaponSwapKeycode))
-                {
-                    AssingNewPrimaryWeapon(col.GetComponent<PrimaryWeaponContainer>().primaryWeapon);
-                    Destroy(col.gameObject);
-                }
+                // if (col.CompareTag("PrimaryWeapon") && Input.GetKeyDown(weaponSwapKeycode))
+                // {
+                //     AssingNewPrimaryWeapon(col.GetComponent<PrimaryWeaponContainer>().primaryWeapon);
+                //     Destroy(col.gameObject);
+                // }
 
                 break;
             case false:

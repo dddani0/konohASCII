@@ -1,20 +1,29 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(PlayerAnimation))]
 public class PlayerMovement : MonoBehaviour
 {
-    public new Rigidbody2D rigidbody2D;
+    [Header("Button inputs")] PlayerMovementInput playerMovementInput;
 
-    [FormerlySerializedAs("playerAnimation")] [Header("Resources")]
-    public PlayerAnimation playerAnimation;
+    [Space] public float mouseYAxisInput;
+    public float movementAxisInput;
+    public float currentMouseInput, maxMouseInput, mouseInputDifference;
+    [SerializeField] private bool isPlayerInMotion;
+    [SerializeField] private bool isJumpPressed;
+    [SerializeField] private bool isWallGrabPressed;
+    public Rigidbody2D rigidbody2D;
+
+    [Header("Resources")] public PlayerAnimation playerAnimation;
 
     public PlayerAction playerAction;
 
-    [Space(20f)] [Header("Basic movement agility")] [Range(1f, 5f)]
+
+    [Space(20f)] [Header("Basic movement agility")] [Range(1f, 5f)] [SerializeField] [Space]
     public float groundCheckRadius;
 
     [Space] public bool canJump = true;
@@ -36,8 +45,11 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask ground_layer;
 
     public LayerMask wall_layer;
-    [Space] public KeyCode jump_keycode;
-    public KeyCode grip_keycode;
+
+    private void Awake()
+    {
+        playerMovementInput = new PlayerMovementInput();
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -47,6 +59,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        //print(Mouse.current.position.ReadValue);
+        isPlayerInMotion = DeterminePlayerMotionState();
         FetchInput();
         WallGrip();
     }
@@ -57,10 +71,65 @@ public class PlayerMovement : MonoBehaviour
         AdvancedMovementAgility();
     }
 
+    private void OnEnable()
+    {
+        playerMovementInput.Enable();
+    }
+
+    private void OnDisable()
+    {
+        playerMovementInput.Disable();
+    }
+
+    public void InputWallGrab(InputAction.CallbackContext context)
+    {
+        isWallGrabPressed = context.performed;
+    }
+
+    public void InputMovement(InputAction.CallbackContext context)
+    {
+        movementAxisInput = context.ReadValue<Vector2>().x;
+    }
+
+    public void FetchMouseInput(InputAction.CallbackContext context)
+    {
+        mouseYAxisInput =  playerMovementInput.PlayableCharacter.Mouse.ReadValue<float>();
+        print(mouseYAxisInput);
+    }
+
+    public void JumpInput(InputAction.CallbackContext context)
+    {
+        isJumpPressed = context.performed;
+        /*if (context.performed)
+        {
+            /*playerAnimation.SetAnimationState("jump", playerAnimation.defaultAnimator);
+            rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, jump_force * Time.fixedDeltaTime);#1#
+            // if (isGripped)
+            // {
+            //     isGripped = false;
+            //     playerAnimation.gameObject.transform.localScale =
+            //         new Vector2(playerAnimation.gameObject.transform.localScale.x, 1f);
+            // }
+            //
+            // ChangeRigidbodyState(isGripped, rigidbody2D);
+        }*/
+    }
+
+    private bool DeterminePlayerMotionState()
+    {
+        //Determines whether the player holds down the "movement" keys.
+        bool _motion = movementAxisInput != 0;
+        return _motion;
+    }
+
+    /// <summary>
+    /// REWORK BELOW
+    /// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// </summary>
     private void FetchInput()
     {
-        isJumpActionTaken = Input.GetKey(jump_keycode) && canJump;
-        isGrippedActionTaken = Input.GetKeyDown(grip_keycode) && !playerAction.isBusy && canGrip;
+        //isJumpActionTaken = Input.GetKey(jump_keycode) && canJump;
+        //isGrippedActionTaken = Input.GetKeyDown(grip_keycode) && !playerAction.isBusy && canGrip;
     }
 
     private void FetchRudimentaryVariables()
@@ -79,7 +148,7 @@ public class PlayerMovement : MonoBehaviour
         //Movement
         switch (playerAction.isBusy)
         {
-            case true:
+            /*case true:
                 switch (playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).IsName("AirAttack"))
                 {
                     case true:
@@ -90,9 +159,10 @@ public class PlayerMovement : MonoBehaviour
                         rigidbody2D.velocity = new Vector2(0, 0);
                         break;
                 }
-                break;
+
+                break;*/
             case false:
-                rigidbody2D.velocity = new Vector2(movementSpeed * Time.fixedDeltaTime * Input.GetAxisRaw("Horizontal"),
+                rigidbody2D.velocity = new Vector2(movementSpeed * Time.fixedDeltaTime * movementAxisInput,
                     rigidbody2D.velocity.y);
                 break;
         }
@@ -103,16 +173,6 @@ public class PlayerMovement : MonoBehaviour
         //Jump
         if (isJumpActionTaken)
         {
-            playerAnimation.SetAnimationState("jump", playerAnimation.defaultAnimator);
-            rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, jump_force * Time.fixedDeltaTime);
-            if (isGripped)
-            {
-                isGripped = false;
-                playerAnimation.gameObject.transform.localScale =
-                    new Vector2(playerAnimation.gameObject.transform.localScale.x, 1f);
-            }
-
-            ChangeRigidbodyState(isGripped, rigidbody2D);
         }
     }
 

@@ -18,7 +18,7 @@ public class PlayerAnimation : MonoBehaviour
 
     void Update()
     {
-        SetAnimationState("movement", int.Parse(Input.GetAxisRaw("Horizontal").ToString()), defaultAnimator);
+        SetAnimationState("movement", int.Parse(playerMovement.movementAxisInput.ToString()), defaultAnimator);
         SetAnimationState("ydelta", playerMovement.rigidbody2D.velocity.y, defaultAnimator);
         SetAnimationState("nextFrameDeadline", playerAction.punchAnimationTimeLeft, defaultAnimator);
     }
@@ -33,9 +33,9 @@ public class PlayerAnimation : MonoBehaviour
     {
         //Rotates sprite based on the horizontal input value
         //thus: greater than 0 = right; and less than 0 = left;
-        if (Input.GetAxis("Horizontal") > 0)
+        if (playerMovement.movementAxisInput > 0)
             transform.localScale = new Vector3(1, 1, 1);
-        else if (Input.GetAxis("Horizontal") < 0)
+        else if (playerMovement.movementAxisInput < 0)
             transform.localScale = new Vector3(-1, 1, 1);
     }
 
@@ -101,9 +101,10 @@ public class PlayerAnimation : MonoBehaviour
                         _attackPosition = playerAction.weaponPosition[1];
                         break;
                 }
+
                 break;
         }
-        
+
 
         Collider2D hit = Physics2D.OverlapCircle(_attackPosition.position, _attackRadius);
         if (hit.GetComponent<EnemyBehavior>() != null)
@@ -114,7 +115,7 @@ public class PlayerAnimation : MonoBehaviour
     {
         playerAction.weaponPosition[2].GetComponent<BoxCollider2D>().enabled = true;
     }
-    
+
     public void ACALLANIMATIONEVENTSignalComboFollowUp()
     {
         //Tells the playeraction script, if the player can proceed with combo

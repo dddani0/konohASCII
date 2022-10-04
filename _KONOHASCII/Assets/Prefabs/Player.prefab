@@ -181,6 +181,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7248831842670079686}
+  - component: {fileID: 7839049832089780688}
   - component: {fileID: 7248831842670079693}
   - component: {fileID: 7248831842670079682}
   - component: {fileID: 7248831842670079683}
@@ -215,6 +216,100 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7839049832089780688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7248831842670079687}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 1922080dce64fdb4a9a477ce78457172, type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7248831842670079683}
+        m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
+        m_MethodName: Jump
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: a9bc6a91-3e4a-4c3b-bf70-7e9c66d217ea
+    m_ActionName: PlayableCharacter/Jump[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7248831842670079683}
+        m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
+        m_MethodName: InputMovement
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 68a30bad-0823-4fe3-a22d-ae2d6a41c36d
+    m_ActionName: PlayableCharacter/Movement[/Keyboard/a,/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7248831842670079683}
+        m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
+        m_MethodName: FetchMouseInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: c01f4a51-26fa-4a73-bdd8-53317802871b
+    m_ActionName: PlayableCharacter/New action[/Mouse/delta/y,/Mouse/delta/y]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7248831842670079683}
+        m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
+        m_MethodName: InputWallGrab
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 67414f0f-26b3-4d2b-8c08-77b387009e36
+    m_ActionName: PlayableCharacter/Wall grab[/Keyboard/e]
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: PlayableCharacter
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!114 &7248831842670079693
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -254,7 +349,7 @@ MonoBehaviour:
   isCombo: 0
   canProceedWithCombo: 0
   punchAnimationTimeLeft: 0
-  activeSecondaryWeaponTemplate: {fileID: 11400000, guid: 325a15d388caa4b41b400c900abab002, type: 2}
+  activeSecondaryWeaponTemplate: {fileID: 11400000, guid: 0ba158657ea2a394ca855cbdadc04815, type: 2}
   weaponContainer: {fileID: 0}
   weaponPosition:
   - {fileID: 7248831843216491726}
@@ -304,9 +399,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a0a912763546d0ea96047fce1d20089, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPlayerInMotion: 0
+  isJumpPressed: 0
+  isWallGrabPressed: 0
   rigidbody2D: {fileID: 0}
   playerAnimation: {fileID: 0}
-  playerAction: {fileID: 0}
+  playerAction: {fileID: 7248831842670079682}
   groundCheckRadius: 1.5
   canJump: 1
   groundCheckPosition: {fileID: 7248831842284347866}
@@ -323,8 +421,6 @@ MonoBehaviour:
   wall_layer:
     serializedVersion: 2
     m_Bits: 2048
-  jump_keycode: 8
-  grip_keycode: 101
 --- !u!50 &7248831842670079680
 Rigidbody2D:
   serializedVersion: 4
