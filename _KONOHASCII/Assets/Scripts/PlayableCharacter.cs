@@ -19,7 +19,7 @@ public class PlayableCharacter : MonoBehaviour
         //Call after every important variable value is fetched in PlayerAction.cs
         if (_playableCharacterTemplate)
         {
-            playerMovement.movementSpeed = _playableCharacterTemplate.playerSpeed;
+            playerMovement.peakMovementSpeed = _playableCharacterTemplate.playerSpeed;
             playerAction.maximumChakra = _playableCharacterTemplate.chakraReserve;
             playerAnimatorOverrideController = _playableCharacterTemplate.playerAnimatorOverrideController;
             playerAction.playerAnimation.defaultAnimator.runtimeAnimatorController = playerAnimatorOverrideController;

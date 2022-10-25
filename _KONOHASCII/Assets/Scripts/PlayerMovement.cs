@@ -1,8 +1,8 @@
-﻿using System;
-using System.Runtime.CompilerServices;
+﻿using System.Reflection;
+using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(PlayerAnimation))]
@@ -27,8 +27,43 @@ public class PlayerMovement : MonoBehaviour
     public float groundCheckRadius;
 
     [Space] public bool canJump = true;
+    public bool isGrounded;
     public Transform groundCheckPosition;
-    [Space] public float movementSpeed;
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    [Tooltip("Speed, which the player will progress.")]
+    public float maximumSpeed;
+
+    [Space,Tooltip("The maximum speed, the player can reach")] public float peakMovementSpeed;
+    [Tooltip("The direction, which the player faces.")]
+    private float xDirection;
+    private Vector2 desiredVelocity;
+
+    [Tooltip("Maximum speed, which the player can achieve on the ground.")]
+    public float maximumLateralGroundAcceleration;
+
+    [Tooltip("Maximum value, which the player will decelerates on the ground.")]
+    public float maximumLateralGroundDeceleration;
+
+    [Tooltip("Maximum speed, which the player can achieve in the air")]
+    public float maximumAirLateralAcceleration;
+
+    [Tooltip("Maximum speed, which the player will turn on the ground")]
+    public float maximumGroundTurnSpeed;
+
+    [Tooltip("Maximum value, which the player will decelerate in the air.")]
+    public float maximumAirDeceleration;
+
+    [Tooltip("Turning speed in the air")] public float maximumAirTurnSpeed;
+
+    [SerializeField] private float currentTurnSpeed;
+    [SerializeField] private Vector2 currentVelocity;
+    [SerializeField] private float currentDeceleration;
+    [SerializeField] private float currentAcceleration;
+
     [Space] public float jump_force;
 
     [Space(20f)] [Header("Advanced movement agility")] [Range(1f, 5f)]
@@ -59,17 +94,66 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        //print(Mouse.current.position.ReadValue);
         isPlayerInMotion = DeterminePlayerMotionState();
+        desiredVelocity = CalculateDesiredVelocity(xDirection, peakMovementSpeed);
         FetchInput();
         WallGrip();
+        GroundCheck();
+        AssignAnimationVariables();
     }
 
     private void FixedUpdate()
     {
-        BasicMovementAgility();
-        AdvancedMovementAgility();
+        GroundLateralMovement();
     }
+
+    private void AssignAnimationVariables()
+    {
+        playerAnimation.SetAnimationState("xDirection",int.Parse(xDirection.ToString()),playerAnimation.defaultAnimator);
+        playerAnimation.SetAnimationState("currentVelocity",math.abs(currentVelocity.x),playerAnimation.defaultAnimator);
+        playerAnimation.SetAnimationState("hasReachedPeakVelocity",math.abs(currentVelocity.x) == (1f * peakMovementSpeed),playerAnimation.defaultAnimator);
+    }
+    
+    private void GroundLateralMovement()
+    {
+    print(xDirection);
+        switch (playerAction.isBusy)
+        {
+            case true:
+                // currentVelocity.x = 0;
+                // rigidbody2D.velocity = currentVelocity;
+                break;
+            case false:
+                currentAcceleration = isGrounded ? maximumLateralGroundAcceleration : maximumAirLateralAcceleration;
+                currentDeceleration = isGrounded ? maximumLateralGroundDeceleration : maximumAirDeceleration;
+                currentTurnSpeed = isGrounded ? maximumGroundTurnSpeed : maximumAirTurnSpeed;
+
+                switch (xDirection != 0)
+                {
+                    case true:
+                        //Checks whether the player direction and the velocity direction matches
+                        switch (Mathf.Sign(xDirection) != Mathf.Sign(rigidbody2D.velocity.x))
+                        {
+                            case true:
+                                maximumSpeed = currentTurnSpeed * Time.deltaTime;
+                                break;
+                            case false:
+                                maximumSpeed = currentAcceleration * Time.deltaTime;
+                                break;
+                        }
+
+                        break;
+                    case false:
+                        maximumSpeed = currentDeceleration * Time.deltaTime;
+                        break;
+                }
+
+                currentVelocity.x = Mathf.MoveTowards(currentVelocity.x, desiredVelocity.x, maximumSpeed);
+                rigidbody2D.velocity = currentVelocity;
+                break;
+        }
+    }
+
 
     private void OnEnable()
     {
@@ -89,12 +173,13 @@ public class PlayerMovement : MonoBehaviour
     public void InputMovement(InputAction.CallbackContext context)
     {
         movementAxisInput = context.ReadValue<Vector2>().x;
+        xDirection = movementAxisInput; //Fetches the player movement direction
     }
 
     public void FetchMouseInput(InputAction.CallbackContext context)
     {
-        mouseYAxisInput =  playerMovementInput.PlayableCharacter.Mouse.ReadValue<float>();
-        print(mouseYAxisInput);
+        //Called via new input system: events/playablecharacter
+        mouseYAxisInput = playerMovementInput.PlayableCharacter.Mouse.ReadValue<Vector2>().y;
     }
 
     public void JumpInput(InputAction.CallbackContext context)
@@ -122,10 +207,6 @@ public class PlayerMovement : MonoBehaviour
         return _motion;
     }
 
-    /// <summary>
-    /// REWORK BELOW
-    /// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /// </summary>
     private void FetchInput()
     {
         //isJumpActionTaken = Input.GetKey(jump_keycode) && canJump;
@@ -139,6 +220,22 @@ public class PlayerMovement : MonoBehaviour
         rigidbody2D = GetComponent<Rigidbody2D>();
     }
 
+    private Vector2 CalculateDesiredVelocity(float direction, float peakVeloValue)
+    {
+        Vector2 _desiredVelocity = new Vector2(direction, 0) * peakVeloValue;
+        return _desiredVelocity;
+    }
+    
+    private Vector2 FetchDesiredVelocity(float _direction, float _maximumSpeed)
+    {
+        Vector2 _desiredVelocity = new Vector2(_direction, 0f) * _maximumSpeed;
+        return _desiredVelocity;
+    }
+
+    /// <summary>
+    /// REWORK BELOW
+    /// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// </summary>
     private void BasicMovementAgility()
     {
         //Basic character mobility
@@ -162,8 +259,7 @@ public class PlayerMovement : MonoBehaviour
 
                 break;*/
             case false:
-                rigidbody2D.velocity = new Vector2(movementSpeed * Time.fixedDeltaTime * movementAxisInput,
-                    rigidbody2D.velocity.y);
+
                 break;
         }
 
@@ -220,6 +316,7 @@ public class PlayerMovement : MonoBehaviour
         //Checks jump condition
         Collider2D[] col = Physics2D.OverlapCircleAll(groundCheckPosition.position, groundCheckRadius, ground_layer);
         canJump = col.Length > 0;
+        isGrounded = canJump;
         playerAnimation.SetAnimationState("onGround", canJump, playerAnimation.defaultAnimator);
     }
 

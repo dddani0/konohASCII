@@ -245,7 +245,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 7248831842670079683}
         m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
-        m_MethodName: Jump
+        m_MethodName: JumpInput
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -367,7 +367,7 @@ MonoBehaviour:
   castWeaponAngle: 0
   crosshairGameObject: {fileID: 5319332488741370882}
   crosshairOffsetPosition: {x: 5, y: -1, z: 0}
-  crosshairRadius: 5
+  crosshairRadius: 3
   crosshairVisualSpeed: 1
   crosshairSprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   maximumTimeBtwChakraRegeneratingProcedure: 5
@@ -399,6 +399,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a0a912763546d0ea96047fce1d20089, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mouseYAxisInput: 0
+  movementAxisInput: 0
+  currentMouseInput: 0
+  maxMouseInput: 0
+  mouseInputDifference: 0
   isPlayerInMotion: 0
   isJumpPressed: 0
   isWallGrabPressed: 0
@@ -407,8 +412,20 @@ MonoBehaviour:
   playerAction: {fileID: 7248831842670079682}
   groundCheckRadius: 1.5
   canJump: 1
+  isGrounded: 0
   groundCheckPosition: {fileID: 7248831842284347866}
-  movementSpeed: 1250
+  maximumSpeed: 0
+  peakMovementSpeed: 0
+  maximumLateralGroundAcceleration: 30
+  maximumLateralGroundDeceleration: 40
+  maximumAirLateralAcceleration: 25
+  maximumGroundTurnSpeed: 45
+  maximumAirDeceleration: 15
+  maximumAirTurnSpeed: 10
+  currentTurnSpeed: 0
+  currentVelocity: {x: 0, y: 0}
+  currentDeceleration: 0
+  currentAcceleration: 0
   jump_force: 1300
   wallcheck_height_size: 5
   wallcheck_width_size: 4

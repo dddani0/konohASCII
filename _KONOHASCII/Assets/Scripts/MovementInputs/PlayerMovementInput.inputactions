@@ -25,7 +25,7 @@
                     "name": "Mouse",
                     "type": "Value",
                     "id": "c01f4a51-26fa-4a73-bdd8-53317802871b",
-                    "expectedControlType": "Axis",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": ""
                 },
@@ -108,7 +108,7 @@
                 {
                     "name": "",
                     "id": "a67e3102-2dba-440d-8f29-7c7cde595c31",
-                    "path": "<Mouse>/delta/y",
+                    "path": "<Mouse>/delta",
                     "interactions": "",
                     "processors": "Clamp(min=-1,max=1)",
                     "groups": "",

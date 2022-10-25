@@ -123,36 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &528052921
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 528052922}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &528052922
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 528052921}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.01, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &860139156
 GameObject:
   m_ObjectHideFlags: 0
@@ -198,7 +168,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   difference: 1
   checkpoint: {fileID: 860139156}
-  target: {fileID: 528052921}
+  target: {fileID: 0}
 --- !u!1 &1493127993
 GameObject:
   m_ObjectHideFlags: 0
@@ -220,7 +190,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!95 &1493127994
 Animator:
   serializedVersion: 3
@@ -285,10 +255,10 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 7.32, y: 7.48}
+  m_Size: {x: 1.75, y: 2.6}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1493127996
@@ -386,18 +356,38 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1493127993}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5a0a912763546d0ea96047fce1d20089, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mouseYAxisInput: 0
+  movementAxisInput: 0
+  currentMouseInput: 0
+  maxMouseInput: 0
+  mouseInputDifference: 0
+  isPlayerInMotion: 0
+  isJumpPressed: 0
+  isWallGrabPressed: 0
   rigidbody2D: {fileID: 0}
   playerAnimation: {fileID: 0}
   playerAction: {fileID: 0}
   groundCheckRadius: 0
   canJump: 1
+  isGrounded: 0
   groundCheckPosition: {fileID: 0}
-  movementSpeed: 0
+  maximumSpeed: 0
+  peakMovementSpeed: 0
+  maximumLateralGroundAcceleration: 0
+  maximumLateralGroundDeceleration: 0
+  maximumAirLateralAcceleration: 0
+  maximumGroundTurnSpeed: 0
+  maximumAirDeceleration: 0
+  maximumAirTurnSpeed: 0
+  currentTurnSpeed: 0
+  currentVelocity: {x: 0, y: 0}
+  currentDeceleration: 0
+  currentAcceleration: 0
   jump_force: 0
   wallcheck_height_size: 0
   wallcheck_width_size: 0
@@ -410,8 +400,6 @@ MonoBehaviour:
   wall_layer:
     serializedVersion: 2
     m_Bits: 0
-  jump_keycode: 0
-  grip_keycode: 0
 --- !u!50 &1493128000
 Rigidbody2D:
   serializedVersion: 4
@@ -541,13 +529,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a0a912763546d0ea96047fce1d20089, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mouseYAxisInput: 0
+  movementAxisInput: 0
+  currentMouseInput: 0
+  maxMouseInput: 0
+  mouseInputDifference: 0
+  isPlayerInMotion: 0
+  isJumpPressed: 0
+  isWallGrabPressed: 0
   rigidbody2D: {fileID: 0}
   playerAnimation: {fileID: 0}
   playerAction: {fileID: 0}
   groundCheckRadius: 0
   canJump: 1
+  isGrounded: 0
   groundCheckPosition: {fileID: 0}
-  movementSpeed: 0
+  maximumSpeed: 0
+  peakMovementSpeed: 0
+  maximumLateralGroundAcceleration: 0
+  maximumLateralGroundDeceleration: 0
+  maximumAirLateralAcceleration: 0
+  maximumGroundTurnSpeed: 0
+  maximumAirDeceleration: 0
+  maximumAirTurnSpeed: 0
+  currentTurnSpeed: 0
+  currentVelocity: {x: 0, y: 0}
+  currentDeceleration: 0
+  currentAcceleration: 0
   jump_force: 0
   wallcheck_height_size: 0
   wallcheck_width_size: 0
@@ -560,8 +568,6 @@ MonoBehaviour:
   wall_layer:
     serializedVersion: 2
     m_Bits: 0
-  jump_keycode: 0
-  grip_keycode: 0
 --- !u!50 &1747421563
 Rigidbody2D:
   serializedVersion: 4

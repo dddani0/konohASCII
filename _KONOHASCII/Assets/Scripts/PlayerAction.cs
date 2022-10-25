@@ -88,7 +88,6 @@ public class PlayerAction : MonoBehaviour
         PrimaryShortRangeAttack();
         RangeAttack(); //Signals expensive method invocation
         ChakraBlock();
-        CrosshairDisplay();
     }
 
     private void LateUpdate()
@@ -100,6 +99,7 @@ public class PlayerAction : MonoBehaviour
     {
         if (isCombo)
             punchAnimationTimeLeft -= Time.deltaTime;
+        CrosshairDisplay();
     }
 
     private void FetchRudimentaryValues()
@@ -318,8 +318,8 @@ public class PlayerAction : MonoBehaviour
     {
         //Invert fuck shit
         _crosshairYAngle += _isInvert
-            ? -playerMovement.mouseYAxisInput * crosshairVisualSpeed
-            : playerMovement.mouseYAxisInput * crosshairVisualSpeed;
+            ? -playerMovement.mouseYAxisInput * crosshairVisualSpeed * Time.deltaTime 
+            : playerMovement.mouseYAxisInput * crosshairVisualSpeed* Time.deltaTime;
         _crosshairYAngle = Mathf.Clamp(_crosshairYAngle, -maximumCastWeaponAngle, maximumCastWeaponAngle);
 
         return _crosshairYAngle;

@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerName: Naruto
   playerHealth: 750
-  playerSpeed: 1250
+  playerSpeed: 30
   chakraReserve: 12
   playerAnimatorOverrideController: {fileID: 22100000, guid: 560d7d85284a2706c93f5292d5116c5a, type: 2}
