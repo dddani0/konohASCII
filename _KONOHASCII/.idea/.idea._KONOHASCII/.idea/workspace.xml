@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f509f050-b68b-46bb-891c-6810656fb82b" name="Changes" comment="" />
+    <list default="true" id="f509f050-b68b-46bb-891c-6810656fb82b" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea._KONOHASCII/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea._KONOHASCII/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Animation/Default_Animations/Player_Character/Player_Sprite.controller" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animation/Default_Animations/Player_Character/Player_Sprite.controller" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Player.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Player.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PlayerMovement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PlayerMovement.cs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -143,6 +148,8 @@
       <workItem from="1666556710443" duration="4398000" />
       <workItem from="1666609732107" duration="597000" />
       <workItem from="1666694190961" duration="10288000" />
+      <workItem from="1666720627098" duration="5878000" />
+      <workItem from="1666823164173" duration="3526000" />
     </task>
     <servers />
   </component>

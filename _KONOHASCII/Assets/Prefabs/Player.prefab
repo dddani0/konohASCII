@@ -401,11 +401,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mouseYAxisInput: 0
   movementAxisInput: 0
-  currentMouseInput: 0
-  maxMouseInput: 0
-  mouseInputDifference: 0
   isPlayerInMotion: 0
-  isJumpPressed: 0
+  isPressingJump: 0
+  isJumpExecuted: 0
   isWallGrabPressed: 0
   rigidbody2D: {fileID: 0}
   playerAnimation: {fileID: 0}
@@ -426,7 +424,12 @@ MonoBehaviour:
   currentVelocity: {x: 0, y: 0}
   currentDeceleration: 0
   currentAcceleration: 0
-  jump_force: 1300
+  jumpHeight: 18
+  jumpSpeed: 36
+  timeToReachJumpHeightPeak: 1
+  gravityMultiplier: 1
+  downwardMovementMultiplier: 2
+  jumpCutOff: 2
   wallcheck_height_size: 5
   wallcheck_width_size: 4
   canGrip: 0
