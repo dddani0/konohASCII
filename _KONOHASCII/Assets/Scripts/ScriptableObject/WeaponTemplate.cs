@@ -21,6 +21,7 @@ public class WeaponTemplate : ScriptableObject
 
     public bool isPrimaryWeapon;
     public float weaponSpeed;
+    [Space] public int ammunition;
 
     [Space]
     [Header("Short range weapon attributes")]

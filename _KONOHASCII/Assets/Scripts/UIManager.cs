@@ -23,6 +23,8 @@ public class UIManager : MonoBehaviour
     [Tooltip("Icon, which corresponds to the current active secondary weapon.")]
     public Image secondaryWeaponIcon;
 
+    public Text secondaryWeaponUIText;
+
     [Space, Tooltip("Null sprite is temporary sprite, which stays active until it can be replaced.")]
     public Sprite nullSprite;
 
@@ -40,6 +42,7 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         FetchRudimentaryValues();
+        SetSecondaryWeaponUI();
     }
 
     private void Update()
@@ -69,6 +72,12 @@ public class UIManager : MonoBehaviour
         secondaryWeapon = playerGameObject.GetComponent<PlayerAction>().activeSecondaryWeapon;
     }
 
+    private void SetSecondaryWeaponUI()
+    {
+        secondaryWeaponIcon.sprite = nullSprite;
+        secondaryWeaponUIText.text = "".ToString();
+    }
+    
     // Start is called before the first frame update
     public void ReplacePrimaryWeaponUIIcon(Sprite _replacementSprite)
     {
@@ -76,10 +85,11 @@ public class UIManager : MonoBehaviour
         primaryWeaponIcon.SetNativeSize();
     }
 
-    public void ReplaceSecondaryWeaponUIIcon(Sprite _replacementSprite)
+    public void ReplaceSecondaryWeaponUIIcon(Sprite _replacementSprite, string ammunition)
     {
         secondaryWeaponIcon.sprite = _replacementSprite;
         secondaryWeaponIcon.SetNativeSize();
+        secondaryWeaponUIText.text = $"x {ammunition}";
     }
 
     public Sprite GetUISprite(Image _attachedSprite)

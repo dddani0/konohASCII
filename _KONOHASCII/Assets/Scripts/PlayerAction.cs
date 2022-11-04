@@ -296,7 +296,6 @@ public class PlayerAction : MonoBehaviour
                             break;
                     }
 
-
                     secondsBetweenWeaponSwap = maximumSecondsBetweenWeaponSwap;
                 }
 
@@ -469,7 +468,7 @@ public class PlayerAction : MonoBehaviour
                 break;
             case false:
                 activeSecondaryWeapon = _newWeapon;
-                _uiGameObject.ReplaceSecondaryWeaponUIIcon(activeSecondaryWeapon.weaponSprite);
+                _uiGameObject.ReplaceSecondaryWeaponUIIcon(activeSecondaryWeapon.weaponSprite, activeSecondaryWeapon.ammunition.ToString());
                 break;
         }
     }
