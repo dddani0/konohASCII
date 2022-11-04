@@ -52,7 +52,6 @@ public class UIManager : MonoBehaviour
         secondaryWeaponBranch.transform.position = DetermineSecondaryBranchPosition();
         primaryWeaponUIIconAnimator.SetBool("isWeaponEquipped", IsPrimaryWeaponVisible());
         isPrimaryWeaponPickedUp = IsPrimaryWeaponVisible();
-        SetSecondaryWeaponIconUIState(secondaryWeapon);
     }
 
     private void FetchRudimentaryValues()
@@ -67,22 +66,7 @@ public class UIManager : MonoBehaviour
         }
         secondaryWeaponBranch.transform.position = secondaryWeaponBranchStartPosition.transform.position;
         primaryWeapon = playerGameObject.GetComponent<PlayerAction>().activePrimaryWeapon;
-        secondaryWeapon = playerGameObject.GetComponent<PlayerAction>().activeSecondaryWeaponTemplate;
-    }
-    
-    private void SetSecondaryWeaponIconUIState(WeaponTemplate _secondaryWeapon)
-    {
-        //Hotswaps between weapons
-        switch (_secondaryWeapon != null)
-        {
-            case true:
-                secondaryWeaponIcon.sprite = secondaryWeapon.weaponSprite;
-                secondaryWeaponIcon.SetNativeSize();
-                break;
-            case false:
-                secondaryWeaponIcon.sprite = nullSprite;
-                break;
-        }
+        secondaryWeapon = playerGameObject.GetComponent<PlayerAction>().activeSecondaryWeapon;
     }
 
     // Start is called before the first frame update

@@ -31,7 +31,7 @@ public class PlayerAction : MonoBehaviour
     private float secondsBetweenWeaponSwap;
 
     [Tooltip("Secondary weapon is always throwable. Like Shuriken")]
-    public WeaponTemplate activeSecondaryWeaponTemplate;
+    public WeaponTemplate activeSecondaryWeapon;
 
     [SerializeField] private GameObject weaponContainer;
 
@@ -266,27 +266,45 @@ public class PlayerAction : MonoBehaviour
                 {
                     int flagNumber = flagObjectCollider.GetComponent<ItemFlag>().FetchFlagType();
                     bool hasPrimaryWeapon = activePrimaryWeapon != null;
+                    bool hasSecondaryWeapon = activeSecondaryWeapon != null;
+                    bool isWeaponPrimary = flagObjectCollider.GetComponent<ItemFlag>().weaponFlag.isPrimaryWeapon;
                     var currentPrimaryWeapon = activePrimaryWeapon;
+                    var currentSecondaryWeapon = activeSecondaryWeapon;
 
                     switch (flagNumber)
                     {
                         case 1:
-                            AssingNewPrimaryWeapon(flagObjectCollider.GetComponent<ItemFlag>().weaponFlag);
+                            AssingNewWeapon(flagObjectCollider.GetComponent<ItemFlag>().weaponFlag);
+                            switch (isWeaponPrimary)
+                            {
+                                case true:
+                                    if (hasPrimaryWeapon)
+                                        flagObjectCollider.gameObject.GetComponent<ItemFlag>().weaponFlag =
+                                            currentPrimaryWeapon;
+                                    else
+                                        Destroy(flagObjectCollider.gameObject);
+                                    break;
+                                case false:
+                                    if (hasSecondaryWeapon)
+                                        flagObjectCollider.gameObject.GetComponent<ItemFlag>().weaponFlag =
+                                            currentSecondaryWeapon;
+                                    else
+                                        Destroy(flagObjectCollider.gameObject);
+                                    break;
+                            }
+
                             break;
                     }
 
-                    if (hasPrimaryWeapon)
-                        flagObjectCollider.gameObject.GetComponent<ItemFlag>().weaponFlag = currentPrimaryWeapon;
-                    else
-                        Destroy(flagObjectCollider.gameObject);
+
                     secondsBetweenWeaponSwap = maximumSecondsBetweenWeaponSwap;
                 }
+
                 break;
             case false:
                 secondsBetweenWeaponSwap -= Time.deltaTime;
                 break;
         }
-        
     }
 
     private Vector3 CalculateCrosshairPosition()
@@ -439,11 +457,21 @@ public class PlayerAction : MonoBehaviour
         timeBtwChakraRegeneratingProcedure = maximumTimeBtwChakraRegeneratingProcedure;
     }
 
-    public void AssingNewPrimaryWeapon(WeaponTemplate _primaryWeapon)
+    public void AssingNewWeapon(WeaponTemplate _newWeapon)
     {
-        activePrimaryWeapon = _primaryWeapon;
-        GameObject _uiGameObject = GameObject.FindGameObjectWithTag("UI");
-        _uiGameObject.GetComponent<UIManager>().ReplacePrimaryWeaponUIIcon(activePrimaryWeapon.weaponSprite);
+        var _uiGameObject = GameObject.FindGameObjectWithTag("UI").GetComponent<UIManager>();
+        bool _isPrimaryWeapon = _newWeapon.isPrimaryWeapon;
+        switch (_isPrimaryWeapon)
+        {
+            case true:
+                activePrimaryWeapon = _newWeapon;
+                _uiGameObject.ReplacePrimaryWeaponUIIcon(activePrimaryWeapon.weaponSprite);
+                break;
+            case false:
+                activeSecondaryWeapon = _newWeapon;
+                _uiGameObject.ReplaceSecondaryWeaponUIIcon(activeSecondaryWeapon.weaponSprite);
+                break;
+        }
     }
 
     private void OnDrawGizmosSelected()

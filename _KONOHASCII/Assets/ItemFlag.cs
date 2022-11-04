@@ -20,7 +20,7 @@ public class ItemFlag : MonoBehaviour
         //Determines which item, the flag contains
         int _flagType = 0;
         if (weaponFlag)
-            _flagType = weaponFlag.isPrimaryWeapon ? 1 : 2;
+            _flagType = 1;
 
         return _flagType;
     }
