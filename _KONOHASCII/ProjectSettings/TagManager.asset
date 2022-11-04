@@ -11,6 +11,7 @@ TagManager:
   - PrimaryWeapon
   - Drone
   - UI
+  - Flag
   layers:
   - Default
   - TransparentFX

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class PlayerAction : MonoBehaviour
@@ -22,6 +23,12 @@ public class PlayerAction : MonoBehaviour
     [Space] public bool isCombo;
     [SerializeField] private bool canProceedWithCombo;
     public float punchAnimationTimeLeft;
+    [Space, SerializeField] private bool isTouchingFlag;
+    private Collider2D flagObjectCollider;
+
+    [Space] public float maximumSecondsBetweenWeaponSwap;
+
+    private float secondsBetweenWeaponSwap;
 
     [Tooltip("Secondary weapon is always throwable. Like Shuriken")]
     public WeaponTemplate activeSecondaryWeaponTemplate;
@@ -62,11 +69,6 @@ public class PlayerAction : MonoBehaviour
     [Space(20f)] [Header("Layermasks and Button mapping")]
     public LayerMask enemylayer;
 
-    [Space] public KeyCode attackKeycode;
-    public KeyCode rangeAttackKeycode;
-    public KeyCode weaponSwapKeycode;
-    public KeyCode blockKeyCode;
-
     private void Start()
     {
         FetchRudimentaryValues();
@@ -93,6 +95,7 @@ public class PlayerAction : MonoBehaviour
     private void LateUpdate()
     {
         shadowPosition = CalculateShadowPosition(transform);
+        EngageWithItemFlag();
     }
 
     private void FixedUpdate()
@@ -115,6 +118,7 @@ public class PlayerAction : MonoBehaviour
         crosshairGameObject.transform.position = CalculateCrosshairPosition();
         crosshairGameObject.GetComponent<SpriteRenderer>().sprite = crosshairSprite;
         weaponContainer = gamemanager.GetComponent<Gamemanager>().weapon_container;
+        secondsBetweenWeaponSwap = maximumSecondsBetweenWeaponSwap;
     }
 
     private void PrimaryShortRangeAttack()
@@ -253,6 +257,38 @@ public class PlayerAction : MonoBehaviour
         crosshairGameObject.transform.position = CalculateCrosshairPosition();
     }
 
+    private void EngageWithItemFlag()
+    {
+        switch (secondsBetweenWeaponSwap <= 0)
+        {
+            case true:
+                if (playerMovement.pickUpButton && isTouchingFlag)
+                {
+                    int flagNumber = flagObjectCollider.GetComponent<ItemFlag>().FetchFlagType();
+                    bool hasPrimaryWeapon = activePrimaryWeapon != null;
+                    var currentPrimaryWeapon = activePrimaryWeapon;
+
+                    switch (flagNumber)
+                    {
+                        case 1:
+                            AssingNewPrimaryWeapon(flagObjectCollider.GetComponent<ItemFlag>().weaponFlag);
+                            break;
+                    }
+
+                    if (hasPrimaryWeapon)
+                        flagObjectCollider.gameObject.GetComponent<ItemFlag>().weaponFlag = currentPrimaryWeapon;
+                    else
+                        Destroy(flagObjectCollider.gameObject);
+                    secondsBetweenWeaponSwap = maximumSecondsBetweenWeaponSwap;
+                }
+                break;
+            case false:
+                secondsBetweenWeaponSwap -= Time.deltaTime;
+                break;
+        }
+        
+    }
+
     private Vector3 CalculateCrosshairPosition()
     {
         castWeaponAngle = CalculateCrosshairYAngle(castWeaponAngle, false);
@@ -318,8 +354,8 @@ public class PlayerAction : MonoBehaviour
     {
         //Invert fuck shit
         _crosshairYAngle += _isInvert
-            ? -playerMovement.mouseYAxisInput * crosshairVisualSpeed * Time.deltaTime 
-            : playerMovement.mouseYAxisInput * crosshairVisualSpeed* Time.deltaTime;
+            ? -playerMovement.mouseYAxisInput * crosshairVisualSpeed * Time.deltaTime
+            : playerMovement.mouseYAxisInput * crosshairVisualSpeed * Time.deltaTime;
         _crosshairYAngle = Mathf.Clamp(_crosshairYAngle, -maximumCastWeaponAngle, maximumCastWeaponAngle);
 
         return _crosshairYAngle;
@@ -430,6 +466,14 @@ public class PlayerAction : MonoBehaviour
             col.GetComponent<EnemyBehavior>().TakeInjury(kickDamage);
         }
 
+        if (col.CompareTag("Flag"))
+        {
+            var newFlag = col.GetComponent<ItemFlag>();
+            newFlag.EnablePickUpPrompt(true);
+            flagObjectCollider = col;
+            isTouchingFlag = true;
+        }
+
         if (col.CompareTag("Weapon") && col.GetComponent<SecondaryWeaponContainer>())
         {
             switch (col.GetComponent<SecondaryWeaponContainer>().canBePickedUp)
@@ -442,33 +486,15 @@ public class PlayerAction : MonoBehaviour
                     break;
             }
         }
-
-        switch (activePrimaryWeapon != null)
-        {
-            case true:
-                // if (col.CompareTag("PrimaryWeapon") && Input.GetKeyDown(weaponSwapKeycode))
-                // {
-                //     AssingNewPrimaryWeapon(col.GetComponent<PrimaryWeaponContainer>().primaryWeapon);
-                //     Destroy(col.gameObject);
-                // }
-
-                break;
-            case false:
-                if (col.CompareTag("PrimaryWeapon"))
-                {
-                    AssingNewPrimaryWeapon(col.GetComponent<PrimaryWeaponContainer>().primaryWeapon);
-                    Destroy(col.gameObject);
-                }
-
-                break;
-        }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("PrimaryWeapon"))
+        if (other.CompareTag("Flag"))
         {
-            //Set UI feedback disabled
+            ItemFlag newFlag = other.GetComponent<ItemFlag>();
+            newFlag.EnablePickUpPrompt(false);
+            isTouchingFlag = false;
         }
     }
 }

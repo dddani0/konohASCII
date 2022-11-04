@@ -22,6 +22,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private bool isPressingJump;
     [SerializeField] private bool isJumpExecuted;
     [SerializeField] private bool isWallGrabPressed;
+    public bool pickUpButton;
     public Rigidbody2D rigidbody2D;
 
     [Header("Resources")] public PlayerAnimation playerAnimation;
@@ -70,7 +71,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float currentAcceleration;
 
     [Space(20f), Header("Smooth jump movement")] [Tooltip("The height, the player can achieve with jump")]
-    //GMTK
     public float jumpHeight; //1300
 
     [SerializeField] private float jumpSpeed;
@@ -81,8 +81,10 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 newGravity;
     public float gravityMultiplier;
     public float downwardMovementMultiplier;
+
     public float jumpCutOff;
 
+    //GMTK end
     [Space(20f)] [Header("Advanced movement agility")] [Range(1f, 5f)]
     public float wallcheck_height_size;
 
@@ -178,8 +180,10 @@ public class PlayerMovement : MonoBehaviour
                         maximumSpeed = currentDeceleration * Time.deltaTime;
                         break;
                 }
+
                 break;
         }
+
         currentVelocity.x = Mathf.MoveTowards(currentVelocity.x, desiredVelocity.x, maximumSpeed);
         rigidbody2D.velocity = currentVelocity;
     }
@@ -190,7 +194,7 @@ public class PlayerMovement : MonoBehaviour
         switch (isJumpExecuted && !playerAction.isBusy && isGrounded)
         {
             case true:
-                playerAnimation.SetAnimationState("jump",playerAnimation.defaultAnimator);
+                playerAnimation.SetAnimationState("jump", playerAnimation.defaultAnimator);
                 jumpSpeed = Mathf.Sqrt(-2f * Physics2D.gravity.y * rigidbody2D.gravityScale * jumpHeight);
                 if (currentVelocity.y > 0f)
                 {
@@ -247,6 +251,14 @@ public class PlayerMovement : MonoBehaviour
     private void OnDisable()
     {
         playerMovementInput.Disable();
+    }
+
+    public void FetchPickupInput(InputAction.CallbackContext context)
+    {
+        if (context.started)
+            pickUpButton = true;
+        else if (context.canceled)
+            pickUpButton = false;
     }
 
     public void InputWallGrab(InputAction.CallbackContext context)
@@ -325,7 +337,7 @@ public class PlayerMovement : MonoBehaviour
         bool _canWallBeGripped = wallcol.Length > 0 && _isJumpAvailable == false;
         return _canWallBeGripped;
     }
-    
+
     private Vector2 CalculateDesiredVelocity(float _direction, float _peakVelocityValue)
     {
         //GMTK

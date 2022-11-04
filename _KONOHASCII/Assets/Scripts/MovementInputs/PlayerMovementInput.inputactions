@@ -36,6 +36,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Item Pick Up",
+                    "type": "Button",
+                    "id": "7d0bc8a8-c0b0-4163-8ca0-f706fe3904b8",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -113,6 +121,17 @@
                     "processors": "Clamp(min=-1,max=1)",
                     "groups": "",
                     "action": "Mouse",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fd6a18ae-f562-4a3d-b820-51a26c242463",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Item Pick Up",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
