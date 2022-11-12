@@ -17,6 +17,7 @@ MonoBehaviour:
   weaponAnimatorController: {fileID: 0}
   damage: 70
   isRange: 1
+  isPrimaryWeapon: 0
   weaponSpeed: 50
-  isWeaponFlying: 0
+  ammunition: 8
   animationDelay: 1

@@ -57,6 +57,14 @@ public class @PlayerMovementInput : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""08565fd3-b96d-41d1-a4e7-ff2c14b0c0fc"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -147,6 +155,17 @@ public class @PlayerMovementInput : IInputActionCollection, IDisposable
                     ""action"": ""Item Pick Up"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5acf0994-7106-409e-b0f2-b5936d575e76"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -160,6 +179,7 @@ public class @PlayerMovementInput : IInputActionCollection, IDisposable
         m_PlayableCharacter_Mouse = m_PlayableCharacter.FindAction("Mouse", throwIfNotFound: true);
         m_PlayableCharacter_Wallgrab = m_PlayableCharacter.FindAction("Wall grab", throwIfNotFound: true);
         m_PlayableCharacter_ItemPickUp = m_PlayableCharacter.FindAction("Item Pick Up", throwIfNotFound: true);
+        m_PlayableCharacter_Pause = m_PlayableCharacter.FindAction("Pause", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -214,6 +234,7 @@ public class @PlayerMovementInput : IInputActionCollection, IDisposable
     private readonly InputAction m_PlayableCharacter_Mouse;
     private readonly InputAction m_PlayableCharacter_Wallgrab;
     private readonly InputAction m_PlayableCharacter_ItemPickUp;
+    private readonly InputAction m_PlayableCharacter_Pause;
     public struct PlayableCharacterActions
     {
         private @PlayerMovementInput m_Wrapper;
@@ -223,6 +244,7 @@ public class @PlayerMovementInput : IInputActionCollection, IDisposable
         public InputAction @Mouse => m_Wrapper.m_PlayableCharacter_Mouse;
         public InputAction @Wallgrab => m_Wrapper.m_PlayableCharacter_Wallgrab;
         public InputAction @ItemPickUp => m_Wrapper.m_PlayableCharacter_ItemPickUp;
+        public InputAction @Pause => m_Wrapper.m_PlayableCharacter_Pause;
         public InputActionMap Get() { return m_Wrapper.m_PlayableCharacter; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -247,6 +269,9 @@ public class @PlayerMovementInput : IInputActionCollection, IDisposable
                 @ItemPickUp.started -= m_Wrapper.m_PlayableCharacterActionsCallbackInterface.OnItemPickUp;
                 @ItemPickUp.performed -= m_Wrapper.m_PlayableCharacterActionsCallbackInterface.OnItemPickUp;
                 @ItemPickUp.canceled -= m_Wrapper.m_PlayableCharacterActionsCallbackInterface.OnItemPickUp;
+                @Pause.started -= m_Wrapper.m_PlayableCharacterActionsCallbackInterface.OnPause;
+                @Pause.performed -= m_Wrapper.m_PlayableCharacterActionsCallbackInterface.OnPause;
+                @Pause.canceled -= m_Wrapper.m_PlayableCharacterActionsCallbackInterface.OnPause;
             }
             m_Wrapper.m_PlayableCharacterActionsCallbackInterface = instance;
             if (instance != null)
@@ -266,6 +291,9 @@ public class @PlayerMovementInput : IInputActionCollection, IDisposable
                 @ItemPickUp.started += instance.OnItemPickUp;
                 @ItemPickUp.performed += instance.OnItemPickUp;
                 @ItemPickUp.canceled += instance.OnItemPickUp;
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
             }
         }
     }
@@ -277,5 +305,6 @@ public class @PlayerMovementInput : IInputActionCollection, IDisposable
         void OnMouse(InputAction.CallbackContext context);
         void OnWallgrab(InputAction.CallbackContext context);
         void OnItemPickUp(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
     }
 }

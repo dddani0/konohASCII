@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayableCharacterTemplate : ScriptableObject
 {
     public string playerName;
+    [Space] [TextArea] public string characterDescription;
     [Header("Player action values")] public int playerHealth;
 
     [Tooltip("Value should be atleast 1250")]

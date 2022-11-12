@@ -117,7 +117,7 @@ public class PlayerAction : MonoBehaviour
         intervalBtwChakraRegeneration = maximumIntervalBtwChakraRegeneration;
         crosshairGameObject.transform.position = CalculateCrosshairPosition();
         crosshairGameObject.GetComponent<SpriteRenderer>().sprite = crosshairSprite;
-        weaponContainer = gamemanager.GetComponent<Gamemanager>().weapon_container;
+        weaponContainer = gamemanager.GetComponent<Gamemanager>().weaponEntity;
         secondsBetweenWeaponSwap = maximumSecondsBetweenWeaponSwap;
     }
 

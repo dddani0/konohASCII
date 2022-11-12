@@ -13,7 +13,7 @@ public class UIManager : MonoBehaviour
     private GameObject playerGameObject;
     private WeaponTemplate primaryWeapon;
     private WeaponTemplate secondaryWeapon;
-    
+
     [Tooltip("Filled image, which corresponds to the player heath. Works as inverse.")]
     public Image playerHeatlhBar;
 
@@ -23,7 +23,7 @@ public class UIManager : MonoBehaviour
     [Tooltip("Icon, which corresponds to the current active secondary weapon.")]
     public Image secondaryWeaponIcon;
 
-    public Text secondaryWeaponUIText;
+    public TMPro.TextMeshProUGUI secondaryWeaponUIText;
 
     [Space, Tooltip("Null sprite is temporary sprite, which stays active until it can be replaced.")]
     public Sprite nullSprite;
@@ -47,7 +47,6 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
-        
     }
 
     private void LateUpdate()
@@ -60,16 +59,17 @@ public class UIManager : MonoBehaviour
     private void FetchRudimentaryValues()
     {
         gameManager = GameObject.FindGameObjectWithTag("Gamemanager");
-        for (int i = 0; i < gameManager.GetComponent<Gamemanager>().entityList.Count; i++)
-        {
-            GameObject temporaryEntity = gameManager.GetComponent<Gamemanager>().entityList[i];
-            if (temporaryEntity.name == "Player")
-                playerGameObject = temporaryEntity;
-            i = gameManager.GetComponent<Gamemanager>().entityList.Count;
-        }
+
+        playerGameObject = GameObject.FindGameObjectWithTag("Player");
         secondaryWeaponBranch.transform.position = secondaryWeaponBranchStartPosition.transform.position;
-        primaryWeapon = playerGameObject.GetComponent<PlayerAction>().activePrimaryWeapon;
-        secondaryWeapon = playerGameObject.GetComponent<PlayerAction>().activeSecondaryWeapon;
+        if (playerGameObject.GetComponent<PlayerAction>().activePrimaryWeapon !=
+            null)
+            primaryWeapon = playerGameObject.GetComponent<PlayerAction>()
+                .activePrimaryWeapon;
+        if (playerGameObject.GetComponent<PlayerAction>().activeSecondaryWeapon !=
+            null)
+            secondaryWeapon = playerGameObject.GetComponent<PlayerAction>()
+                .activeSecondaryWeapon;
     }
 
     private void SetSecondaryWeaponUI()
@@ -77,8 +77,7 @@ public class UIManager : MonoBehaviour
         secondaryWeaponIcon.sprite = nullSprite;
         secondaryWeaponUIText.text = "".ToString();
     }
-    
-    // Start is called before the first frame update
+
     public void ReplacePrimaryWeaponUIIcon(Sprite _replacementSprite)
     {
         primaryWeaponIcon.sprite = _replacementSprite;
@@ -106,7 +105,6 @@ public class UIManager : MonoBehaviour
 
     private bool IsSecondaryWeaponEquipped(bool _secondaryWeaponState)
     {
-
         return false;
     }
 

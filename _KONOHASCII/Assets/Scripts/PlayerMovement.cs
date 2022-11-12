@@ -290,6 +290,12 @@ public class PlayerMovement : MonoBehaviour
             isPressingJump = false;
     }
 
+    public void FetchPauseMenuInput(InputAction.CallbackContext context)
+    {
+        if (context.started)
+            playerAction.gamemanager.GetComponent<Gamemanager>().isGamePaused = true;
+    }
+
     private bool DeterminePlayerMotionState()
     {
         //Determines whether the player holds down the "movement" keys.

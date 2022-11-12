@@ -12,6 +12,7 @@ TagManager:
   - Drone
   - UI
   - Flag
+  - PauseUI
   layers:
   - Default
   - TransparentFX
