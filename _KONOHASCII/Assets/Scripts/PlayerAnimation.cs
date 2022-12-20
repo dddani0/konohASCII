@@ -118,8 +118,9 @@ public class PlayerAnimation : MonoBehaviour
 
     public void ACALLANIMATIONEVENTSignalComboFollowUp()
     {
-        //Tells the playeraction script, if the player can proceed with combo
+        //Signals the playeraction script, that the player can follow up the combo.
         canFollowUpCombo = true;
+        print("lófasz");
     }
 
     public void CALLANIMATIONEVENTSignalComboOff()

@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerAction : MonoBehaviour
 {
     [Header("Resources")] public GameObject gamemanager;
     public PlayerMovement playerMovement;
     public PlayerAnimation playerAnimation;
-
     [Space(20f)] public bool isBlocking;
+    public bool isPrimaryAttack;
+    public bool isSecondaryAttack;
 
     [Header("Weapon_Attribute")]
     [SerializeField]
@@ -123,38 +120,36 @@ public class PlayerAction : MonoBehaviour
 
     private void PrimaryShortRangeAttack()
     {
-        switch (playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).IsName("fall") ||
-                playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).IsName("jump"))
+        switch (CheckMidAirState())
         {
             case true:
-                // if (Input.GetKey(attackKeycode) && !isBusy)
-                // {
-                //     playerAnimation.SetAnimationState("airAttack", playerAnimation.defaultAnimator);
-                // }
+                if (isPrimaryAttack && !isBusy)
+                    playerAnimation.SetAnimationState("airAttack", playerAnimation.defaultAnimator);
 
                 break;
             case false:
                 switch (isCombo)
                 {
                     case true:
+
                         switch (activePrimaryWeapon != null)
                         {
                             case true:
-                                // if (Input.GetKey(attackKeycode) && canProceedWithCombo)
-                                // {
-                                //     playerAnimation.SetAnimationState("attack", playerAnimation.defaultAnimator);
-                                //     punchAnimationTimeLeft =
-                                //         playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).length / 2;
-                                // }
+                                if (isPrimaryAttack && canProceedWithCombo)
+                                {
+                                    playerAnimation.SetAnimationState("attack", playerAnimation.defaultAnimator);
+                                    punchAnimationTimeLeft =
+                                        playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).length / 2;
+                                }
 
                                 break;
                             case false:
-                                // if (Input.GetKey(attackKeycode) && canProceedWithCombo)
-                                // {
-                                //     playerAnimation.SetAnimationState("weapon_attack", playerAnimation.defaultAnimator);
-                                //     punchAnimationTimeLeft =
-                                //         playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).length / 2;
-                                // }
+                                if (isPrimaryAttack && canProceedWithCombo)
+                                {
+                                    playerAnimation.SetAnimationState("weapon_attack", playerAnimation.defaultAnimator);
+                                    punchAnimationTimeLeft =
+                                        playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).length / 2;
+                                }
 
                                 break;
                         }
@@ -164,23 +159,23 @@ public class PlayerAction : MonoBehaviour
                         switch (activePrimaryWeapon == null)
                         {
                             case true:
-                                // if (Input.GetKey(attackKeycode) && !isBusy)
-                                // {
-                                //     playerAnimation.SetAnimationState("attack", playerAnimation.defaultAnimator);
-                                //     isCombo = true;
-                                //     punchAnimationTimeLeft =
-                                //         playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).length / 2;
-                                // }
+                                if (isPrimaryAttack && !isBusy)
+                                {
+                                    playerAnimation.SetAnimationState("attack", playerAnimation.defaultAnimator);
+                                    isCombo = true;
+                                    punchAnimationTimeLeft =
+                                        playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).length / 2;
+                                }
 
                                 break;
                             case false:
-                                // if (Input.GetKey(attackKeycode) && !isBusy)
-                                // {
-                                //     playerAnimation.SetAnimationState("weapon_attack", playerAnimation.defaultAnimator);
-                                //     isCombo = true;
-                                //     punchAnimationTimeLeft =
-                                //         playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).length / 2;
-                                // }
+                                if (isPrimaryAttack && !isBusy && fetchPrimaryWeaponStatus())
+                                {
+                                    playerAnimation.SetAnimationState("weapon_attack", playerAnimation.defaultAnimator);
+                                    isCombo = true;
+                                    punchAnimationTimeLeft =
+                                        playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).length / 2;
+                                }
 
                                 break;
                         }
@@ -196,28 +191,26 @@ public class PlayerAction : MonoBehaviour
     {
         //Creates instance of weapon prefab.
         //Modifies said instance from selected asset.
-
-        //if (Input.GetKey(rangeAttackKeycode) && !isBusy &&
-        //     !playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).IsName("wallgrip"))
-        // {
-        //     playerAnimation.SetAnimationState("range_attack", playerAnimation.defaultAnimator);
-        //     GameObject _temporaryWeapon;
-        //     switch (isFacingRight)
-        //     {
-        //         case true:
-        //             _temporaryWeapon = Instantiate(weaponContainer,
-        //                 weaponPosition[0].position, weaponPosition[0].rotation);
-        //             _temporaryWeapon.GetComponent<SecondaryWeaponContainer>()
-        //                 .AssignNewWeapon(activeSecondaryWeaponTemplate, CalculateWeaponAngle(), 1);
-        //             break;
-        //         case false:
-        //             _temporaryWeapon = Instantiate(weaponContainer,
-        //                 weaponPosition[1].position, weaponPosition[1].rotation);
-        //             _temporaryWeapon.GetComponent<SecondaryWeaponContainer>()
-        //                 .AssignNewWeapon(activeSecondaryWeaponTemplate, CalculateWeaponAngle(), -1);
-        //             break;
-        //     }
-        // }
+        if (signalSecondaryWeaponUsage())
+        {
+            playerAnimation.SetAnimationState("range_attack", playerAnimation.defaultAnimator);
+            GameObject _temporaryWeapon;
+            switch (isFacingRight)
+            {
+                case true:
+                    _temporaryWeapon = Instantiate(weaponContainer,
+                        weaponPosition[0].position, weaponPosition[0].rotation);
+                    _temporaryWeapon.GetComponent<SecondaryWeaponContainer>()
+                        .AssignNewWeapon(activeSecondaryWeapon, CalculateWeaponAngle(), 1);
+                    break;
+                case false:
+                    _temporaryWeapon = Instantiate(weaponContainer,
+                        weaponPosition[1].position, weaponPosition[1].rotation);
+                    _temporaryWeapon.GetComponent<SecondaryWeaponContainer>()
+                        .AssignNewWeapon(activeSecondaryWeapon, CalculateWeaponAngle(), -1);
+                    break;
+            }
+        }
     }
 
     private void ChakraBlock()
@@ -349,6 +342,21 @@ public class PlayerAction : MonoBehaviour
         return _shadowPosition;
     }
 
+    private bool signalSecondaryWeaponUsage()
+    {
+        //Can the player attack?
+        bool _canThePlayerUseSecondaryAttack = isSecondaryAttack && !isBusy &&
+                                               !playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0)
+                                                   .IsName("wallgrip") && activeSecondaryWeapon != null;
+        return _canThePlayerUseSecondaryAttack;
+    }
+
+    private bool fetchPrimaryWeaponStatus()
+    {
+        bool _doesPlayerHavePrimaryWeapon = activePrimaryWeapon;
+        return _doesPlayerHavePrimaryWeapon;
+    }
+
     private float CalculateWeaponAngle()
     {
         Transform weaponStartPositionTransform = isFacingRight ? weaponPosition[1] : weaponPosition[0];
@@ -378,6 +386,13 @@ public class PlayerAction : MonoBehaviour
         return _crosshairYAngle;
     }
 
+    private bool CheckMidAirState()
+    {
+        bool _isInMidair = playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).IsName("fall") ||
+                           playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).IsName("jump");
+        return _isInMidair;
+    }
+
     private bool CheckBlockState()
     {
         //var isPressingBlockKey = Input.GetKey(blockKeyCode);
@@ -403,14 +418,13 @@ public class PlayerAction : MonoBehaviour
 
     private bool CheckComboFollowUpState()
     {
-        //
-        bool isLastAnimationState =
-            playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).IsName("ThirdPunch");
-        bool isIdleAnimationState = playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle");
-        bool hasPunchTimeLeft = punchAnimationTimeLeft < 0;
-        bool hasComboFollowUpAllowed = playerAnimation.canFollowUpCombo;
+        bool _isIdleAnimationState = playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle");
+        bool _hasPunchTimeLeft = punchAnimationTimeLeft < 0;
+        bool _hasComboFollowUpAllowed = playerAnimation.canFollowUpCombo;
+        bool _comboFollowUp = !_isIdleAnimationState && _hasPunchTimeLeft &&
+                              _hasComboFollowUpAllowed;
 
-        return !isLastAnimationState && !isIdleAnimationState && hasPunchTimeLeft && hasComboFollowUpAllowed;
+        return _comboFollowUp;
     }
 
     private void CheckBusyBooleanStatement()
@@ -419,6 +433,8 @@ public class PlayerAction : MonoBehaviour
 
         if (isBusy || isStaggered) //freeze if staggered or action is taking place
             playerMovement.ChangeRigidbodyState(true, false, playerMovement.rigidbody2D);
+        else
+            playerMovement.ChangeRigidbodyState(false, false, playerMovement.rigidbody2D);
     }
 
     public void TakeInjury(int _damage)
@@ -468,7 +484,8 @@ public class PlayerAction : MonoBehaviour
                 break;
             case false:
                 activeSecondaryWeapon = _newWeapon;
-                _uiGameObject.ReplaceSecondaryWeaponUIIcon(activeSecondaryWeapon.weaponSprite, activeSecondaryWeapon.ammunition.ToString());
+                _uiGameObject.ReplaceSecondaryWeaponUIIcon(activeSecondaryWeapon.weaponSprite,
+                    activeSecondaryWeapon.ammunition.ToString());
                 break;
         }
     }
