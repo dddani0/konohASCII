@@ -65,6 +65,22 @@ public class @PlayerMovementInput : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Primary Attack"",
+                    ""type"": ""Button"",
+                    ""id"": ""8ef809b8-ffe3-4307-a4b4-96cd3aa45682"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""SecondaryAttack"",
+                    ""type"": ""Button"",
+                    ""id"": ""5e0f8db5-66d9-4645-a187-51269b6c4888"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -166,6 +182,28 @@ public class @PlayerMovementInput : IInputActionCollection, IDisposable
                     ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b0676f5d-b462-4f81-8321-e98682ba922c"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Primary Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""222febfc-ec0c-4877-a94f-06ec77dcb11d"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SecondaryAttack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -180,6 +218,8 @@ public class @PlayerMovementInput : IInputActionCollection, IDisposable
         m_PlayableCharacter_Wallgrab = m_PlayableCharacter.FindAction("Wall grab", throwIfNotFound: true);
         m_PlayableCharacter_ItemPickUp = m_PlayableCharacter.FindAction("Item Pick Up", throwIfNotFound: true);
         m_PlayableCharacter_Pause = m_PlayableCharacter.FindAction("Pause", throwIfNotFound: true);
+        m_PlayableCharacter_PrimaryAttack = m_PlayableCharacter.FindAction("Primary Attack", throwIfNotFound: true);
+        m_PlayableCharacter_SecondaryAttack = m_PlayableCharacter.FindAction("SecondaryAttack", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -235,6 +275,8 @@ public class @PlayerMovementInput : IInputActionCollection, IDisposable
     private readonly InputAction m_PlayableCharacter_Wallgrab;
     private readonly InputAction m_PlayableCharacter_ItemPickUp;
     private readonly InputAction m_PlayableCharacter_Pause;
+    private readonly InputAction m_PlayableCharacter_PrimaryAttack;
+    private readonly InputAction m_PlayableCharacter_SecondaryAttack;
     public struct PlayableCharacterActions
     {
         private @PlayerMovementInput m_Wrapper;
@@ -245,6 +287,8 @@ public class @PlayerMovementInput : IInputActionCollection, IDisposable
         public InputAction @Wallgrab => m_Wrapper.m_PlayableCharacter_Wallgrab;
         public InputAction @ItemPickUp => m_Wrapper.m_PlayableCharacter_ItemPickUp;
         public InputAction @Pause => m_Wrapper.m_PlayableCharacter_Pause;
+        public InputAction @PrimaryAttack => m_Wrapper.m_PlayableCharacter_PrimaryAttack;
+        public InputAction @SecondaryAttack => m_Wrapper.m_PlayableCharacter_SecondaryAttack;
         public InputActionMap Get() { return m_Wrapper.m_PlayableCharacter; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -272,6 +316,12 @@ public class @PlayerMovementInput : IInputActionCollection, IDisposable
                 @Pause.started -= m_Wrapper.m_PlayableCharacterActionsCallbackInterface.OnPause;
                 @Pause.performed -= m_Wrapper.m_PlayableCharacterActionsCallbackInterface.OnPause;
                 @Pause.canceled -= m_Wrapper.m_PlayableCharacterActionsCallbackInterface.OnPause;
+                @PrimaryAttack.started -= m_Wrapper.m_PlayableCharacterActionsCallbackInterface.OnPrimaryAttack;
+                @PrimaryAttack.performed -= m_Wrapper.m_PlayableCharacterActionsCallbackInterface.OnPrimaryAttack;
+                @PrimaryAttack.canceled -= m_Wrapper.m_PlayableCharacterActionsCallbackInterface.OnPrimaryAttack;
+                @SecondaryAttack.started -= m_Wrapper.m_PlayableCharacterActionsCallbackInterface.OnSecondaryAttack;
+                @SecondaryAttack.performed -= m_Wrapper.m_PlayableCharacterActionsCallbackInterface.OnSecondaryAttack;
+                @SecondaryAttack.canceled -= m_Wrapper.m_PlayableCharacterActionsCallbackInterface.OnSecondaryAttack;
             }
             m_Wrapper.m_PlayableCharacterActionsCallbackInterface = instance;
             if (instance != null)
@@ -294,6 +344,12 @@ public class @PlayerMovementInput : IInputActionCollection, IDisposable
                 @Pause.started += instance.OnPause;
                 @Pause.performed += instance.OnPause;
                 @Pause.canceled += instance.OnPause;
+                @PrimaryAttack.started += instance.OnPrimaryAttack;
+                @PrimaryAttack.performed += instance.OnPrimaryAttack;
+                @PrimaryAttack.canceled += instance.OnPrimaryAttack;
+                @SecondaryAttack.started += instance.OnSecondaryAttack;
+                @SecondaryAttack.performed += instance.OnSecondaryAttack;
+                @SecondaryAttack.canceled += instance.OnSecondaryAttack;
             }
         }
     }
@@ -306,5 +362,7 @@ public class @PlayerMovementInput : IInputActionCollection, IDisposable
         void OnWallgrab(InputAction.CallbackContext context);
         void OnItemPickUp(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
+        void OnPrimaryAttack(InputAction.CallbackContext context);
+        void OnSecondaryAttack(InputAction.CallbackContext context);
     }
 }

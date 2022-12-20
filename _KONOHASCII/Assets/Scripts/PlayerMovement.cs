@@ -253,6 +253,22 @@ public class PlayerMovement : MonoBehaviour
         playerMovementInput.Disable();
     }
 
+    public void FetchPrimaryAttackInput(InputAction.CallbackContext context)
+    {
+        if (context.started)
+            playerAction.isPrimaryAttack = true;
+        else if (context.canceled)
+            playerAction.isPrimaryAttack = false;
+    }
+
+    public void FetchSecondaryAttackInput(InputAction.CallbackContext context)
+    {
+        if (context.started)
+            playerAction.isSecondaryAttack = true;
+        else if (context.canceled)
+            playerAction.isSecondaryAttack = false;
+    }
+
     public void FetchPickupInput(InputAction.CallbackContext context)
     {
         if (context.started)
@@ -392,7 +408,7 @@ public class PlayerMovement : MonoBehaviour
         if (isGrippedActionTaken)
         {
             //rigidbody2D.constraints = RigidbodyConstraints2D.FreezePosition;
-            ChangeRigidbodyState(true, rigidbody2D);
+            //ChangeRigidbodyState(true, rigidbody2D);
             canGrip = false;
             isGripped = true;
             canJump = true;
