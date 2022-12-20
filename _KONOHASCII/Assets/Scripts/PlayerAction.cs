@@ -132,7 +132,7 @@ public class PlayerAction : MonoBehaviour
                 {
                     case true:
 
-                        switch (activePrimaryWeapon != null)
+                        switch (fetchIsPrimaryWeaponActive())
                         {
                             case true:
                                 if (isPrimaryAttack && canProceedWithCombo)
@@ -156,7 +156,7 @@ public class PlayerAction : MonoBehaviour
 
                         break;
                     case false:
-                        switch (activePrimaryWeapon == null)
+                        switch (fetchIsPrimaryWeaponActive())
                         {
                             case true:
                                 if (isPrimaryAttack && !isBusy)
@@ -169,7 +169,7 @@ public class PlayerAction : MonoBehaviour
 
                                 break;
                             case false:
-                                if (isPrimaryAttack && !isBusy && fetchPrimaryWeaponStatus())
+                                if (isPrimaryAttack && !isBusy)
                                 {
                                     playerAnimation.SetAnimationState("weapon_attack", playerAnimation.defaultAnimator);
                                     isCombo = true;
@@ -351,7 +351,7 @@ public class PlayerAction : MonoBehaviour
         return _canThePlayerUseSecondaryAttack;
     }
 
-    private bool fetchPrimaryWeaponStatus()
+    private bool fetchIsPrimaryWeaponActive()
     {
         bool _doesPlayerHavePrimaryWeapon = activePrimaryWeapon;
         return _doesPlayerHavePrimaryWeapon;
