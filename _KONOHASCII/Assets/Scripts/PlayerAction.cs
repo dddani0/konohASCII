@@ -81,7 +81,6 @@ public class PlayerAction : MonoBehaviour
         }
 
         shadow.transform.position = shadowPosition;
-        isBlocking = CheckBlockState();
         isFacingRight = CheckObjectOrientation();
         CheckBusyBooleanStatement();
         PrimaryShortRangeAttack();
@@ -393,11 +392,6 @@ public class PlayerAction : MonoBehaviour
         return _isInMidair;
     }
 
-    private bool CheckBlockState()
-    {
-        //var isPressingBlockKey = Input.GetKey(blockKeyCode);
-        return false;
-    }
 
     private bool CheckCanChakraRegenerate()
     {

@@ -269,6 +269,14 @@ public class PlayerMovement : MonoBehaviour
             playerAction.isSecondaryAttack = false;
     }
 
+    public void FetchBlockInput(InputAction.CallbackContext context)
+    {
+        if (context.started)
+            playerAction.isBlocking = true;
+        else if (context.canceled)
+            playerAction.isBlocking = false;
+    }
+
     public void FetchPickupInput(InputAction.CallbackContext context)
     {
         if (context.started)
