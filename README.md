@@ -39,6 +39,9 @@ The users who ripped said spritesheets, which I used for this project:
 - [Bonzai](http://sdb.neuropod.net)
 - [Bonai](http://sdb.neuropod.net)
 <br>
+The mission to credit every person who helped (consciously or otherwise) is ongoing. I promise when the project is finished, I'll do everything to credit everyone. You can help me out, and please tell me if I missed any!
+<br>
+<br>
 If you have any inquries about this or any of my other projects you can reach me at my email:<br>
 daniel.mikus03@gmail.com
 <br><br>
