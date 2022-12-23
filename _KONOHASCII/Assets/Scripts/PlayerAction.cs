@@ -104,6 +104,7 @@ public class PlayerAction : MonoBehaviour
 
     private void FetchRudimentaryValues()
     {
+        healthPoints = maximumHealthPoints;
         gamemanager = GameObject.FindGameObjectWithTag("Gamemanager").GetComponent<Gamemanager>();
         playerMovement = GetComponent<PlayerMovement>();
         playerAnimation = GetComponentInChildren<PlayerAnimation>();

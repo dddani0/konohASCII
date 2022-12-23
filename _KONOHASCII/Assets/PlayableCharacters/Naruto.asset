@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: Naruto
   m_EditorClassIdentifier: 
   playerName: Naruto
+  characterDescription: 
   playerHealth: 750
+  headshot: {fileID: 40699328708876873, guid: 670e1a373d3b31e4e99608472a08be80, type: 3}
   playerSpeed: 30
   chakraReserve: 12
   playerAnimatorOverrideController: {fileID: 22100000, guid: 560d7d85284a2706c93f5292d5116c5a, type: 2}

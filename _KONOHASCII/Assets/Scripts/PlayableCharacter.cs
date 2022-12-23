@@ -23,6 +23,8 @@ public class PlayableCharacter : MonoBehaviour
             playerAction.maximumChakra = _playableCharacterTemplate.chakraReserve;
             playerAnimatorOverrideController = _playableCharacterTemplate.playerAnimatorOverrideController;
             playerAction.playerAnimation.defaultAnimator.runtimeAnimatorController = playerAnimatorOverrideController;
+            GameObject.FindGameObjectWithTag("UI").GetComponent<UIManager>().playerPortrait.sprite =
+                _playableCharacterTemplate.headshot;
         }
         else
         {
