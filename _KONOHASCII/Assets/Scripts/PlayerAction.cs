@@ -2,7 +2,7 @@
 
 public class PlayerAction : MonoBehaviour
 {
-    [Header("Resources")] public GameObject gamemanager;
+    [Header("Resources")] public Gamemanager gamemanager;
     public PlayerMovement playerMovement;
     public PlayerAnimation playerAnimation;
     [Space(20f)] public bool isBlocking;
@@ -80,6 +80,7 @@ public class PlayerAction : MonoBehaviour
             //Checks if the current punch animation is on it's last animation ("ThirdPunch")
         }
 
+        UpdateHealthDisplay();
         shadow.transform.position = shadowPosition;
         isFacingRight = CheckObjectOrientation();
         CheckBusyBooleanStatement();
@@ -103,7 +104,7 @@ public class PlayerAction : MonoBehaviour
 
     private void FetchRudimentaryValues()
     {
-        gamemanager = GameObject.FindGameObjectWithTag("Gamemanager");
+        gamemanager = GameObject.FindGameObjectWithTag("Gamemanager").GetComponent<Gamemanager>();
         playerMovement = GetComponent<PlayerMovement>();
         playerAnimation = GetComponentInChildren<PlayerAnimation>();
         GetComponent<PlayableCharacter>()
@@ -298,6 +299,11 @@ public class PlayerAction : MonoBehaviour
         }
     }
 
+    private void UpdateHealthDisplay()
+    {
+        gamemanager.uiManager.playerHeatlhBar.fillAmount = fetchHealthBarProgress();
+    }
+
     private Vector3 CalculateCrosshairPosition()
     {
         castWeaponAngle = CalculateCrosshairYAngle(castWeaponAngle, false);
@@ -354,6 +360,12 @@ public class PlayerAction : MonoBehaviour
     {
         bool _doesPlayerHavePrimaryWeapon = activePrimaryWeapon;
         return _doesPlayerHavePrimaryWeapon;
+    }
+
+    private float fetchHealthBarProgress()
+    {
+        float _currentHealthBarBlanketValue = 1 - (healthPoints / maximumHealthPoints);
+        return _currentHealthBarBlanketValue;
     }
 
     private float CalculateWeaponAngle()

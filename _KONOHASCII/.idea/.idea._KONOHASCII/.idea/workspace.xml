@@ -4,13 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f509f050-b68b-46bb-891c-6810656fb82b" name="Changes" comment="">
+    <list default="true" id="f509f050-b68b-46bb-891c-6810656fb82b" name="Changes" comment="Chakra block visual is implemented.">
       <change beforePath="$PROJECT_DIR$/.idea/.idea._KONOHASCII/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea._KONOHASCII/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Player.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Player.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/MovementInputs/PlayerMovementInput.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/MovementInputs/PlayerMovementInput.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/MovementInputs/PlayerMovementInput.inputactions" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/MovementInputs/PlayerMovementInput.inputactions" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/GUI.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/GUI.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/PlayerAction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PlayerAction.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PlayerMovement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PlayerMovement.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,7 +17,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$/.." value="main" />
+        <entry key="$PROJECT_DIR$/.." value="feature/chakra_block" />
       </map>
     </option>
   </component>
@@ -190,7 +187,7 @@
       <workItem from="1670861379124" duration="3594000" />
       <workItem from="1671228789744" duration="86000" />
       <workItem from="1671534503694" duration="7355000" />
-      <workItem from="1671803614403" duration="1939000" />
+      <workItem from="1671803614403" duration="2991000" />
     </task>
     <task id="LOCAL-00001" summary="-Fixed movement, and jumping issues.">
       <created>1671564644944</created>
@@ -199,7 +196,14 @@
       <option name="project" value="LOCAL" />
       <updated>1671564644944</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Chakra block visual is implemented.">
+      <created>1671806846188</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1671806846188</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -213,7 +217,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="main" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
@@ -222,20 +238,21 @@
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="-Fixed movement, and jumping issues." />
-    <option name="LAST_COMMIT_MESSAGE" value="-Fixed movement, and jumping issues." />
+    <MESSAGE value="Chakra block visual is implemented." />
+    <option name="LAST_COMMIT_MESSAGE" value="Chakra block visual is implemented." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Scripts/PlayerAction.cs</url>
-          <line>171</line>
+          <line>172</line>
           <properties documentPath="D:\GITHUB\konohASCII\_KONOHASCII\Assets\Scripts\PlayerAction.cs" initialLine="172" containingFunctionPresentation="method 'PrimaryShortRangeAttack'">
             <startOffsets>
-              <option value="6939" />
+              <option value="6999" />
             </startOffsets>
             <endOffsets>
-              <option value="6940" />
+              <option value="7000" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="3" />

@@ -1070,11 +1070,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7248831842670079686, guid: 3e4617d23ba0de34aa621385934d474b, type: 3}
   m_PrefabInstance: {fileID: 7248831843988523013}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1549197125 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6071541914131084369, guid: 2567a6c7fcdbc0749a02c0d11a50b471, type: 3}
-  m_PrefabInstance: {fileID: 6071541912861109012}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1551328279
 GameObject:
   m_ObjectHideFlags: 0
@@ -1897,6 +1892,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1825151642}
     m_Modifications:
+    - target: {fileID: 1250655564736977679, guid: 5ad152cb23e21704ead4492d434775f3, type: 3}
+      propertyPath: m_FillAmount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1250655564736977679, guid: 5ad152cb23e21704ead4492d434775f3, type: 3}
+      propertyPath: m_FillOrigin
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1250655565434237357, guid: 5ad152cb23e21704ead4492d434775f3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1984,6 +1987,10 @@ PrefabInstance:
     - target: {fileID: 1250655565434237358, guid: 5ad152cb23e21704ead4492d434775f3, type: 3}
       propertyPath: m_Name
       value: GUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 1250655566005889078, guid: 5ad152cb23e21704ead4492d434775f3, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ad152cb23e21704ead4492d434775f3, type: 3}
@@ -2184,7 +2191,7 @@ PrefabInstance:
     - target: {fileID: 7248831842670079682, guid: 3e4617d23ba0de34aa621385934d474b, type: 3}
       propertyPath: gamemanager
       value: 
-      objectReference: {fileID: 1549197125}
+      objectReference: {fileID: 0}
     - target: {fileID: 7248831842670079686, guid: 3e4617d23ba0de34aa621385934d474b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
