@@ -9,6 +9,9 @@ public class PlayableCharacterTemplate : ScriptableObject
     [Space] [TextArea] public string characterDescription;
     [Header("Player action values")] public int playerHealth;
 
+    [Tooltip("Portrait headshot, which is dispalyed next to the health bar.")]
+    public Sprite headshot;
+
     [Tooltip("Value should be atleast 1250")]
     public float playerSpeed;
 

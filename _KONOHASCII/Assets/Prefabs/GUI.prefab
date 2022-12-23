@@ -468,6 +468,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameManager: {fileID: 0}
   playerHeatlhBar: {fileID: 1250655564736977679}
+  playerPortrait: {fileID: 1250655565069517073}
   primaryWeaponIcon: {fileID: 1250655565852119653}
   secondaryWeaponIcon: {fileID: 1250655564863846487}
   secondaryWeaponUIText: {fileID: 1897198237857480853}

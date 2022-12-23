@@ -17,6 +17,8 @@ public class UIManager : MonoBehaviour
     [Tooltip("Filled image, which corresponds to the player heath. Works as inverse.")]
     public Image playerHeatlhBar;
 
+    public Image playerPortrait;
+
     [Space, Tooltip("Icon, which corresponds to the current active primary weapon.")]
     public Image primaryWeaponIcon;
 
