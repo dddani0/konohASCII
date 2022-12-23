@@ -4,9 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f509f050-b68b-46bb-891c-6810656fb82b" name="Changes" comment="-Fixed movement, and jumping issues.">
+    <list default="true" id="f509f050-b68b-46bb-891c-6810656fb82b" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea._KONOHASCII/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea._KONOHASCII/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Player.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Player.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/MovementInputs/PlayerMovementInput.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/MovementInputs/PlayerMovementInput.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/MovementInputs/PlayerMovementInput.inputactions" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/MovementInputs/PlayerMovementInput.inputactions" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/PlayerAction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PlayerAction.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PlayerMovement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PlayerMovement.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,11 +36,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/49f4e7e791cc4fffacd88f729e2b1e4c128000/7d/94667d20/SetupCoroutine.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/49f4e7e791cc4fffacd88f729e2b1e4c128000/95/ac769c14/GameObject.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/fb001e01371b4adca20013e0ac7638963e2400/9f/6c662b28/IntPtr.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/GITHUB/konohASCII/_KONOHASCII/Assets/Scenes/Developer_Room.unity" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://D:/GITHUB/konohASCII/_KONOHASCII/Assets/Scripts/MovementInputs/PlayerMovementInput.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/GITHUB/konohASCII/_KONOHASCII/Assets/Scripts/PlayerAction.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/GITHUB/konohASCII/_KONOHASCII/Assets/Scripts/PlayerAction.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/GITHUB/konohASCII/_KONOHASCII/Assets/Scripts/PlayerAction.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.cinemachine@2.6.11/Runtime/Core/CinemachineVirtualCameraBase.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.inputsystem@1.0.2/InputSystem/Actions/InputAction.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.inputsystem@1.0.2/InputSystem/Actions/InputActionState.cs" root0="SKIP_HIGHLIGHTING" />
@@ -103,10 +103,10 @@
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="508">
+    <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" value="508" />
+      <option name="pid" />
       <option name="projectPathOnTarget" />
       <option name="selectedOptions">
         <list />
@@ -190,6 +190,7 @@
       <workItem from="1670861379124" duration="3594000" />
       <workItem from="1671228789744" duration="86000" />
       <workItem from="1671534503694" duration="7355000" />
+      <workItem from="1671803614403" duration="1939000" />
     </task>
     <task id="LOCAL-00001" summary="-Fixed movement, and jumping issues.">
       <created>1671564644944</created>
@@ -212,19 +213,7 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="FILTERS">
-                <map>
-                  <entry key="branch">
-                    <value>
-                      <list>
-                        <option value="feature/basic_attack" />
-                      </list>
-                    </value>
-                  </entry>
-                </map>
-              </option>
-            </State>
+            <State />
           </value>
         </entry>
       </map>
@@ -240,13 +229,13 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Scripts/PlayerAction.cs</url>
-          <line>172</line>
+          <line>171</line>
           <properties documentPath="D:\GITHUB\konohASCII\_KONOHASCII\Assets\Scripts\PlayerAction.cs" initialLine="172" containingFunctionPresentation="method 'PrimaryShortRangeAttack'">
             <startOffsets>
-              <option value="6979" />
+              <option value="6939" />
             </startOffsets>
             <endOffsets>
-              <option value="6980" />
+              <option value="6940" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="3" />

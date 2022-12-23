@@ -81,6 +81,14 @@ public class @PlayerMovementInput : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Block"",
+                    ""type"": ""Button"",
+                    ""id"": ""09706f64-38fe-4728-9995-a24c474a5d3f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -105,17 +113,6 @@ public class @PlayerMovementInput : IInputActionCollection, IDisposable
                     ""action"": ""Movement"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""c8e6bc45-ece8-4c5c-a127-b4ffec323dce"",
-                    ""path"": """",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
                 },
                 {
                     ""name"": ""left"",
@@ -204,6 +201,17 @@ public class @PlayerMovementInput : IInputActionCollection, IDisposable
                     ""action"": ""SecondaryAttack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""87b64bf0-5f05-4ce8-a35c-bee797f34c09"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Block"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -220,6 +228,7 @@ public class @PlayerMovementInput : IInputActionCollection, IDisposable
         m_PlayableCharacter_Pause = m_PlayableCharacter.FindAction("Pause", throwIfNotFound: true);
         m_PlayableCharacter_PrimaryAttack = m_PlayableCharacter.FindAction("Primary Attack", throwIfNotFound: true);
         m_PlayableCharacter_SecondaryAttack = m_PlayableCharacter.FindAction("SecondaryAttack", throwIfNotFound: true);
+        m_PlayableCharacter_Block = m_PlayableCharacter.FindAction("Block", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -277,6 +286,7 @@ public class @PlayerMovementInput : IInputActionCollection, IDisposable
     private readonly InputAction m_PlayableCharacter_Pause;
     private readonly InputAction m_PlayableCharacter_PrimaryAttack;
     private readonly InputAction m_PlayableCharacter_SecondaryAttack;
+    private readonly InputAction m_PlayableCharacter_Block;
     public struct PlayableCharacterActions
     {
         private @PlayerMovementInput m_Wrapper;
@@ -289,6 +299,7 @@ public class @PlayerMovementInput : IInputActionCollection, IDisposable
         public InputAction @Pause => m_Wrapper.m_PlayableCharacter_Pause;
         public InputAction @PrimaryAttack => m_Wrapper.m_PlayableCharacter_PrimaryAttack;
         public InputAction @SecondaryAttack => m_Wrapper.m_PlayableCharacter_SecondaryAttack;
+        public InputAction @Block => m_Wrapper.m_PlayableCharacter_Block;
         public InputActionMap Get() { return m_Wrapper.m_PlayableCharacter; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -322,6 +333,9 @@ public class @PlayerMovementInput : IInputActionCollection, IDisposable
                 @SecondaryAttack.started -= m_Wrapper.m_PlayableCharacterActionsCallbackInterface.OnSecondaryAttack;
                 @SecondaryAttack.performed -= m_Wrapper.m_PlayableCharacterActionsCallbackInterface.OnSecondaryAttack;
                 @SecondaryAttack.canceled -= m_Wrapper.m_PlayableCharacterActionsCallbackInterface.OnSecondaryAttack;
+                @Block.started -= m_Wrapper.m_PlayableCharacterActionsCallbackInterface.OnBlock;
+                @Block.performed -= m_Wrapper.m_PlayableCharacterActionsCallbackInterface.OnBlock;
+                @Block.canceled -= m_Wrapper.m_PlayableCharacterActionsCallbackInterface.OnBlock;
             }
             m_Wrapper.m_PlayableCharacterActionsCallbackInterface = instance;
             if (instance != null)
@@ -350,6 +364,9 @@ public class @PlayerMovementInput : IInputActionCollection, IDisposable
                 @SecondaryAttack.started += instance.OnSecondaryAttack;
                 @SecondaryAttack.performed += instance.OnSecondaryAttack;
                 @SecondaryAttack.canceled += instance.OnSecondaryAttack;
+                @Block.started += instance.OnBlock;
+                @Block.performed += instance.OnBlock;
+                @Block.canceled += instance.OnBlock;
             }
         }
     }
@@ -364,5 +381,6 @@ public class @PlayerMovementInput : IInputActionCollection, IDisposable
         void OnPause(InputAction.CallbackContext context);
         void OnPrimaryAttack(InputAction.CallbackContext context);
         void OnSecondaryAttack(InputAction.CallbackContext context);
+        void OnBlock(InputAction.CallbackContext context);
     }
 }
