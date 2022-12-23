@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f509f050-b68b-46bb-891c-6810656fb82b" name="Changes" comment="-Added UI Portrait&#10;-Default health must be maximum health.">
+    <list default="true" id="f509f050-b68b-46bb-891c-6810656fb82b" name="Changes" comment="-deleted debug print.&#10;-Added new weapons to do in the 'weapons.psd' file.">
       <change beforePath="$PROJECT_DIR$/.idea/.idea._KONOHASCII/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea._KONOHASCII/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/PlayerAnimation.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PlayerAnimation.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Item_Spritesheets/Weapons.psd" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sprites_Images/Item_Spritesheets/Weapons.psd" afterDir="false" />
@@ -192,7 +192,7 @@
       <workItem from="1670861379124" duration="3594000" />
       <workItem from="1671228789744" duration="86000" />
       <workItem from="1671534503694" duration="7355000" />
-      <workItem from="1671803614403" duration="5703000" />
+      <workItem from="1671803614403" duration="6026000" />
     </task>
     <task id="LOCAL-00001" summary="-Fixed movement, and jumping issues.">
       <created>1671564644944</created>
@@ -260,7 +260,8 @@
     <MESSAGE value="Chakra block visual is implemented." />
     <MESSAGE value="Healthbar updates according to player health." />
     <MESSAGE value="-Added UI Portrait&#10;-Default health must be maximum health." />
-    <option name="LAST_COMMIT_MESSAGE" value="-Added UI Portrait&#10;-Default health must be maximum health." />
+    <MESSAGE value="-deleted debug print.&#10;-Added new weapons to do in the 'weapons.psd' file." />
+    <option name="LAST_COMMIT_MESSAGE" value="-deleted debug print.&#10;-Added new weapons to do in the 'weapons.psd' file." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
