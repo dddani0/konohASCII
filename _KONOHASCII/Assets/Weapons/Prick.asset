@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a86917d9edb0f5f42a293a22bc5b7405, type: 3}
-  m_Name: Katana
+  m_Name: Prick
   m_EditorClassIdentifier: 
-  weaponName: Katana
-  weaponSprite: {fileID: -8676865581740374596, guid: 1c4d3c7b5957de44187b8a28d87e7e08, type: 3}
+  weaponName: Prick
+  weaponSprite: {fileID: 5264750687663945890, guid: 1c4d3c7b5957de44187b8a28d87e7e08, type: 3}
   weaponAnimatorController: {fileID: 0}
-  damage: 130
-  isRange: 0
-  isPrimaryWeapon: 1
-  weaponSpeed: 0
-  ammunition: 0
+  damage: 20
+  isRange: 1
+  isPrimaryWeapon: 0
+  weaponSpeed: 70
+  ammunition: 18
   animationDelay: 1

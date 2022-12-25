@@ -4,14 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f509f050-b68b-46bb-891c-6810656fb82b" name="Changes" comment="Healthbar updates according to player health.">
+    <list default="true" id="f509f050-b68b-46bb-891c-6810656fb82b" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea._KONOHASCII/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea._KONOHASCII/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/PlayableCharacters/Naruto.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PlayableCharacters/Naruto.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/GUI.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/GUI.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PlayableCharacter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PlayableCharacter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PlayerAction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PlayerAction.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/ScriptableObject/PlayableCharacterTemplate.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/ScriptableObject/PlayableCharacterTemplate.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UIManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UIManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites_Images/Item_Spritesheets/Weapons.psd" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sprites_Images/Item_Spritesheets/Weapons.psd" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,11 +32,6 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/49f4e7e791cc4fffacd88f729e2b1e4c128000/7d/94667d20/SetupCoroutine.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/49f4e7e791cc4fffacd88f729e2b1e4c128000/95/ac769c14/GameObject.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/fb001e01371b4adca20013e0ac7638963e2400/9f/6c662b28/IntPtr.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/GITHUB/konohASCII/_KONOHASCII/Assets/Prefabs/GUI.prefab" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/GITHUB/konohASCII/_KONOHASCII/Assets/Scripts/MovementInputs/PlayerMovementInput.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/GITHUB/konohASCII/_KONOHASCII/Assets/Scripts/PlayerAction.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/GITHUB/konohASCII/_KONOHASCII/Assets/Scripts/ScriptableObject/PlayableCharacterTemplate.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/GITHUB/konohASCII/_KONOHASCII/Assets/Scripts/UIManager.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.cinemachine@2.6.11/Runtime/Core/CinemachineVirtualCameraBase.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.inputsystem@1.0.2/InputSystem/Actions/InputAction.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.inputsystem@1.0.2/InputSystem/Actions/InputActionState.cs" root0="SKIP_HIGHLIGHTING" />
@@ -195,7 +185,8 @@
       <workItem from="1670861379124" duration="3594000" />
       <workItem from="1671228789744" duration="86000" />
       <workItem from="1671534503694" duration="7355000" />
-      <workItem from="1671803614403" duration="4656000" />
+      <workItem from="1671803614403" duration="6130000" />
+      <workItem from="1671823731645" duration="1199000" />
     </task>
     <task id="LOCAL-00001" summary="-Fixed movement, and jumping issues.">
       <created>1671564644944</created>
@@ -218,7 +209,28 @@
       <option name="project" value="LOCAL" />
       <updated>1671807940062</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="-Added UI Portrait&#10;-Default health must be maximum health.">
+      <created>1671809550561</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1671809550561</updated>
+    </task>
+    <task id="LOCAL-00005" summary="-deleted debug print.&#10;-Added new weapons to do in the 'weapons.psd' file.">
+      <created>1671816533861</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1671816533861</updated>
+    </task>
+    <task id="LOCAL-00006" summary="workspace">
+      <created>1671816557933</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1671816557933</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -255,20 +267,24 @@
     <MESSAGE value="-Fixed movement, and jumping issues." />
     <MESSAGE value="Chakra block visual is implemented." />
     <MESSAGE value="Healthbar updates according to player health." />
-    <option name="LAST_COMMIT_MESSAGE" value="Healthbar updates according to player health." />
+    <MESSAGE value="-Added UI Portrait&#10;-Default health must be maximum health." />
+    <MESSAGE value="-deleted debug print.&#10;-Added new weapons to do in the 'weapons.psd' file." />
+    <MESSAGE value="-workspace" />
+    <MESSAGE value="workspace" />
+    <option name="LAST_COMMIT_MESSAGE" value="workspace" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Scripts/PlayerAction.cs</url>
-          <line>173</line>
+          <line>172</line>
           <properties documentPath="D:\GITHUB\konohASCII\_KONOHASCII\Assets\Scripts\PlayerAction.cs" initialLine="172" containingFunctionPresentation="method 'PrimaryShortRangeAttack'">
             <startOffsets>
-              <option value="7023" />
+              <option value="6979" />
             </startOffsets>
             <endOffsets>
-              <option value="7024" />
+              <option value="6980" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="3" />
