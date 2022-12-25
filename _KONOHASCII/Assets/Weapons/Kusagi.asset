@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Kusagi
   m_EditorClassIdentifier: 
   weaponName: Kusanagi
-  weaponSprite: {fileID: -678022192254141297, guid: 1c4d3c7b5957de44187b8a28d87e7e08, type: 3}
+  weaponSprite: {fileID: -3738898530812164412, guid: 1c4d3c7b5957de44187b8a28d87e7e08, type: 3}
   weaponAnimatorController: {fileID: 0}
   damage: 140
   isRange: 0
   isPrimaryWeapon: 1
   weaponSpeed: 0
+  ammunition: 0
   animationDelay: 1
