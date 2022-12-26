@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
 [CreateAssetMenu(fileName = "Weapon", menuName = "Weapon/new Weapon Template", order = 1)]
+[ExecuteInEditMode]
 public class WeaponTemplate : ScriptableObject
 {
     /// <summary>
@@ -8,6 +9,9 @@ public class WeaponTemplate : ScriptableObject
     /// </summary>
     [Tooltip("Weapon name starts with capital letter, like 'Kunai'.")]
     public string weaponName;
+
+    [Tooltip("Moves towards zero with every successful hit, then breaks. Only primary weapons can break.")]
+    public int weaponDurability;
 
     public Sprite weaponSprite;
 
@@ -28,8 +32,13 @@ public class WeaponTemplate : ScriptableObject
     [Tooltip("Delays animation to balance. Animation speed multiplier / animationDelay")]
     public float animationDelay = 1;
 
+    [Space] [Header("Weapon effects")] 
+    public bool bleed;
+    public bool poison;
+    public bool slow;
+
     private void Start()
     {
         isPrimaryWeapon = isRange;
-    } 
+    }
 }

@@ -104,6 +104,11 @@ public class SecondaryWeaponContainer : MonoBehaviour
                 break;
             case false:
                 weaponRigidbody.velocity = new Vector2(weaponTurnOtherSideValue * 0, weaponRigidbody.velocity.y);
+                var constraints = weaponRigidbody.constraints;
+                constraints = RigidbodyConstraints2D.FreezePositionX;
+                constraints = RigidbodyConstraints2D.FreezePositionY;
+                constraints = RigidbodyConstraints2D.FreezeRotation;
+                weaponRigidbody.constraints = constraints;
                 break;
         }
     }

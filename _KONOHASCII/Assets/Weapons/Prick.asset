@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Prick
   m_EditorClassIdentifier: 
   weaponName: Prick
+  weaponDurability: 0
   weaponSprite: {fileID: 5264750687663945890, guid: 1c4d3c7b5957de44187b8a28d87e7e08, type: 3}
   weaponAnimatorController: {fileID: 0}
   damage: 20
@@ -21,3 +22,6 @@ MonoBehaviour:
   weaponSpeed: 70
   ammunition: 18
   animationDelay: 1
+  bleed: 1
+  poison: 0
+  slow: 0
