@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Axe
   m_EditorClassIdentifier: 
   weaponName: Axe
+  weaponDurability: 0
   weaponSprite: {fileID: -9030644638053589806, guid: 1c4d3c7b5957de44187b8a28d87e7e08, type: 3}
   weaponAnimatorController: {fileID: 0}
   damage: 150
@@ -21,3 +22,6 @@ MonoBehaviour:
   weaponSpeed: 0
   ammunition: 0
   animationDelay: 1
+  bleed: 0
+  poison: 0
+  slow: 0
