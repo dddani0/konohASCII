@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using UnityEditorInternal;
+using UnityEngine;
 
 public class PlayerAction : MonoBehaviour
 {
@@ -439,9 +440,29 @@ public class PlayerAction : MonoBehaviour
         isBusy = playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).IsTag("Action");
 
         if (isBusy || isStaggered) //freeze if staggered or action is taking place
-            playerMovement.ChangeRigidbodyState(true, false, playerMovement.rigidbody2D);
+            switch (!playerMovement.isStandingOnWall)
+            {
+                case true:
+                    playerMovement.ChangeRigidbodyState(true, false, playerMovement.rigidbody2D);
+                    break;
+                case false:
+                    playerMovement.ChangeRigidbodyState(false, true, playerMovement.rigidbody2D);
+                    break;
+            }
+
         else
-            playerMovement.ChangeRigidbodyState(false, false, playerMovement.rigidbody2D);
+        {
+            switch (!playerMovement.isStandingOnWall)
+            {
+                case true:
+                    playerMovement.ChangeRigidbodyState(false, false, playerMovement.rigidbody2D);
+                    break;
+                case false:
+                    print("Switch to default wall rigidbody constaints");
+                    playerMovement.ChangeRigidbodyState(true, false, playerMovement.rigidbody2D);
+                    break;
+            }
+        }
     }
 
     public void TakeInjury(int _damage)

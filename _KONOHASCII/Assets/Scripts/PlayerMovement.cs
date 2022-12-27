@@ -1,6 +1,7 @@
 ﻿using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(PlayerAnimation))]
@@ -17,7 +18,12 @@ public class PlayerMovement : MonoBehaviour
     [Header("Button inputs")] PlayerMovementInput playerMovementInput;
 
     [Space] public float mouseYAxisInput;
-    public float movementAxisInput;
+
+    [FormerlySerializedAs("movementAxisInput")]
+    public float xMovementAxisInput;
+
+    public float yMovementAxisInput;
+
     [SerializeField] private bool isPlayerInMotion;
     [SerializeField] private bool isPressingJump;
     [SerializeField] private bool isJumpExecuted;
@@ -33,7 +39,8 @@ public class PlayerMovement : MonoBehaviour
     public float groundCheckRadius;
 
     [Space] public bool canJump = true;
-    public bool isGrounded;
+    [FormerlySerializedAs("isGrounded")] public bool isStandingOnGround;
+    public bool isStandingOnWall;
     public Transform groundCheckPosition;
 
     [Tooltip("Speed, which the player will progress.")]
@@ -46,19 +53,30 @@ public class PlayerMovement : MonoBehaviour
     [Tooltip("The direction, which the player faces.")]
     private float xDirection;
 
+    //Used for standing on the wall.
+    private float yDirection;
+
     private Vector2 desiredVelocity;
 
     [Tooltip("Maximum speed, which the player can achieve on the ground.")]
     public float maximumLateralGroundAcceleration; //30
 
+    private float maximumVerticalGroundAcceleration;
+
     [Tooltip("Maximum value, which the player will decelerates on the ground.")]
     public float maximumLateralGroundDeceleration; //40
+
+    private float maximumVerticalGroundDeceleration;
 
     [Tooltip("Maximum speed, which the player can achieve in the air")]
     public float maximumAirLateralAcceleration; //25
 
+    private float maximumAirVerticalAcceleration;
+
     [Tooltip("Maximum speed, which the player will turn on the ground")]
     public float maximumGroundTurnSpeed; //45
+
+    private float maximumVerticalTurnSpeed;
 
     [Tooltip("Maximum value, which the player will decelerate in the air.")]
     public float maximumAirDeceleration; //15
@@ -113,35 +131,60 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        isPlayerInMotion = DeterminePlayerMotionState();
-        desiredVelocity = CalculateDesiredVelocity(xDirection, peakMovementSpeed);
-        isPlayerInMotion = CheckPlayerMotion(isPlayerInMotion, int.Parse(xDirection.ToString()));
+        //Calculated the velocity, which is desired to reach at peak speed.
+        AchieveMovementCalculations();
+
+        //checks if the player is on the ground, or is on the wall
         canJump = FetchGroundInformation();
-        isGrounded = FetchGroundInformation();
+        isStandingOnGround = FetchGroundInformation();
+        isStandingOnWall = FetchWallState();
+
         canGrip = FetchWallInformation(wallcheck_position, wallcheck_width_size, wallcheck_height_size,
             wall_layer, canJump);
-        PrefaceJumpAchievement();
-        FetchInput();
-        WallGrip();
+        PrefaceHorizontalJumpAchievement();
+        isGrippedActionTaken = FetchGripInput();
         AssignAnimationVariables();
     }
 
     private void FixedUpdate()
     {
+        AchieveMovementPhysics();
+    }
+
+    private void AchieveMovementPhysics()
+    {
         AchieveRigidbody2D();
-        AchieveGroundLateralMovement();
+        switch (!isStandingOnWall)
+        {
+            case true:
+                AchieveGroundLateralMovement();
+                break;
+            case false:
+                AchieveWallLateralMovement();
+                break;
+        }
+
         AchieveJumpMovement();
+        SwitchGroundField();
     }
 
     private void AssignAnimationVariables()
     {
-        playerAnimation.SetAnimationState("xDirection", int.Parse(xDirection.ToString()),
-            playerAnimation.defaultAnimator);
+        switch (int.TryParse(xDirection.ToString(), out int discardNumber))
+        {
+            case true:
+                playerAnimation.SetAnimationState("xDirection", int.Parse(xDirection.ToString()),
+                    playerAnimation.defaultAnimator);
+                break;
+        }
+
         playerAnimation.SetAnimationState("currentVelocity", math.abs(currentVelocity.x),
             playerAnimation.defaultAnimator);
         playerAnimation.SetAnimationState("hasReachedPeakVelocity",
-            math.abs(currentVelocity.x) == 1f * peakMovementSpeed, playerAnimation.defaultAnimator);
-        playerAnimation.SetAnimationState("onGround", isGrounded, playerAnimation.defaultAnimator);
+            !isGripped
+                ? math.abs(currentVelocity.x) == 1f * peakMovementSpeed
+                : math.abs(currentVelocity.y) == 1f * peakMovementSpeed, playerAnimation.defaultAnimator);
+        playerAnimation.SetAnimationState("onGround", isStandingOnGround, playerAnimation.defaultAnimator);
     }
 
     private void AchieveRigidbody2D()
@@ -149,17 +192,78 @@ public class PlayerMovement : MonoBehaviour
         currentVelocity = rigidbody2D.velocity;
     }
 
-    private void AchieveGroundLateralMovement()
+    private void AchieveMovementCalculations()
     {
+        desiredVelocity = !isStandingOnWall
+            ? CalculateDesiredVelocity(xDirection, peakMovementSpeed)
+            : CalculateDesiredVelocity(yDirection, peakMovementSpeed);
+
+        switch (int.TryParse(xDirection.ToString(), out int discardNumber))
+        {
+            case true:
+                isPlayerInMotion = !isStandingOnWall
+                    ? CheckPlayerMotion(int.Parse(xDirection.ToString()))
+                    : CheckPlayerMotion(int.Parse(yDirection.ToString()));
+                break;
+        }
+    }
+
+    private void AchieveWallLateralMovement()
+    {
+        //Called when standing on the wall.
         //GMTK
         switch (playerAction.isBusy)
         {
             case true:
                 break;
             case false:
-                currentAcceleration = isGrounded ? maximumLateralGroundAcceleration : maximumAirLateralAcceleration;
-                currentDeceleration = isGrounded ? maximumLateralGroundDeceleration : maximumAirDeceleration;
-                currentTurnSpeed = isGrounded ? maximumGroundTurnSpeed : maximumAirTurnSpeed;
+                currentAcceleration = maximumVerticalGroundAcceleration;
+                currentDeceleration = maximumVerticalGroundDeceleration;
+                currentTurnSpeed = maximumVerticalTurnSpeed;
+
+                switch (yDirection != 0)
+                {
+                    case true:
+                        //Checks whether the player direction and the velocity direction matches
+                        switch (Mathf.Sign(yDirection) != Mathf.Sign(rigidbody2D.velocity.y))
+                        {
+                            case true:
+                                maximumSpeed = currentTurnSpeed * Time.deltaTime;
+                                break;
+                            case false:
+                                maximumSpeed = currentAcceleration * Time.deltaTime;
+                                break;
+                        }
+
+                        break;
+                    case false:
+                        maximumSpeed = currentDeceleration * Time.deltaTime;
+                        break;
+                }
+
+                break;
+        }
+
+        currentVelocity.y = Mathf.MoveTowards(currentVelocity.y, desiredVelocity.y, maximumSpeed);
+        rigidbody2D.velocity = currentVelocity;
+    }
+
+
+    #region Ground movement
+
+    private void AchieveGroundLateralMovement()
+    {
+        //Called when standing on the ground.
+        //GMTK
+        switch (playerAction.isBusy)
+        {
+            case true:
+                break;
+            case false:
+                currentAcceleration =
+                    isStandingOnGround ? maximumLateralGroundAcceleration : maximumAirLateralAcceleration;
+                currentDeceleration = isStandingOnGround ? maximumLateralGroundDeceleration : maximumAirDeceleration;
+                currentTurnSpeed = isStandingOnGround ? maximumGroundTurnSpeed : maximumAirTurnSpeed;
 
                 switch (xDirection != 0)
                 {
@@ -191,7 +295,7 @@ public class PlayerMovement : MonoBehaviour
     private void AchieveJumpMovement()
     {
         //GMTK
-        switch (isJumpExecuted && !playerAction.isBusy && isGrounded)
+        switch (isJumpExecuted && !playerAction.isBusy && isStandingOnGround)
         {
             case true:
                 playerAnimation.SetAnimationState("jump", playerAnimation.defaultAnimator);
@@ -234,14 +338,21 @@ public class PlayerMovement : MonoBehaviour
             gravityMultiplier = 1;
     }
 
-    private void PrefaceJumpAchievement()
+    private void PrefaceHorizontalJumpAchievement()
     {
         //GMTK
         //Calculations to make jump gravity smooth
         newGravity = new Vector2(0,
             (-2 * jumpHeight) / (timeToReachJumpHeightPeak * timeToReachJumpHeightPeak));
-        rigidbody2D.gravityScale = (newGravity.y / Physics2D.gravity.y) * gravityMultiplier;
+        rigidbody2D.gravityScale =
+            !isGripped
+                ? (newGravity.y / Physics2D.gravity.y) * gravityMultiplier
+                : math.round(math.abs(1 * (yDirection)));
     }
+
+    #endregion
+
+    #region Button input
 
     private void OnEnable()
     {
@@ -292,8 +403,11 @@ public class PlayerMovement : MonoBehaviour
 
     public void InputMovement(InputAction.CallbackContext context)
     {
-        movementAxisInput = context.ReadValue<Vector2>().x;
-        xDirection = movementAxisInput; //Fetches the player movement direction
+        xMovementAxisInput = context.ReadValue<Vector2>().x;
+        yMovementAxisInput = context.ReadValue<Vector2>().y;
+        xDirection = xMovementAxisInput;
+        yDirection = yMovementAxisInput;
+        print(yDirection);
     }
 
     public void FetchMouseInput(InputAction.CallbackContext context)
@@ -320,17 +434,22 @@ public class PlayerMovement : MonoBehaviour
             playerAction.gamemanager.GetComponent<Gamemanager>().isGamePaused = true;
     }
 
+    public void FetchWallGripInput(InputAction.CallbackContext context)
+    {
+        if (context.started)
+            isWallGrabPressed = true;
+        else if (context.canceled)
+            isWallGrabPressed = false;
+    }
+
+    #endregion
+
+
     private bool DeterminePlayerMotionState()
     {
         //Determines whether the player holds down the "movement" keys.
-        bool _motion = movementAxisInput != 0;
+        bool _motion = xMovementAxisInput != 0;
         return _motion;
-    }
-
-    private void FetchInput()
-    {
-        //isJumpActionTaken = Input.GetKey(jump_keycode) && canJump;
-        //isGrippedActionTaken = Input.GetKeyDown(grip_keycode) && !playerAction.isBusy && canGrip;
     }
 
     private void FetchRudimentaryVariables()
@@ -338,9 +457,21 @@ public class PlayerMovement : MonoBehaviour
         playerAnimation = GetComponentInChildren<PlayerAnimation>();
         playerAction = GetComponentInChildren<PlayerAction>();
         rigidbody2D = GetComponent<Rigidbody2D>();
+        //Assign same values to vertical values
+        maximumVerticalGroundAcceleration = maximumLateralGroundAcceleration;
+        maximumVerticalGroundDeceleration = 10000;
+        maximumVerticalTurnSpeed = maximumVerticalTurnSpeed;
+        maximumAirVerticalAcceleration = maximumAirLateralAcceleration;
     }
 
-    private bool CheckPlayerMotion(bool _isInMotion, int _motionValue)
+
+    private bool FetchGripInput()
+    {
+        bool _isGrippedActionTaken = !playerAction.isBusy && canGrip && isWallGrabPressed;
+        return _isGrippedActionTaken;
+    }
+
+    private bool CheckPlayerMotion(int _motionValue)
     {
         bool _motion = math.abs(_motionValue) == 1;
         return _motion;
@@ -368,83 +499,93 @@ public class PlayerMovement : MonoBehaviour
         return _canWallBeGripped;
     }
 
+    private bool FetchGroundState()
+    {
+        //Is on wall?
+        bool _isOnWall = !isGripped;
+        return isGripped;
+    }
+
+    private bool FetchWallState()
+    {
+        //is on ground?
+        bool _isOnWall = isGripped && !isStandingOnGround;
+        return _isOnWall;
+    }
+
     private Vector2 CalculateDesiredVelocity(float _direction, float _peakVelocityValue)
     {
         //GMTK
-        Vector2 _desiredVelocity = new Vector2(_direction, 0) * _peakVelocityValue;
-        return _desiredVelocity;
-    }
-
-    /// <summary>
-    /// REWORK BELOW
-    /// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /// </summary>
-    private void BasicMovementAgility()
-    {
-        //Basic character mobility
-        //-Movement
-        //-Jump
-
-        //Movement
-        switch (playerAction.isBusy)
+        Vector2 _desiredVelocity = Vector2.zero;
+        switch (isStandingOnWall)
         {
+            case true:
+                _desiredVelocity = new Vector2(0, _direction) * _peakVelocityValue;
+                break;
             case false:
-
+                _desiredVelocity = new Vector2(_direction, 0) * _peakVelocityValue;
                 break;
         }
 
-        //ground check for jumping, only when not in the air or is not gripped on wall
-        if (!isGripped)
-            //GroundCheck();
-            //Jump
-            if (isJumpActionTaken)
-            {
-            }
+        return _desiredVelocity;
     }
 
-    private void AdvancedMovementAgility()
+    private void SwitchGroundField()
     {
-        //Advanced character mobility
-        //-Wall jump
-
-        //WallCheck();
-        //playerAnimation.SetAnimationState("gripped", isGripped, playerAnimation.defaultAnimator);
-    }
-
-    private void WallGrip()
-    {
-        if (isGrippedActionTaken)
+        switch (!isStandingOnWall) //Is not standing on wall?
         {
-            //rigidbody2D.constraints = RigidbodyConstraints2D.FreezePosition;
-            //ChangeRigidbodyState(true, rigidbody2D);
-            canGrip = false;
-            isGripped = true;
-            canJump = true;
-            isGrippedActionTaken = false;
-            Collider2D[] wallcol = Physics2D.OverlapBoxAll(wallcheck_position.position,
-                new Vector2(wallcheck_width_size, wallcheck_height_size),
-                wallcheck_position.rotation.x, wall_layer);
-            Transform wallpos = null;
-            if (wallcol.Length > 0)
-                wallpos = wallcol[0].transform;
-            switch (wallpos.position.x > this.gameObject.transform.position.x)
-            {
-                case true:
-                    playerAnimation.gameObject.transform.localScale =
-                        new Vector2(playerAnimation.gameObject.transform.localScale.x, -1f);
-                    break;
-                case false:
-                    playerAnimation.gameObject.transform.localScale =
-                        new Vector2(playerAnimation.gameObject.transform.localScale.x, 1f);
-                    break;
-            }
+            case true:
+                if (isGrippedActionTaken)
+                {
+                    canGrip = false;
+                    isGripped = true;
+                    canJump = true;
+                    //Freeze x position
+                    ChangeRigidbodyState(true, false, rigidbody2D);
+                    rigidbody2D.constraints = RigidbodyConstraints2D.FreezePositionX;
+
+                    //Collect touching wall.
+                    Collider2D[] wallcol = Physics2D.OverlapBoxAll(wallcheck_position.position,
+                        new Vector2(wallcheck_width_size, wallcheck_height_size),
+                        wallcheck_position.rotation.x, wall_layer);
+
+                    Transform wallpos = null;
+
+                    //'Which wall am I touching? Right or left?'
+                    if (wallcol.Length > 0)
+                        wallpos = wallcol[0].transform;
+
+                    switch (wallpos.position.x > this.gameObject.transform.position.x)
+                    {
+                        case true:
+                            playerAnimation.gameObject.transform.localScale =
+                                new Vector2(-1f, playerAnimation.gameObject.transform.localScale.y);
+                            break;
+                        case false:
+                            playerAnimation.gameObject.transform.localScale =
+                                new Vector2(1f, playerAnimation.gameObject.transform.localScale.y);
+                            break;
+                    }
+                }
+
+                if (isStandingOnGround)
+                {
+                    isStandingOnWall = false;
+                    ChangeRigidbodyState(false, false, rigidbody2D);
+                    isGripped = false;
+                }
+
+                break;
+            case false:
+
+
+                break;
         }
     }
 
-
     public void ChangeRigidbodyState(bool freeze, Rigidbody2D _rigidbody)
     {
-        //It only works if "wallgripped" animation state isn't agged with "action"
+        //Freeze or unfreeze whole rigidbody
         switch (freeze)
         {
             case true:
@@ -461,6 +602,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void ChangeRigidbodyState(bool _freeze_x, bool _freeze_y, Rigidbody2D _rigidbody)
     {
+        //Freeze a specific axis on the rigidbody.
         bool _isotheraxisfrozen = false;
         switch (_freeze_x)
         {

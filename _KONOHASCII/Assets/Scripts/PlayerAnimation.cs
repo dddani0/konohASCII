@@ -18,7 +18,7 @@ public class PlayerAnimation : MonoBehaviour
 
     void Update()
     {
-        SetAnimationState("movement", int.Parse(playerMovement.movementAxisInput.ToString()), defaultAnimator);
+        SetAnimationState("movement", int.TryParse(playerMovement.xMovementAxisInput.ToString(), out int discardNumber), defaultAnimator);
         SetAnimationState("ydelta", playerMovement.rigidbody2D.velocity.y, defaultAnimator);
         SetAnimationState("nextFrameDeadline", playerAction.punchAnimationTimeLeft, defaultAnimator);
     }
@@ -33,9 +33,9 @@ public class PlayerAnimation : MonoBehaviour
     {
         //Rotates sprite based on the horizontal input value
         //thus: greater than 0 = right; and less than 0 = left;
-        if (playerMovement.movementAxisInput > 0)
+        if (playerMovement.xMovementAxisInput > 0)
             transform.localScale = new Vector3(1, 1, 1);
-        else if (playerMovement.movementAxisInput < 0)
+        else if (playerMovement.xMovementAxisInput < 0)
             transform.localScale = new Vector3(-1, 1, 1);
     }
 
