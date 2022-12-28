@@ -419,8 +419,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playableCharacter: {fileID: 11400000, guid: 75d5598a0589dd64f8aa0b986d37f1d7, type: 2}
-  playerAction: {fileID: 0}
-  playerMovement: {fileID: 0}
+  playerAction: {fileID: 7248831842670079682}
+  playerMovement: {fileID: 7248831842670079683}
   playerAnimatorOverrideController: {fileID: 0}
 --- !u!114 &7248831842670079682
 MonoBehaviour:
@@ -496,7 +496,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mouseYAxisInput: 0
-  movementAxisInput: 0
+  xMovementAxisInput: 0
+  yMovementAxisInput: 0
   isPlayerInMotion: 0
   isPressingJump: 0
   isJumpExecuted: 0
@@ -529,6 +530,7 @@ MonoBehaviour:
   downwardMovementMultiplier: 2
   jumpCutOff: 2
   wallcheck_height_size: 5
+  wallGripOffset: 1.82
   wallcheck_width_size: 4
   canGrip: 0
   isGripped: 0

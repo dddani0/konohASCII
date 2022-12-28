@@ -440,7 +440,7 @@ public class PlayerAction : MonoBehaviour
         isBusy = playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).IsTag("Action");
 
         if (isBusy || isStaggered) //freeze if staggered or action is taking place
-            switch (!playerMovement.isStandingOnWall)
+            switch (!playerMovement.isGripped)
             {
                 case true:
                     playerMovement.ChangeRigidbodyState(true, false, playerMovement.rigidbody2D);
@@ -452,14 +452,14 @@ public class PlayerAction : MonoBehaviour
 
         else
         {
-            switch (!playerMovement.isStandingOnWall)
+            switch (!playerMovement.isGripped)
             {
                 case true:
                     playerMovement.ChangeRigidbodyState(false, false, playerMovement.rigidbody2D);
                     break;
                 case false:
                     print("Switch to default wall rigidbody constaints");
-                    playerMovement.ChangeRigidbodyState(true, false, playerMovement.rigidbody2D);
+                    //playerMovement.ChangeRigidbodyState(true, false, playerMovement.rigidbody2D);
                     break;
             }
         }

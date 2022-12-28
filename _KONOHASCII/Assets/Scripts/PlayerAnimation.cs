@@ -31,11 +31,15 @@ public class PlayerAnimation : MonoBehaviour
 
     private void PlayerSpriteRotation()
     {
+        float _movementInput = !playerMovement.isGripped
+            ? playerMovement.xMovementAxisInput
+            : playerMovement.yMovementAxisInput;
+        print( _movementInput);
         //Rotates sprite based on the horizontal input value
         //thus: greater than 0 = right; and less than 0 = left;
-        if (playerMovement.xMovementAxisInput > 0)
+        if (_movementInput > 0)
             transform.localScale = new Vector3(1, 1, 1);
-        else if (playerMovement.xMovementAxisInput < 0)
+        else if (_movementInput < 0)
             transform.localScale = new Vector3(-1, 1, 1);
     }
 

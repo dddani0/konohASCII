@@ -39,6 +39,10 @@ public class PlayerMovement : MonoBehaviour
     public float groundCheckRadius;
 
     [Space] public bool canJump = true;
+
+    [FormerlySerializedAs("canJumpFromWall")]
+    public bool hasLandedOnWall = false;
+
     [FormerlySerializedAs("isGrounded")] public bool isStandingOnGround;
     public bool isStandingOnWall;
     public Transform groundCheckPosition;
@@ -106,6 +110,7 @@ public class PlayerMovement : MonoBehaviour
     [Space(20f)] [Header("Advanced movement agility")] [Range(1f, 5f)]
     public float wallcheck_height_size;
 
+    [Space, Range(1, 3f)] public float wallGripOffset;
     [Range(1f, 5f)] public float wallcheck_width_size;
     [Space] public bool canGrip;
     public bool isGripped = false;
@@ -135,12 +140,17 @@ public class PlayerMovement : MonoBehaviour
         AchieveMovementCalculations();
 
         //checks if the player is on the ground, or is on the wall
-        canJump = FetchGroundInformation();
+        canJump = FetchGroundInformation() || FetchWallJumpCondition();
+
+        //debug purposes
+        hasLandedOnWall = FetchWallJumpCondition();
+
         isStandingOnGround = FetchGroundInformation();
         isStandingOnWall = FetchWallState();
 
         canGrip = FetchWallInformation(wallcheck_position, wallcheck_width_size, wallcheck_height_size,
             wall_layer, canJump);
+
         PrefaceHorizontalJumpAchievement();
         isGrippedActionTaken = FetchGripInput();
         AssignAnimationVariables();
@@ -170,21 +180,25 @@ public class PlayerMovement : MonoBehaviour
 
     private void AssignAnimationVariables()
     {
+        float _currentVelocity = !isGripped ? currentVelocity.x : currentVelocity.y;
+        float _currentDirection = !isGripped ? xDirection : yDirection;
+
         switch (int.TryParse(xDirection.ToString(), out int discardNumber))
         {
             case true:
-                playerAnimation.SetAnimationState("xDirection", int.Parse(xDirection.ToString()),
+                playerAnimation.SetAnimationState("xDirection", int.Parse(_currentDirection.ToString()),
                     playerAnimation.defaultAnimator);
                 break;
         }
 
-        playerAnimation.SetAnimationState("currentVelocity", math.abs(currentVelocity.x),
+        playerAnimation.SetAnimationState("currentVelocity", math.abs(_currentVelocity),
             playerAnimation.defaultAnimator);
         playerAnimation.SetAnimationState("hasReachedPeakVelocity",
-            !isGripped
-                ? math.abs(currentVelocity.x) == 1f * peakMovementSpeed
-                : math.abs(currentVelocity.y) == 1f * peakMovementSpeed, playerAnimation.defaultAnimator);
+            math.abs(_currentVelocity) == 1f * peakMovementSpeed, playerAnimation.defaultAnimator);
         playerAnimation.SetAnimationState("onGround", isStandingOnGround, playerAnimation.defaultAnimator);
+        playerAnimation.SetAnimationState("hasLandedOnwall", hasLandedOnWall, playerAnimation.defaultAnimator);
+        playerAnimation.SetAnimationState("isFallingFromGround", !hasLandedOnWall && !isStandingOnGround,
+            playerAnimation.defaultAnimator);
     }
 
     private void AchieveRigidbody2D()
@@ -295,7 +309,7 @@ public class PlayerMovement : MonoBehaviour
     private void AchieveJumpMovement()
     {
         //GMTK
-        switch (isJumpExecuted && !playerAction.isBusy && isStandingOnGround)
+        switch (isJumpExecuted && !playerAction.isBusy && canJump)
         {
             case true:
                 playerAnimation.SetAnimationState("jump", playerAnimation.defaultAnimator);
@@ -481,8 +495,14 @@ public class PlayerMovement : MonoBehaviour
     {
         //Checks jump condition
         Collider2D[] col = Physics2D.OverlapCircleAll(groundCheckPosition.position, groundCheckRadius, ground_layer);
-        bool _isTouchingCollisionObject = col.Length > 0;
+        bool _isTouchingCollisionObject = col.Length > 0 && !isGripped;
         return _isTouchingCollisionObject;
+    }
+
+    private bool FetchWallJumpCondition()
+    {
+        bool _isStandingOnWallCanJump = isGripped;
+        return _isStandingOnWallCanJump;
     }
 
     private bool FetchWallInformation(Transform _wallCheckTransform, float _WallCheckWidth, float _WallCheckHeight,
@@ -541,8 +561,8 @@ public class PlayerMovement : MonoBehaviour
                     isGripped = true;
                     canJump = true;
                     //Freeze x position
-                    ChangeRigidbodyState(true, false, rigidbody2D);
-                    rigidbody2D.constraints = RigidbodyConstraints2D.FreezePositionX;
+                    //ChangeRigidbodyState(true, false, rigidbody2D);
+                    //rigidbody2D.constraints = RigidbodyConstraints2D.FreezePositionX;
 
                     //Collect touching wall.
                     Collider2D[] wallcol = Physics2D.OverlapBoxAll(wallcheck_position.position,
@@ -560,10 +580,14 @@ public class PlayerMovement : MonoBehaviour
                         case true:
                             playerAnimation.gameObject.transform.localScale =
                                 new Vector2(-1f, playerAnimation.gameObject.transform.localScale.y);
+                            transform.localEulerAngles = new Vector3(0, 0, 90);
+                            rigidbody2D.transform.position += new Vector3(-wallGripOffset, 0, 0);
                             break;
                         case false:
                             playerAnimation.gameObject.transform.localScale =
                                 new Vector2(1f, playerAnimation.gameObject.transform.localScale.y);
+                            transform.localEulerAngles = new Vector3(0, 0, -90);
+                            rigidbody2D.transform.position += new Vector3(wallGripOffset, 0, 0);
                             break;
                     }
                 }
@@ -573,6 +597,7 @@ public class PlayerMovement : MonoBehaviour
                     isStandingOnWall = false;
                     ChangeRigidbodyState(false, false, rigidbody2D);
                     isGripped = false;
+                    transform.localEulerAngles = new Vector3(0, 0, 0);
                 }
 
                 break;
