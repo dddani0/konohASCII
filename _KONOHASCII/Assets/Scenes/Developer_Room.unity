@@ -2177,8 +2177,8 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 7248831842670079683, guid: 3e4617d23ba0de34aa621385934d474b, type: 3}
-      propertyPath: wallGripOffset
-      value: 2.5
+      propertyPath: switchWallStateCooldown
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 7248831842670079686, guid: 3e4617d23ba0de34aa621385934d474b, type: 3}
       propertyPath: m_LocalPosition.x

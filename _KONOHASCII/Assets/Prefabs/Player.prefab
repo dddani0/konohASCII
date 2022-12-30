@@ -508,6 +508,7 @@ MonoBehaviour:
   playerAction: {fileID: 7248831842670079682}
   groundCheckRadius: 1.5
   canJump: 1
+  hasLandedOnWall: 0
   isStandingOnGround: 0
   isStandingOnWall: 0
   groundCheckPosition: {fileID: 7248831842284347866}
@@ -530,11 +531,12 @@ MonoBehaviour:
   downwardMovementMultiplier: 2
   jumpCutOff: 2
   wallcheck_height_size: 5
-  wallGripOffset: 1.82
+  wallGripOffset: 2.5
   wallcheck_width_size: 4
   canGrip: 0
   isGripped: 0
   wallcheck_position: {fileID: 7248831842417354683}
+  switchWallStateCooldown: 0
   ground_layer:
     serializedVersion: 2
     m_Bits: 2048

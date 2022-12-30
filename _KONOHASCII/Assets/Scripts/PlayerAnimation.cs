@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 //Prerequisites components:
 [RequireComponent(typeof(PlayerMovement))]
@@ -18,14 +19,15 @@ public class PlayerAnimation : MonoBehaviour
 
     void Update()
     {
-        SetAnimationState("movement", int.TryParse(playerMovement.xMovementAxisInput.ToString(), out int discardNumber), defaultAnimator);
+        SetAnimationState("movement", int.TryParse(playerMovement.xMovementAxisInput.ToString(), out int discardNumber),
+            defaultAnimator);
         SetAnimationState("ydelta", playerMovement.rigidbody2D.velocity.y, defaultAnimator);
         SetAnimationState("nextFrameDeadline", playerAction.punchAnimationTimeLeft, defaultAnimator);
     }
 
     private void LateUpdate()
     {
-        if (!playerAction.isBusy && !playerMovement.isGripped)
+        if (!playerAction.isBusy)
             PlayerSpriteRotation();
     }
 
@@ -33,8 +35,9 @@ public class PlayerAnimation : MonoBehaviour
     {
         float _movementInput = !playerMovement.isGripped
             ? playerMovement.xMovementAxisInput
-            : playerMovement.yMovementAxisInput;
-        print( _movementInput);
+            : playerMovement.yMovementAxisInput = Math.Abs(playerAction.transform.rotation.y - 90) < 0.001f
+                ? playerMovement.yMovementAxisInput * -1f
+                : playerMovement.yMovementAxisInput * 1f; //flip direction to match
         //Rotates sprite based on the horizontal input value
         //thus: greater than 0 = right; and less than 0 = left;
         if (_movementInput > 0)

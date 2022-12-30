@@ -117,6 +117,8 @@ public class PlayerMovement : MonoBehaviour
     private bool isGrippedActionTaken;
     private bool isJumpActionTaken;
     public Transform wallcheck_position;
+    [Space] public float switchWallStateCooldown;
+    private float currentSwitchStanceCooldown;
 
     [Space(20f)] [Header("Layermasks and button mapping")]
     public LayerMask ground_layer;
@@ -458,6 +460,12 @@ public class PlayerMovement : MonoBehaviour
 
     #endregion
 
+    private float fetchCurrentCooldown()
+    {
+        float _currentCooldown = currentSwitchStanceCooldown -= Time.deltaTime;
+        return _currentCooldown;
+    }
+
 
     private bool DeterminePlayerMotionState()
     {
@@ -473,11 +481,18 @@ public class PlayerMovement : MonoBehaviour
         rigidbody2D = GetComponent<Rigidbody2D>();
         //Assign same values to vertical values
         maximumVerticalGroundAcceleration = maximumLateralGroundAcceleration;
-        maximumVerticalGroundDeceleration = 10000;
+        maximumVerticalGroundDeceleration = 100;
         maximumVerticalTurnSpeed = maximumVerticalTurnSpeed;
         maximumAirVerticalAcceleration = maximumAirLateralAcceleration;
+        currentSwitchStanceCooldown = switchWallStateCooldown;
     }
 
+    private void ChangeWallStance(bool _affectGravity)
+    {
+        isStandingOnWall = _affectGravity;
+        ChangeRigidbodyState(_affectGravity, _affectGravity, rigidbody2D);
+        isGripped = _affectGravity;
+    }
 
     private bool FetchGripInput()
     {
@@ -575,34 +590,35 @@ public class PlayerMovement : MonoBehaviour
                     if (wallcol.Length > 0)
                         wallpos = wallcol[0].transform;
 
-                    switch (wallpos.position.x > this.gameObject.transform.position.x)
+                    switch (wallpos.position.x > gameObject.transform.position.x)
                     {
                         case true:
-                            playerAnimation.gameObject.transform.localScale =
-                                new Vector2(-1f, playerAnimation.gameObject.transform.localScale.y);
                             transform.localEulerAngles = new Vector3(0, 0, 90);
                             rigidbody2D.transform.position += new Vector3(-wallGripOffset, 0, 0);
                             break;
                         case false:
-                            playerAnimation.gameObject.transform.localScale =
-                                new Vector2(1f, playerAnimation.gameObject.transform.localScale.y);
                             transform.localEulerAngles = new Vector3(0, 0, -90);
                             rigidbody2D.transform.position += new Vector3(wallGripOffset, 0, 0);
+                            playerAnimation.transform.localScale = new Vector3(-1, 1, 1);
                             break;
                     }
                 }
 
                 if (isStandingOnGround)
                 {
-                    isStandingOnWall = false;
-                    ChangeRigidbodyState(false, false, rigidbody2D);
-                    isGripped = false;
+                    ChangeWallStance(false);
                     transform.localEulerAngles = new Vector3(0, 0, 0);
                 }
 
                 break;
             case false:
-
+                currentSwitchStanceCooldown = fetchCurrentCooldown();
+                if (isWallGrabPressed && !playerAction.isBusy && currentSwitchStanceCooldown <= 0)
+                {
+                    ChangeWallStance(false);
+                    transform.localEulerAngles = new Vector3(0, 0, 0);
+                    currentSwitchStanceCooldown = switchWallStateCooldown;
+                }
 
                 break;
         }
