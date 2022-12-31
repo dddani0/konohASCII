@@ -573,15 +573,10 @@ public class PlayerMovement : MonoBehaviour
                 {
                     ChangeWallStance(false);
                     transform.localEulerAngles = new Vector3(0, 0, 0);
-                }
-                if (isGrippedActionTaken)
-                {
-                    canGrip = false;
-                    isGripped = true;
-                    canJump = true;
-                    //Freeze x position
-                    //ChangeRigidbodyState(true, false, rigidbody2D);
-                    //rigidbody2D.constraints = RigidbodyConstraints2D.FreezePositionX;
+                    currentSwitchStanceCooldown = fetchCurrentCooldown();
+                    /// <summary>
+                    /// Collect wall information, set disable brakes.
+                    /// </summary>
 
                     //Collect touching wall.
                     Collider2D[] wallcol = Physics2D.OverlapBoxAll(wallcheck_position.position,
@@ -596,6 +591,48 @@ public class PlayerMovement : MonoBehaviour
 
                     if (!wallpos) return;
                     
+                    if (wallpos.GetComponent<WallSpringboot>() == null) return;
+                    
+                    wallpos.GetComponent<WallSpringboot>()
+                        .DisableBrakes(); //Invocation may be expensive, but won't be called constantly.
+                }
+
+                if (isGrippedActionTaken)
+                {
+                    //Reset the flag
+                    canGrip = false;
+
+                    //Set Grip flag true
+                    isGripped = true;
+
+                    //Can jump from wall.
+                    canJump = true;
+
+                    //Freeze x position
+                    ChangeRigidbodyState(true, false, rigidbody2D);
+                    currentSwitchStanceCooldown = switchWallStateCooldown;
+                    /// <summary>
+                    /// Collect wall information, set enable brakes.
+                    /// </summary>
+
+                    //Collect touching wall.
+                    Collider2D[] wallcol = Physics2D.OverlapBoxAll(wallcheck_position.position,
+                        new Vector2(wallcheck_width_size, wallcheck_height_size),
+                        wallcheck_position.rotation.x, wall_layer);
+
+                    Transform wallpos = null;
+
+                    //'Which wall am I touching? Right or left?'
+                    if (wallcol.Length > 0)
+                        wallpos = wallcol[0].transform;
+
+                    if (!wallpos) return;
+
+                    if (wallpos.GetComponent<WallSpringboot>() == null) return;
+
+                    wallpos.GetComponent<WallSpringboot>()
+                        .EnableBrakes(); //Invocation may be expensive, but won't be called constantly.
+
                     switch (wallpos.position.x > gameObject.transform.position.x)
                     {
                         case true:
@@ -618,6 +655,27 @@ public class PlayerMovement : MonoBehaviour
                     ChangeWallStance(false);
                     transform.localEulerAngles = new Vector3(0, 0, 0);
                     currentSwitchStanceCooldown = switchWallStateCooldown;
+                    /// <summary>
+                    /// Collect wall information, set disable brakes.
+                    /// </summary>
+
+                    //Collect touching wall.
+                    Collider2D[] wallcol = Physics2D.OverlapBoxAll(wallcheck_position.position,
+                        new Vector2(wallcheck_width_size, wallcheck_height_size),
+                        wallcheck_position.rotation.x, wall_layer);
+
+                    Transform wallpos = null;
+
+                    //'Which wall am I touching? Right or left?'
+                    if (wallcol.Length > 0)
+                        wallpos = wallcol[0].transform;
+
+                    if (!wallpos) return;
+
+                    if (wallpos.GetComponent<WallSpringboot>() == null) return;
+                    
+                    wallpos.GetComponent<WallSpringboot>()
+                        .DisableBrakes(); //Invocation may be expensive, but won't be called constantly.
                 }
 
                 break;
