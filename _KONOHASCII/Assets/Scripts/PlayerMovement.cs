@@ -423,7 +423,6 @@ public class PlayerMovement : MonoBehaviour
         yMovementAxisInput = context.ReadValue<Vector2>().y;
         xDirection = xMovementAxisInput;
         yDirection = yMovementAxisInput;
-        print(yDirection);
     }
 
     public void FetchMouseInput(InputAction.CallbackContext context)
@@ -570,6 +569,11 @@ public class PlayerMovement : MonoBehaviour
         switch (!isStandingOnWall) //Is not standing on wall?
         {
             case true:
+                if (isStandingOnGround)
+                {
+                    ChangeWallStance(false);
+                    transform.localEulerAngles = new Vector3(0, 0, 0);
+                }
                 if (isGrippedActionTaken)
                 {
                     canGrip = false;
@@ -590,6 +594,8 @@ public class PlayerMovement : MonoBehaviour
                     if (wallcol.Length > 0)
                         wallpos = wallcol[0].transform;
 
+                    if (!wallpos) return;
+                    
                     switch (wallpos.position.x > gameObject.transform.position.x)
                     {
                         case true:
@@ -602,12 +608,6 @@ public class PlayerMovement : MonoBehaviour
                             playerAnimation.transform.localScale = new Vector3(-1, 1, 1);
                             break;
                     }
-                }
-
-                if (isStandingOnGround)
-                {
-                    ChangeWallStance(false);
-                    transform.localEulerAngles = new Vector3(0, 0, 0);
                 }
 
                 break;

@@ -33,11 +33,14 @@ public class PlayerAnimation : MonoBehaviour
 
     private void PlayerSpriteRotation()
     {
+        var _playerZRotation = playerAction.transform.localEulerAngles.z;
+        bool _isOnLeftSide = _playerZRotation > 90 + 1;
         float _movementInput = !playerMovement.isGripped
             ? playerMovement.xMovementAxisInput
-            : playerMovement.yMovementAxisInput = Math.Abs(playerAction.transform.rotation.y - 90) < 0.001f
+            : _isOnLeftSide
                 ? playerMovement.yMovementAxisInput * -1f
-                : playerMovement.yMovementAxisInput * 1f; //flip direction to match
+                : playerMovement.yMovementAxisInput;
+
         //Rotates sprite based on the horizontal input value
         //thus: greater than 0 = right; and less than 0 = left;
         if (_movementInput > 0)

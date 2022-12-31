@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f509f050-b68b-46bb-891c-6810656fb82b" name="Changes" comment="Player faces direction on the wall when moving.&#10;Added slideing effect when running on the wall (just like on the ground).&#10;Player can jump off wall.">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea._KONOHASCII/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea._KONOHASCII/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="f509f050-b68b-46bb-891c-6810656fb82b" name="Changes" comment="Player faces direction according to movement input on both walls.">
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/PlayerAnimation.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PlayerAnimation.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PlayerMovement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PlayerMovement.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,6 +31,8 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/49f4e7e791cc4fffacd88f729e2b1e4c128000/7d/94667d20/SetupCoroutine.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/49f4e7e791cc4fffacd88f729e2b1e4c128000/95/ac769c14/GameObject.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/fb001e01371b4adca20013e0ac7638963e2400/9f/6c662b28/IntPtr.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/GITHUB/konohASCII/_KONOHASCII/Assets/Scenes/Developer_Room.unity" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/GITHUB/konohASCII/_KONOHASCII/Assets/Scripts/PlayerMovement.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.cinemachine@2.6.11/Runtime/Core/CinemachineVirtualCameraBase.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.inputsystem@1.0.2/InputSystem/Actions/InputAction.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.inputsystem@1.0.2/InputSystem/Actions/InputActionState.cs" root0="SKIP_HIGHLIGHTING" />
@@ -194,6 +194,10 @@
       <workItem from="1672244436412" duration="835000" />
       <workItem from="1672246524970" duration="3846000" />
       <workItem from="1672411118986" duration="2430000" />
+      <workItem from="1672416137623" duration="1541000" />
+      <workItem from="1672423858464" duration="1330000" />
+      <workItem from="1672440577914" duration="3737000" />
+      <workItem from="1672474285142" duration="1484000" />
     </task>
     <task id="LOCAL-00001" summary="-Fixed movement, and jumping issues.">
       <created>1671564644944</created>
@@ -258,7 +262,21 @@
       <option name="project" value="LOCAL" />
       <updated>1672250174951</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Player faces the input direction on the walls.&#10;Player has less 'slip' on the walls.">
+      <created>1672417686308</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1672417686308</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Player faces direction according to movement input on both walls.">
+      <created>1672475509386</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1672475509386</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -302,26 +320,9 @@
     <MESSAGE value="added effects bool for later implementation -&gt; tech debt." />
     <MESSAGE value="player can run on wall (via. up and down keys.)&#10;player can ascend back to the ground" />
     <MESSAGE value="-Player can jump on the wall, and rotate accordingly&#10;switches player animation once on the wall&#10;player can't jump off the wall yet TO DO!&#10;player to face area according to movement TO DO!" />
-    <option name="LAST_COMMIT_MESSAGE" value="-Player can jump on the wall, and rotate accordingly&#10;switches player animation once on the wall&#10;player can't jump off the wall yet TO DO!&#10;player to face area according to movement TO DO!" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/PlayerMovement.cs</url>
-          <line>563</line>
-          <properties documentPath="D:\GITHUB\konohASCII\_KONOHASCII\Assets\Scripts\PlayerMovement.cs" initialLine="532" containingFunctionPresentation="method 'SwitchGroundField'">
-            <startOffsets>
-              <option value="18612" />
-            </startOffsets>
-            <endOffsets>
-              <option value="18638" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="Player faces the input direction on the walls.&#10;Player has less 'slip' on the walls." />
+    <MESSAGE value="Player faces direction according to movement input on both walls." />
+    <option name="LAST_COMMIT_MESSAGE" value="Player faces direction according to movement input on both walls." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
