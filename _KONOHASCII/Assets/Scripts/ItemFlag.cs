@@ -35,7 +35,7 @@ public class ItemFlag : MonoBehaviour
         switch (_flagType)
         {
             case 1:
-                _flagName = weaponFlag.name;
+                _flagName = weaponFlag.weaponName;
                 break;
             case 2:
 

@@ -45,6 +45,10 @@ public class PlayerMovement : MonoBehaviour
 
     [FormerlySerializedAs("isGrounded")] public bool isStandingOnGround;
     public bool isStandingOnWall;
+    public bool isOnRightWall;
+    public bool canMoveOnWall;
+    [Range(1, 3)] public float wallRaycastXOffset;
+    [Range(1, 3)] public float wallRaycastYOffset;
     public Transform groundCheckPosition;
 
     [Tooltip("Speed, which the player will progress.")]
@@ -156,6 +160,7 @@ public class PlayerMovement : MonoBehaviour
         PrefaceHorizontalJumpAchievement();
         isGrippedActionTaken = FetchGripInput();
         AssignAnimationVariables();
+        if (isStandingOnWall) canMoveOnWall = FetchMoveStateOnWall();
     }
 
     private void FixedUpdate()
@@ -260,7 +265,7 @@ public class PlayerMovement : MonoBehaviour
                 break;
         }
 
-        currentVelocity.y = Mathf.MoveTowards(currentVelocity.y, desiredVelocity.y, maximumSpeed);
+        currentVelocity.y = canMoveOnWall ? Mathf.MoveTowards(currentVelocity.y, desiredVelocity.y, maximumSpeed) : 0;
         rigidbody2D.velocity = currentVelocity;
     }
 
@@ -466,6 +471,116 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
+    private bool FetchWallRaycastStatus()
+    {
+        //Ugly code :D
+        // RaycastHit2D ray = isOnRightWall //On right wall
+        //     ? Physics2D.Raycast(playerAction.isFacingRight
+        //             ? new Vector2(groundCheckPosition.position.x,
+        //                 groundCheckPosition.position.y + wallRaycastYOffset) //on right wall, facing up
+        //             : new Vector2(groundCheckPosition.position.x,
+        //                 groundCheckPosition.position.y - wallRaycastYOffset), //On right wall, facing down
+        //         playerAction.isFacingRight
+        //             ? new Vector2(groundCheckPosition.position.x + wallRaycastXOffset,
+        //                 groundCheckPosition.position.y + wallRaycastYOffset)
+        //             : new Vector2(groundCheckPosition.position.x + wallRaycastXOffset,
+        //                 groundCheckPosition.position.y - wallRaycastYOffset))
+        //     : Physics2D.Raycast( //On left wall
+        //         playerAction.isFacingRight
+        //             ? new Vector2(groundCheckPosition.position.x,
+        //                 groundCheckPosition.position.y + wallRaycastYOffset) //on right wall, facing up
+        //             : new Vector2(groundCheckPosition.position.x,
+        //                 groundCheckPosition.position.y - wallRaycastYOffset), //on right wall, facing down
+        //         playerAction.isFacingRight
+        //             ? new Vector2(groundCheckPosition.position.x - wallRaycastXOffset,
+        //                 groundCheckPosition.position.y + wallRaycastYOffset)
+        //             : new Vector2(groundCheckPosition.position.x - wallRaycastXOffset,
+        //                 groundCheckPosition.position.y - wallRaycastYOffset));
+
+        //90
+        //Facing up (facing right)
+        // Gizmos.DrawLine(new Vector2(groundCheckPosition.position.x , groundCheckPosition.position.y + wallRaycastXOffset),
+        //     new Vector2(groundCheckPosition.position.x + wallRaycastYOffset, groundCheckPosition.position.y + wallRaycastXOffset));
+        //
+
+
+        //Facing down (facing left)
+        // Gizmos.DrawLine(new Vector2(groundCheckPosition.position.x , groundCheckPosition.position.y - wallRaycastXOffset),
+        //     new Vector2(groundCheckPosition.position.x + wallRaycastYOffset, groundCheckPosition.position.y - wallRaycastXOffset));
+
+
+        //-90
+        //Facing Up (facing right)
+        //Gizmos.DrawLine(new Vector2(groundCheckPosition.position.x , groundCheckPosition.position.y + wallRaycastYOffset),
+        //   new Vector2(groundCheckPosition.position.x - wallRaycastXOffset, groundCheckPosition.position.y + wallRaycastYOffset));
+
+
+        //Facing Down (facing left)
+        //Gizmos.DrawLine(
+        //   new Vector2(groundCheckPosition.position.x, groundCheckPosition.position.y - wallRaycastYOffset), 
+        //   new Vector2(groundCheckPosition.position.x - wallRaycastXOffset, groundCheckPosition.position.y - wallRaycastYOffset));
+        RaycastHit2D ray = Physics2D.Raycast(Vector2.zero, Vector2.zero); //Default value
+
+        switch (isOnRightWall)
+        {
+            case true:
+                switch (playerAction.isFacingRight)
+                {
+                    case true: //Z = 90 (right wall) and facing up (facing right)
+                        ray = Physics2D.Raycast(new Vector2(groundCheckPosition.position.x,
+                            groundCheckPosition.position.y + wallRaycastYOffset), new Vector2(
+                            groundCheckPosition.position.x + wallRaycastXOffset,
+                            groundCheckPosition.position.y + wallRaycastYOffset));
+                        print("Right wall, facing up");
+                        break;
+                    case false: //Z = 90 (right wall) and facing down (facing left)
+                        ray = Physics2D.Raycast(new Vector2(groundCheckPosition.position.x,
+                            groundCheckPosition.position.y - wallRaycastYOffset), new Vector2(
+                            groundCheckPosition.position.x + wallRaycastXOffset,
+                            groundCheckPosition.position.y - wallRaycastYOffset));
+                        print("Right wall, facing down");
+                        break;
+                }
+
+                break;
+            case false:
+                switch (playerAction.isFacingRight)
+                {
+                    case true: //Z = -90 (left wall) and facing up (facing right)
+                        ray = Physics2D.Raycast(new Vector2(groundCheckPosition.position.x,
+                            groundCheckPosition.position.y - wallRaycastYOffset), new Vector2(
+                            groundCheckPosition.position.x - wallRaycastXOffset,
+                            groundCheckPosition.position.y - wallRaycastYOffset));
+                        print("left wall, facing down");
+                        
+                        break;
+                    case false:
+
+
+                        ray = Physics2D.Raycast(new Vector2(groundCheckPosition.position.x,
+                            groundCheckPosition.position.y + wallRaycastYOffset), new Vector2(
+                            groundCheckPosition.position.x - wallRaycastXOffset,
+                            groundCheckPosition.position.y + wallRaycastYOffset));
+                        print("left wall, facing up");
+                        break;
+                }
+
+                break;
+        }
+        
+        bool _isOnGround = false;
+        if (ray.collider != null) print(ray.collider);
+        if (ray.collider != null) _isOnGround = ray.collider.gameObject.name.Contains("Wall");
+
+        return _isOnGround;
+    }
+
+    private bool FetchMoveStateOnWall()
+    {
+        bool _canMoveOnWall = FetchWallRaycastStatus();
+        return _canMoveOnWall;
+    }
+
     private bool DeterminePlayerMotionState()
     {
         //Determines whether the player holds down the "movement" keys.
@@ -590,9 +705,9 @@ public class PlayerMovement : MonoBehaviour
                         wallpos = wallcol[0].transform;
 
                     if (!wallpos) return;
-                    
+
                     if (wallpos.GetComponent<WallSpringboot>() == null) return;
-                    
+
                     wallpos.GetComponent<WallSpringboot>()
                         .DisableBrakes(); //Invocation may be expensive, but won't be called constantly.
                 }
@@ -673,7 +788,7 @@ public class PlayerMovement : MonoBehaviour
                     if (!wallpos) return;
 
                     if (wallpos.GetComponent<WallSpringboot>() == null) return;
-                    
+
                     wallpos.GetComponent<WallSpringboot>()
                         .DisableBrakes(); //Invocation may be expensive, but won't be called constantly.
                 }
@@ -709,7 +824,6 @@ public class PlayerMovement : MonoBehaviour
                 _rigidbody.constraints = RigidbodyConstraints2D.FreezePositionX;
                 break;
             case false:
-                _rigidbody.constraints = RigidbodyConstraints2D.None;
                 _rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
                 break;
         }
@@ -722,7 +836,6 @@ public class PlayerMovement : MonoBehaviour
             case false:
                 if (_freeze_x)
                     _isotheraxisfrozen = true;
-                _rigidbody.constraints = RigidbodyConstraints2D.None;
                 _rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
                 if (_isotheraxisfrozen)
                     _rigidbody.constraints = RigidbodyConstraints2D.FreezePositionX;
@@ -735,5 +848,6 @@ public class PlayerMovement : MonoBehaviour
         Gizmos.color = new Color(1f, 0f, 0.02f);
         Gizmos.DrawWireSphere(groundCheckPosition.position, groundCheckRadius);
         Gizmos.DrawWireCube(wallcheck_position.position, new Vector3(wallcheck_width_size, wallcheck_height_size));
+        Gizmos.color = Color.blue;
     }
 }

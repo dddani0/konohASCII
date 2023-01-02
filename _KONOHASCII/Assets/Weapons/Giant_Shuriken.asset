@@ -12,11 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a86917d9edb0f5f42a293a22bc5b7405, type: 3}
   m_Name: Giant_Shuriken
   m_EditorClassIdentifier: 
-  weaponName: Giant_Shuriken
+  weaponName: Giant Shuriken
+  weaponDurability: 0
   weaponSprite: {fileID: 9077458340881770162, guid: 1c4d3c7b5957de44187b8a28d87e7e08, type: 3}
   weaponAnimatorController: {fileID: 22100000, guid: a0d9306c75e0205419e485db7d508c5d, type: 2}
   damage: 130
   isRange: 1
+  isPrimaryWeapon: 0
   weaponSpeed: 70
-  isWeaponFlying: 0
+  ammunition: 0
   animationDelay: 1
+  bleed: 0
+  poison: 0
+  slow: 0
