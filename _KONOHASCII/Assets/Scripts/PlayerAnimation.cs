@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 //Prerequisites components:
 [RequireComponent(typeof(PlayerMovement))]
@@ -18,24 +19,31 @@ public class PlayerAnimation : MonoBehaviour
 
     void Update()
     {
-        SetAnimationState("movement", int.Parse(playerMovement.movementAxisInput.ToString()), defaultAnimator);
         SetAnimationState("ydelta", playerMovement.rigidbody2D.velocity.y, defaultAnimator);
         SetAnimationState("nextFrameDeadline", playerAction.punchAnimationTimeLeft, defaultAnimator);
     }
 
     private void LateUpdate()
     {
-        if (!playerAction.isBusy && !playerMovement.isGripped)
+        if (!playerAction.isBusy)
             PlayerSpriteRotation();
     }
 
     private void PlayerSpriteRotation()
     {
+        var _playerZRotation = playerAction.transform.localEulerAngles.z;
+        bool _isOnLeftSide = _playerZRotation > 90 + 1;
+        float _movementInput = !playerMovement.isGripped
+            ? playerMovement.xMovementAxisInput
+            : _isOnLeftSide
+                ? playerMovement.yMovementAxisInput * -1f
+                : playerMovement.yMovementAxisInput;
+
         //Rotates sprite based on the horizontal input value
         //thus: greater than 0 = right; and less than 0 = left;
-        if (playerMovement.movementAxisInput > 0)
+        if (_movementInput > 0)
             transform.localScale = new Vector3(1, 1, 1);
-        else if (playerMovement.movementAxisInput < 0)
+        else if (_movementInput < 0)
             transform.localScale = new Vector3(-1, 1, 1);
     }
 
@@ -73,7 +81,6 @@ public class PlayerAnimation : MonoBehaviour
 
     public void ACALLANIMATIONEVENTInflictDamage()
     {
-        print("inflict damage called");
         //Animation event
         //Takes damage if raycast detects an object with EnemyBehavior.cs script attached
         //Tagging is not necessary, if it can access the above-mentioned script

@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2aaa2654d40f5f40bd525db8232a8ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponFlag: {fileID: 0}
+  weaponFlag: {fileID: 11400000, guid: fd6b4c6689017664492aaf14cbc6a7c1, type: 2}
   itemFlagSprite: {fileID: 8033092973025764044, guid: 6fd592a0e15e0aa4f80fc81a416588ee, type: 3}
   buttonPromptSpriteHandler: {fileID: 9093292304568123771}
   canBePickedUp: 0

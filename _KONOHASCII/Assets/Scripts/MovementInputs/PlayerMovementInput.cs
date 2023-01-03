@@ -89,6 +89,14 @@ public class @PlayerMovementInput : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Wall grip"",
+                    ""type"": ""Button"",
+                    ""id"": ""74597e3b-969e-4a07-ad63-dd7accb4497d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -129,6 +137,28 @@ public class @PlayerMovementInput : IInputActionCollection, IDisposable
                     ""name"": ""right"",
                     ""id"": ""b3a39575-e728-4e8a-9749-e6eecf361848"",
                     ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""c0b280ab-21ab-4df8-a611-ee3f046a19cb"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""034baf08-b277-4802-b3aa-b79d06ff44d1"",
+                    ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -212,6 +242,17 @@ public class @PlayerMovementInput : IInputActionCollection, IDisposable
                     ""action"": ""Block"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3b6fefe7-589f-419b-bafc-ef3a456d491e"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Wall grip"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -229,6 +270,7 @@ public class @PlayerMovementInput : IInputActionCollection, IDisposable
         m_PlayableCharacter_PrimaryAttack = m_PlayableCharacter.FindAction("Primary Attack", throwIfNotFound: true);
         m_PlayableCharacter_SecondaryAttack = m_PlayableCharacter.FindAction("SecondaryAttack", throwIfNotFound: true);
         m_PlayableCharacter_Block = m_PlayableCharacter.FindAction("Block", throwIfNotFound: true);
+        m_PlayableCharacter_Wallgrip = m_PlayableCharacter.FindAction("Wall grip", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -287,6 +329,7 @@ public class @PlayerMovementInput : IInputActionCollection, IDisposable
     private readonly InputAction m_PlayableCharacter_PrimaryAttack;
     private readonly InputAction m_PlayableCharacter_SecondaryAttack;
     private readonly InputAction m_PlayableCharacter_Block;
+    private readonly InputAction m_PlayableCharacter_Wallgrip;
     public struct PlayableCharacterActions
     {
         private @PlayerMovementInput m_Wrapper;
@@ -300,6 +343,7 @@ public class @PlayerMovementInput : IInputActionCollection, IDisposable
         public InputAction @PrimaryAttack => m_Wrapper.m_PlayableCharacter_PrimaryAttack;
         public InputAction @SecondaryAttack => m_Wrapper.m_PlayableCharacter_SecondaryAttack;
         public InputAction @Block => m_Wrapper.m_PlayableCharacter_Block;
+        public InputAction @Wallgrip => m_Wrapper.m_PlayableCharacter_Wallgrip;
         public InputActionMap Get() { return m_Wrapper.m_PlayableCharacter; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -336,6 +380,9 @@ public class @PlayerMovementInput : IInputActionCollection, IDisposable
                 @Block.started -= m_Wrapper.m_PlayableCharacterActionsCallbackInterface.OnBlock;
                 @Block.performed -= m_Wrapper.m_PlayableCharacterActionsCallbackInterface.OnBlock;
                 @Block.canceled -= m_Wrapper.m_PlayableCharacterActionsCallbackInterface.OnBlock;
+                @Wallgrip.started -= m_Wrapper.m_PlayableCharacterActionsCallbackInterface.OnWallgrip;
+                @Wallgrip.performed -= m_Wrapper.m_PlayableCharacterActionsCallbackInterface.OnWallgrip;
+                @Wallgrip.canceled -= m_Wrapper.m_PlayableCharacterActionsCallbackInterface.OnWallgrip;
             }
             m_Wrapper.m_PlayableCharacterActionsCallbackInterface = instance;
             if (instance != null)
@@ -367,6 +414,9 @@ public class @PlayerMovementInput : IInputActionCollection, IDisposable
                 @Block.started += instance.OnBlock;
                 @Block.performed += instance.OnBlock;
                 @Block.canceled += instance.OnBlock;
+                @Wallgrip.started += instance.OnWallgrip;
+                @Wallgrip.performed += instance.OnWallgrip;
+                @Wallgrip.canceled += instance.OnWallgrip;
             }
         }
     }
@@ -382,5 +432,6 @@ public class @PlayerMovementInput : IInputActionCollection, IDisposable
         void OnPrimaryAttack(InputAction.CallbackContext context);
         void OnSecondaryAttack(InputAction.CallbackContext context);
         void OnBlock(InputAction.CallbackContext context);
+        void OnWallgrip(InputAction.CallbackContext context);
     }
 }

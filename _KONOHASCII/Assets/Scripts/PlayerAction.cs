@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using UnityEditorInternal;
+using UnityEngine;
 
 public class PlayerAction : MonoBehaviour
 {
@@ -192,7 +193,7 @@ public class PlayerAction : MonoBehaviour
     {
         //Creates instance of weapon prefab.
         //Modifies said instance from selected asset.
-        if (signalSecondaryWeaponUsage())
+        if (signalSecondaryWeaponUsage() && !playerMovement.isStandingOnWall)
         {
             playerAnimation.SetAnimationState("range_attack", playerAnimation.defaultAnimator);
             GameObject _temporaryWeapon;
@@ -247,8 +248,17 @@ public class PlayerAction : MonoBehaviour
 
     private void CrosshairDisplay()
     {
-        castWeaponAngle = CalculateCrosshairYAngle(castWeaponAngle, false);
-        crosshairGameObject.transform.position = CalculateCrosshairPosition();
+        switch (playerMovement.isStandingOnWall)
+        {
+            case true:
+                crosshairGameObject.SetActive(false);
+                break;
+            case false:
+                crosshairGameObject.SetActive(true);
+                castWeaponAngle = CalculateCrosshairYAngle(castWeaponAngle, false);
+                crosshairGameObject.transform.position = CalculateCrosshairPosition();
+                break;
+        }
     }
 
     private void EngageWithItemFlag()
@@ -439,9 +449,28 @@ public class PlayerAction : MonoBehaviour
         isBusy = playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).IsTag("Action");
 
         if (isBusy || isStaggered) //freeze if staggered or action is taking place
-            playerMovement.ChangeRigidbodyState(true, false, playerMovement.rigidbody2D);
+            switch (!playerMovement.isGripped)
+            {
+                case true:
+                    playerMovement.ChangeRigidbodyState(true, false, playerMovement.rigidbody2D);
+                    break;
+                case false:
+                    playerMovement.ChangeRigidbodyState(false, true, playerMovement.rigidbody2D);
+                    break;
+            }
+
         else
-            playerMovement.ChangeRigidbodyState(false, false, playerMovement.rigidbody2D);
+        {
+            switch (!playerMovement.isGripped)
+            {
+                case true:
+                    playerMovement.ChangeRigidbodyState(false, false, playerMovement.rigidbody2D);
+                    break;
+                case false:
+                    playerMovement.ChangeRigidbodyState(true, false, playerMovement.rigidbody2D);
+                    break;
+            }
+        }
     }
 
     public void TakeInjury(int _damage)

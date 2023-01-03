@@ -385,6 +385,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 09706f64-38fe-4728-9995-a24c474a5d3f
     m_ActionName: PlayableCharacter/Block[/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7248831842670079683}
+        m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
+        m_MethodName: FetchWallGripInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 74597e3b-969e-4a07-ad63-dd7accb4497d
+    m_ActionName: PlayableCharacter/Wall grip[/Keyboard/f]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: PlayableCharacter
@@ -403,8 +419,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playableCharacter: {fileID: 11400000, guid: 75d5598a0589dd64f8aa0b986d37f1d7, type: 2}
-  playerAction: {fileID: 0}
-  playerMovement: {fileID: 0}
+  playerAction: {fileID: 7248831842670079682}
+  playerMovement: {fileID: 7248831842670079683}
   playerAnimatorOverrideController: {fileID: 0}
 --- !u!114 &7248831842670079682
 MonoBehaviour:
@@ -480,7 +496,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mouseYAxisInput: 0
-  movementAxisInput: 0
+  xMovementAxisInput: 0
+  yMovementAxisInput: 0
   isPlayerInMotion: 0
   isPressingJump: 0
   isJumpExecuted: 0
@@ -491,7 +508,13 @@ MonoBehaviour:
   playerAction: {fileID: 7248831842670079682}
   groundCheckRadius: 1.5
   canJump: 1
-  isGrounded: 0
+  hasLandedOnWall: 0
+  isStandingOnGround: 0
+  isStandingOnWall: 0
+  isOnTheRightWall: 0
+  canMoveOnWall: 0
+  wallRaycastXOffset: 2.341
+  wallRaycastYOffset: 2.35
   groundCheckPosition: {fileID: 7248831842284347866}
   maximumSpeed: 0
   peakMovementSpeed: 0
@@ -512,10 +535,12 @@ MonoBehaviour:
   downwardMovementMultiplier: 2
   jumpCutOff: 2
   wallcheck_height_size: 5
+  wallGripOffset: 2.5
   wallcheck_width_size: 4
   canGrip: 0
   isGripped: 0
   wallcheck_position: {fileID: 7248831842417354683}
+  switchWallStateCooldown: 0.2
   ground_layer:
     serializedVersion: 2
     m_Bits: 2048
