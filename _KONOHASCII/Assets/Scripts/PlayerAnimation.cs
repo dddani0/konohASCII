@@ -19,8 +19,6 @@ public class PlayerAnimation : MonoBehaviour
 
     void Update()
     {
-        SetAnimationState("movement", int.TryParse(playerMovement.xMovementAxisInput.ToString(), out int discardNumber),
-            defaultAnimator);
         SetAnimationState("ydelta", playerMovement.rigidbody2D.velocity.y, defaultAnimator);
         SetAnimationState("nextFrameDeadline", playerAction.punchAnimationTimeLeft, defaultAnimator);
     }

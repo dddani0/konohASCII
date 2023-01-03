@@ -191,12 +191,14 @@ public class PlayerMovement : MonoBehaviour
     private void AssignAnimationVariables()
     {
         float _currentVelocity = !isGripped ? currentVelocity.x : currentVelocity.y;
-        float _currentDirection = !isGripped ? xDirection : yDirection;
+        float _currentDirection = !isGripped ? math.abs(_currentVelocity) > 0.9 ? xDirection : 0 :
+            canMoveOnWall ? yDirection : 0f;
+        
 
         switch (int.TryParse(xDirection.ToString(), out int discardNumber))
         {
             case true:
-                playerAnimation.SetAnimationState("xDirection", int.Parse(_currentDirection.ToString()),
+                playerAnimation.SetAnimationState("direction", int.Parse(_currentDirection.ToString()),
                     playerAnimation.defaultAnimator);
                 break;
         }
@@ -510,17 +512,11 @@ public class PlayerMovement : MonoBehaviour
                         ray = Physics2D.Raycast(new Vector2(groundCheckPosition.position.x,
                                 groundCheckPosition.position.y + wallRaycastYOffset),
                             -groundCheckPosition.up * wallRaycastXOffset);
-                        Debug.DrawRay(new Vector2(groundCheckPosition.position.x,
-                                groundCheckPosition.position.y + wallRaycastYOffset),
-                            -groundCheckPosition.up * wallRaycastXOffset, Color.magenta);
                         break;
                     case false: //Z = 90 (right wall) and facing down (facing left)
                         ray = Physics2D.Raycast(new Vector2(groundCheckPosition.position.x,
                                 groundCheckPosition.position.y - wallRaycastYOffset),
                             -groundCheckPosition.up * wallRaycastXOffset);
-                        Debug.DrawRay(new Vector2(groundCheckPosition.position.x,
-                                groundCheckPosition.position.y - wallRaycastYOffset),
-                            -groundCheckPosition.up * wallRaycastXOffset, Color.magenta);
                         break;
                 }
 
@@ -553,13 +549,6 @@ public class PlayerMovement : MonoBehaviour
     {
         bool _canMoveOnWall = FetchWallRaycastStatus();
         return _canMoveOnWall;
-    }
-
-    private bool DeterminePlayerMotionState()
-    {
-        //Determines whether the player holds down the "movement" keys.
-        bool _motion = xMovementAxisInput != 0;
-        return _motion;
     }
 
     private void FetchRudimentaryVariables()
@@ -611,22 +600,11 @@ public class PlayerMovement : MonoBehaviour
     private bool FetchWallInformation(Transform _wallCheckTransform, float _WallCheckWidth, float _WallCheckHeight,
         int wallLayerIndex, bool _isJumpAvailable)
     {
-        /*Collider2D[] wallcol = Physics2D.OverlapBoxAll(wallcheck_position.position,
-            new Vector2(wallcheck_width_size, wallcheck_height_size),
-            wallcheck_position.rotation.x, wall_layer);*/
-
         Collider2D[] wallcol = Physics2D.OverlapBoxAll(_wallCheckTransform.position,
             new Vector2(_WallCheckWidth, _WallCheckHeight),
             _wallCheckTransform.rotation.x, wallLayerIndex);
         bool _canWallBeGripped = wallcol.Length > 0 && _isJumpAvailable == false;
         return _canWallBeGripped;
-    }
-
-    private bool FetchGroundState()
-    {
-        //Is on wall?
-        bool _isOnWall = !isGripped;
-        return isGripped;
     }
 
     private bool FetchWallState()
@@ -663,9 +641,7 @@ public class PlayerMovement : MonoBehaviour
                     ChangeWallStance(false);
                     transform.localEulerAngles = new Vector3(0, 0, 0);
                     currentSwitchStanceCooldown = fetchCurrentCooldown();
-                    /// <summary>
-                    /// Collect wall information, set disable brakes.
-                    /// </summary>
+                    // Collect wall information, set disable brakes.
 
                     //Collect touching wall.
                     Collider2D[] wallcol = Physics2D.OverlapBoxAll(wallcheck_position.position,
@@ -687,15 +663,10 @@ public class PlayerMovement : MonoBehaviour
                     //Set Grip flag true
                     isGripped = true;
 
-                    //Can jump from wall.
-                    canJump = true;
-
                     //Freeze x position
                     ChangeRigidbodyState(true, false, rigidbody2D);
                     currentSwitchStanceCooldown = switchWallStateCooldown;
-                    /// <summary>
-                    /// Collect wall information, set enable brakes.
-                    /// </summary>
+                    // Collect wall information, set enable brakes.
 
                     //Collect touching wall.
                     Collider2D[] wallcol = Physics2D.OverlapBoxAll(wallcheck_position.position,
@@ -734,20 +705,6 @@ public class PlayerMovement : MonoBehaviour
                     ChangeWallStance(false);
                     transform.localEulerAngles = new Vector3(0, 0, 0);
                     currentSwitchStanceCooldown = switchWallStateCooldown;
-                    /// <summary>
-                    /// Collect wall information, set disable brakes.
-                    /// </summary>
-
-                    //Collect touching wall.
-                    Collider2D[] wallcol = Physics2D.OverlapBoxAll(wallcheck_position.position,
-                        new Vector2(wallcheck_width_size, wallcheck_height_size),
-                        wallcheck_position.rotation.x, wall_layer);
-
-                    Transform wallpos = null;
-
-                    //'Which wall am I touching? Right or left?'
-                    if (wallcol.Length > 0)
-                        wallpos = wallcol[0].transform;
                 }
 
                 break;

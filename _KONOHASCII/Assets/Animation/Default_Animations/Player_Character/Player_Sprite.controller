@@ -83,7 +83,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 6
-    m_ConditionEvent: xDirection
+    m_ConditionEvent: direction
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 3759051236212934279}
@@ -662,7 +662,7 @@ AnimatorStateTransition:
     m_ConditionEvent: hasReachedPeakVelocity
     m_EventTreshold: 0
   - m_ConditionMode: 6
-    m_ConditionEvent: xDirection
+    m_ConditionEvent: direction
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 3759051236212934279}
@@ -796,6 +796,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 4
     m_ConditionEvent: ydelta
     m_EventTreshold: -0.1
+  - m_ConditionMode: 2
+    m_ConditionEvent: hasLandedOnwall
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -5483159977935149089}
   m_Solo: 0
@@ -1031,7 +1034,7 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
-  - m_Name: xDirection
+  - m_Name: direction
     m_Type: 3
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -1250,7 +1253,7 @@ AnimatorStateTransition:
     m_ConditionEvent: hasReachedPeakVelocity
     m_EventTreshold: 0
   - m_ConditionMode: 7
-    m_ConditionEvent: xDirection
+    m_ConditionEvent: direction
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -7556070503576621590}
@@ -1939,7 +1942,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 7
-    m_ConditionEvent: xDirection
+    m_ConditionEvent: direction
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -2621067238410245280}
@@ -2277,7 +2280,7 @@ AnimatorStateMachine:
     m_Position: {x: 1020, y: 0, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -2621067238410245280}
-    m_Position: {x: 240, y: 340, z: 0}
+    m_Position: {x: 160, y: 290, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 3759051236212934279}
     m_Position: {x: 190, y: 500, z: 0}
@@ -2329,7 +2332,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 7
-    m_ConditionEvent: xDirection
+    m_ConditionEvent: direction
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -2621067238410245280}
