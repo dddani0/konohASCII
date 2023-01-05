@@ -21,6 +21,7 @@ public class Gamemanager : MonoBehaviour
     private void Start()
     {
         FetchRudimentaryValues();
+        playerEntity.FetchRudimentaryValues();
     }
 
     private void Update()

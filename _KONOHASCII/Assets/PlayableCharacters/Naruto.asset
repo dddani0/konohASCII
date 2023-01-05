@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: Naruto
   m_EditorClassIdentifier: 
   playerName: Naruto
-  characterDescription: 
+  characterDescription: 'Naruto is a playable character.
+
+    Konohagakure, genin
+    level ninja.'
   playerHealth: 750
   headshot: {fileID: 40699328708876873, guid: 670e1a373d3b31e4e99608472a08be80, type: 3}
   playerSpeed: 30

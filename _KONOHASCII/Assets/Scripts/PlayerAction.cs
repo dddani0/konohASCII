@@ -4,6 +4,7 @@ using UnityEngine;
 public class PlayerAction : MonoBehaviour
 {
     [Header("Resources")] public Gamemanager gamemanager;
+    public PlayableCharacter playableCharacter;
     public PlayerMovement playerMovement;
     public PlayerAnimation playerAnimation;
     [Space(20f)] public bool isBlocking;
@@ -69,7 +70,6 @@ public class PlayerAction : MonoBehaviour
 
     private void Start()
     {
-        FetchRudimentaryValues();
     }
 
     void Update()
@@ -103,7 +103,7 @@ public class PlayerAction : MonoBehaviour
         CrosshairDisplay();
     }
 
-    private void FetchRudimentaryValues()
+    public void FetchRudimentaryValues()
     {
         healthPoints = maximumHealthPoints;
         gamemanager = GameObject.FindGameObjectWithTag("Gamemanager").GetComponent<Gamemanager>();
@@ -118,6 +118,9 @@ public class PlayerAction : MonoBehaviour
         crosshairGameObject.GetComponent<SpriteRenderer>().sprite = crosshairSprite;
         weaponContainer = gamemanager.GetComponent<Gamemanager>().weaponEntity;
         secondsBetweenWeaponSwap = maximumSecondsBetweenWeaponSwap;
+        print(gamemanager);
+        print(gamemanager.pauseManager);
+        gamemanager.pauseManager.LoadPlayableCharacterStatistics(playableCharacter.playableCharacter, this);
     }
 
     private void PrimaryShortRangeAttack()
@@ -301,6 +304,8 @@ public class PlayerAction : MonoBehaviour
                     }
 
                     secondsBetweenWeaponSwap = maximumSecondsBetweenWeaponSwap;
+                    gamemanager.pauseManager.LoadPlayableCharacterStatistics(playableCharacter.playableCharacter,
+                        this); //Refresh
                 }
 
                 break;
