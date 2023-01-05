@@ -118,8 +118,6 @@ public class PlayerAction : MonoBehaviour
         crosshairGameObject.GetComponent<SpriteRenderer>().sprite = crosshairSprite;
         weaponContainer = gamemanager.GetComponent<Gamemanager>().weaponEntity;
         secondsBetweenWeaponSwap = maximumSecondsBetweenWeaponSwap;
-        print(gamemanager);
-        print(gamemanager.pauseManager);
         gamemanager.pauseManager.LoadPlayableCharacterStatistics(playableCharacter.playableCharacter, this);
     }
 
