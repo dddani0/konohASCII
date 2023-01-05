@@ -2268,6 +2268,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1825151642}
     m_Modifications:
+    - target: {fileID: 1738587745, guid: 56a16d5b132340d42957fae0428069d4, type: 3}
+      propertyPath: seconds
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1738587745, guid: 56a16d5b132340d42957fae0428069d4, type: 3}
+      propertyPath: minutes
+      value: 59
+      objectReference: {fileID: 0}
     - target: {fileID: 2619277658145992716, guid: 56a16d5b132340d42957fae0428069d4, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 228.55054

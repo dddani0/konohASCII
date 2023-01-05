@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Net;
 using Unity.Collections.LowLevel.Unsafe;
+using Unity.Mathematics;
 using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -15,7 +16,15 @@ public class PauseGUI : MonoBehaviour
     [Space] [Space, Tooltip("0=continue; 1=help; 2=options; 3=quit.")]
     public Button[] pauseButtons;
 
-    [Space(10f)] public TMPro.TextMeshProUGUI characterDescription;
+    /// <summary>
+    /// Timer values assign elsewhere
+    /// </summary>
+    private float seconds;
+
+    private int minutes;
+    private int hours;
+    public TMPro.TextMeshProUGUI timerText;
+    [Space] [Space(10f)] public TMPro.TextMeshProUGUI characterDescription;
     public Image characterHeadSlot;
     [Space] public Image secondaryWeaponSlot;
     [Space] public GameObject loadoutTitle;
@@ -37,6 +46,7 @@ public class PauseGUI : MonoBehaviour
     private void Update()
     {
         isGamePaused = fetchPauseMenuState();
+        ManageTimer();
     }
 
 
@@ -138,6 +148,24 @@ public class PauseGUI : MonoBehaviour
         }
     }
 
+    private void ManageTimer()
+    {
+        seconds = FetchElapsedSeconds(seconds);
+        if (seconds >= 60)
+        {
+            minutes++;
+            seconds = 0;
+        }
+
+        if (minutes >= 60)
+        {
+            hours++;
+            minutes = 0;
+        }
+
+        timerText.text = assessTimerComponents(seconds, minutes, hours);
+    }
+
     private bool fetchPauseMenuState()
     {
         bool _isPaused = gamemanager.isGamePaused;
@@ -176,5 +204,21 @@ public class PauseGUI : MonoBehaviour
         _count = FetchPrimaryWeapon() ? _count + 1 : _count + 0;
         _count = FetchSecondaryWeapon() ? _count + 1 : _count + 0;
         return _count;
+    }
+
+    private float FetchElapsedSeconds(float _timerInput)
+    {
+        float _currentTimer = _timerInput += Time.deltaTime;
+        return _currentTimer;
+    }
+
+    private string assessTimerComponents(float _seconds, int _minutes, int _hours)
+    {
+        string _secondsString =
+            Mathf.RoundToInt(_seconds) < 10 ? $"0{Mathf.RoundToInt(_seconds)}" : Mathf.RoundToInt(_seconds).ToString();
+        string _minutesString = _minutes < 10 ? $"0{_minutes}" : _minutes.ToString();
+        string _hoursString = hours < 10 ? $"0{_hours}" : _hours.ToString();
+        string _assessedStrings = $"{_hoursString}:{_minutesString}:{_secondsString}";
+        return _assessedStrings;
     }
 }

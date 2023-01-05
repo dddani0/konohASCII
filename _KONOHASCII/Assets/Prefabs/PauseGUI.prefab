@@ -3108,6 +3108,10 @@ MonoBehaviour:
   - {fileID: 8760321041291148193}
   - {fileID: 3404115328444191346}
   - {fileID: 1175556420207365901}
+  seconds: 0
+  minutes: 0
+  hours: 0
+  timerText: {fileID: 8602868554581724419}
   characterDescription: {fileID: 7603876160195203527}
   characterHeadSlot: {fileID: 1238221081843194660}
   secondaryWeaponSlot: {fileID: 2800425797214129094}
