@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Net;
-using Unity.Collections.LowLevel.Unsafe;
-using Unity.Mathematics;
-using UnityEditorInternal;
-using UnityEngine;
-using UnityEngine.Serialization;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class PauseGUI : MonoBehaviour
@@ -163,7 +155,7 @@ public class PauseGUI : MonoBehaviour
             minutes = 0;
         }
 
-        timerText.text = assessTimerComponents(seconds, minutes, hours);
+        timerText.text = AssessTimerComponents(seconds, minutes, hours);
     }
 
     private bool fetchPauseMenuState()
@@ -212,7 +204,7 @@ public class PauseGUI : MonoBehaviour
         return _currentTimer;
     }
 
-    private string assessTimerComponents(float _seconds, int _minutes, int _hours)
+    private string AssessTimerComponents(float _seconds, int _minutes, int _hours)
     {
         string _secondsString =
             Mathf.RoundToInt(_seconds) < 10 ? $"0{Mathf.RoundToInt(_seconds)}" : Mathf.RoundToInt(_seconds).ToString();

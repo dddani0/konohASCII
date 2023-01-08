@@ -2276,6 +2276,26 @@ PrefabInstance:
       propertyPath: minutes
       value: 59
       objectReference: {fileID: 0}
+    - target: {fileID: 1260624535119563480, guid: 56a16d5b132340d42957fae0428069d4, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1260624535119563480, guid: 56a16d5b132340d42957fae0428069d4, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1260624535119563480, guid: 56a16d5b132340d42957fae0428069d4, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1375080692146662101, guid: 56a16d5b132340d42957fae0428069d4, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1375080692146662101, guid: 56a16d5b132340d42957fae0428069d4, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2619277658145992716, guid: 56a16d5b132340d42957fae0428069d4, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 228.55054
@@ -2283,6 +2303,62 @@ PrefabInstance:
     - target: {fileID: 2619277658145992716, guid: 56a16d5b132340d42957fae0428069d4, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 49.486572
+      objectReference: {fileID: 0}
+    - target: {fileID: 3364880734271109266, guid: 56a16d5b132340d42957fae0428069d4, type: 3}
+      propertyPath: m_text
+      value: Option A
+      objectReference: {fileID: 0}
+    - target: {fileID: 3784443550826992676, guid: 56a16d5b132340d42957fae0428069d4, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3784443550826992676, guid: 56a16d5b132340d42957fae0428069d4, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4123558757467296785, guid: 56a16d5b132340d42957fae0428069d4, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4123558757467296785, guid: 56a16d5b132340d42957fae0428069d4, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4123558757467296785, guid: 56a16d5b132340d42957fae0428069d4, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4152534364987482268, guid: 56a16d5b132340d42957fae0428069d4, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4152534364987482268, guid: 56a16d5b132340d42957fae0428069d4, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4432166210021417770, guid: 56a16d5b132340d42957fae0428069d4, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4432166210021417770, guid: 56a16d5b132340d42957fae0428069d4, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4432166210021417770, guid: 56a16d5b132340d42957fae0428069d4, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5583805325581756458, guid: 56a16d5b132340d42957fae0428069d4, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.000017166138
+      objectReference: {fileID: 0}
+    - target: {fileID: 6048827293284393981, guid: 56a16d5b132340d42957fae0428069d4, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6048827293284393981, guid: 56a16d5b132340d42957fae0428069d4, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8602868553272795067, guid: 56a16d5b132340d42957fae0428069d4, type: 3}
       propertyPath: m_AnchorMin.y
