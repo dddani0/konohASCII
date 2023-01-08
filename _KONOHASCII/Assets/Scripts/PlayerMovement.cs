@@ -18,6 +18,8 @@ public class PlayerMovement : MonoBehaviour
     [Header("Button inputs")] private PlayerMovementInput playerMovementInput;
 
     [Space] public float mouseYAxisInput;
+    public float maximumPauseGameCooldown;
+    private float currentPauseGameCooldown;
 
     [FormerlySerializedAs("movementAxisInput")]
     public float xMovementAxisInput;
@@ -164,6 +166,7 @@ public class PlayerMovement : MonoBehaviour
         isGrippedActionTaken = FetchGripInput();
         AssignAnimationVariables();
         if (isStandingOnWall) canMoveOnWall = FetchMoveStateOnWall();
+        currentPauseGameCooldown = fetchPauseGameCooldown();
     }
 
     private void FixedUpdate()
@@ -193,7 +196,7 @@ public class PlayerMovement : MonoBehaviour
         float _currentVelocity = !isGripped ? currentVelocity.x : currentVelocity.y;
         float _currentDirection = !isGripped ? math.abs(_currentVelocity) > 0.9 ? xDirection : 0 :
             canMoveOnWall ? yDirection : 0f;
-        
+
 
         switch (int.TryParse(xDirection.ToString(), out int discardNumber))
         {
@@ -456,7 +459,8 @@ public class PlayerMovement : MonoBehaviour
     public void FetchPauseMenuInput(InputAction.CallbackContext context)
     {
         if (context.started)
-            playerAction.gamemanager.GetComponent<Gamemanager>().isGamePaused = true;
+            playerAction.gamemanager.GetComponent<Gamemanager>().isGamePaused =
+                !playerAction.gamemanager.GetComponent<Gamemanager>().isGamePaused && currentPauseGameCooldown <= 0;
     }
 
     public void FetchWallGripInput(InputAction.CallbackContext context)
@@ -469,9 +473,15 @@ public class PlayerMovement : MonoBehaviour
 
     #endregion
 
-    private float fetchCurrentCooldown()
+    private float fetchCurrentStanceCooldown()
     {
         float _currentCooldown = currentSwitchStanceCooldown -= Time.deltaTime;
+        return _currentCooldown;
+    }
+
+    private float fetchPauseGameCooldown()
+    {
+        float _currentCooldown = currentPauseGameCooldown -= Time.deltaTime;
         return _currentCooldown;
     }
 
@@ -640,7 +650,7 @@ public class PlayerMovement : MonoBehaviour
                 {
                     ChangeWallStance(false);
                     transform.localEulerAngles = new Vector3(0, 0, 0);
-                    currentSwitchStanceCooldown = fetchCurrentCooldown();
+                    currentSwitchStanceCooldown = fetchCurrentStanceCooldown();
                     // Collect wall information, set disable brakes.
 
                     //Collect touching wall.
@@ -699,7 +709,7 @@ public class PlayerMovement : MonoBehaviour
 
                 break;
             case false:
-                currentSwitchStanceCooldown = fetchCurrentCooldown();
+                currentSwitchStanceCooldown = fetchCurrentStanceCooldown();
                 if (isWallGrabPressed && !playerAction.isBusy && currentSwitchStanceCooldown <= 0)
                 {
                     ChangeWallStance(false);

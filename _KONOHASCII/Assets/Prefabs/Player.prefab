@@ -435,6 +435,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gamemanager: {fileID: 0}
+  playableCharacter: {fileID: 7248831842670079693}
   playerMovement: {fileID: 0}
   playerAnimation: {fileID: 0}
   isBlocking: 0
@@ -496,6 +497,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mouseYAxisInput: 0
+  maximumPauseGameCooldown: 1
   xMovementAxisInput: 0
   yMovementAxisInput: 0
   isPlayerInMotion: 0
