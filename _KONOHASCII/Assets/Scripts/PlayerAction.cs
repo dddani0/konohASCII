@@ -449,7 +449,8 @@ public class PlayerAction : MonoBehaviour
 
     private void CheckBusyBooleanStatement()
     {
-        isBusy = playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).IsTag("Action");
+        isBusy = playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).IsTag("Action") ||
+                 gamemanager.isGamePaused;
 
         if (isBusy || isStaggered) //freeze if staggered or action is taking place
             switch (!playerMovement.isGripped)

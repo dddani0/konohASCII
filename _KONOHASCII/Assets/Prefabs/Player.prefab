@@ -497,6 +497,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mouseYAxisInput: 0
+  maximumPauseGameCooldown: 1
   xMovementAxisInput: 0
   yMovementAxisInput: 0
   isPlayerInMotion: 0
