@@ -12,7 +12,7 @@ public class Targeter : MonoBehaviour
     [Space] [Range(0, 25)] public float targetRange;
 
     [Space] public GameObject target;
-    
+
     void Start()
     {
         FetchRudimentaryValues();
@@ -35,7 +35,9 @@ public class Targeter : MonoBehaviour
                 if (col.tag.ToUpper().Contains("TARGET")) targetEntity.Add(col);
             }
 
-            target = cols.Length > 1 ? cols[0].gameObject : FetchTarget(targetEntity);
+            target = targetEntity.Count > 0
+                ? targetEntity.Count > 1 ? targetEntity[0].gameObject : FetchTarget(targetEntity)
+                : null;
         }
     }
 
