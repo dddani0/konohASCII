@@ -6,13 +6,14 @@ TagManager:
   tags:
   - Ground
   - Gamemanager
-  - Enemy
   - Weapon
   - PrimaryWeapon
   - Drone
   - UI
   - Flag
   - PauseUI
+  - EnemyTarget
+  - TargetDummy
   layers:
   - Default
   - TransparentFX

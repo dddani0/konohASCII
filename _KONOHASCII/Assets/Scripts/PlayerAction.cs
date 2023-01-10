@@ -543,7 +543,7 @@ public class PlayerAction : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.CompareTag("Enemy"))
+        if (col.CompareTag("EnemyTarget"))
         {
             //This is when the bottomcollider (lol) detects an enemy, when enabled
             //Used by AirAttack
