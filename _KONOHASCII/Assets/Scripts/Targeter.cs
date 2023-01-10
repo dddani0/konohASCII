@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -28,15 +29,13 @@ public class Targeter : MonoBehaviour
         autoTargetCooldown = FetchCooldown(autoTargetCooldown);
         if (autoTargetCooldown <= 0)
         {
-            Collider2D[] cols = Physics2D.OverlapCircleAll(transform.position, targetRange);
-            List<Collider2D> targetEntity = new List<Collider2D>();
-            foreach (var col in cols)
-            {
-                if (col.tag.ToUpper().Contains("TARGET")) targetEntity.Add(col);
-            }
+            var cols = Physics2D.OverlapCircleAll(transform.position, targetRange);
+            var targetEntity = cols.Where(col => col.tag.ToUpper().Contains("TARGET")).ToList();
 
             target = targetEntity.Count > 0
-                ? targetEntity.Count > 1 ? targetEntity[0].gameObject : FetchTarget(targetEntity)
+                ? targetEntity.Count > 1 ? 
+                    targetEntity[0].gameObject : 
+                    FetchTarget(targetEntity)
                 : null;
         }
     }

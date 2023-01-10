@@ -1,4 +1,5 @@
-﻿using UnityEditorInternal;
+﻿using System;
+using UnityEditorInternal;
 using UnityEngine;
 
 public class PlayerAction : MonoBehaviour
@@ -7,6 +8,7 @@ public class PlayerAction : MonoBehaviour
     public PlayableCharacter playableCharacter;
     public PlayerMovement playerMovement;
     public PlayerAnimation playerAnimation;
+    public Targeter playerAutoTargeter;
     [Space(20f)] public bool isBlocking;
     public bool isPrimaryAttack;
     public bool isSecondaryAttack;
@@ -41,7 +43,9 @@ public class PlayerAction : MonoBehaviour
     [Space(20f)] [Header("Chakra")] public int maximumChakra;
     [SerializeField] private int chakra;
     [Space(20f)] [Header("Brakes")] public bool isBusy;
-    public bool isStaggered;
+    [Space] public bool canTargetDash;
+    public Transform targetDashPosition;
+    [Space] public bool isStaggered;
     public bool isFacingRight;
     [Space] public float maximumCastWeaponAngle; //Two values -x and x
     [SerializeField] private float castWeaponAngle;
@@ -68,10 +72,6 @@ public class PlayerAction : MonoBehaviour
     [Space(20f)] [Header("Layermasks and Button mapping")]
     public LayerMask enemylayer;
 
-    private void Start()
-    {
-    }
-
     void Update()
     {
         if (isCombo)
@@ -88,6 +88,7 @@ public class PlayerAction : MonoBehaviour
         PrimaryShortRangeAttack();
         RangeAttack(); //Signals expensive method invocation
         ChakraBlock();
+        canTargetDash = CheckTargetDash();
     }
 
     private void LateUpdate()
@@ -135,7 +136,7 @@ public class PlayerAction : MonoBehaviour
                 {
                     case true:
 
-                        switch (fetchIsPrimaryWeaponActive())
+                        switch (FetchIsPrimaryWeaponActive())
                         {
                             case true:
                                 if (isPrimaryAttack && canProceedWithCombo)
@@ -159,7 +160,7 @@ public class PlayerAction : MonoBehaviour
 
                         break;
                     case false:
-                        switch (fetchIsPrimaryWeaponActive())
+                        switch (FetchIsPrimaryWeaponActive())
                         {
                             case true:
                                 if (isPrimaryAttack && !isBusy)
@@ -194,7 +195,7 @@ public class PlayerAction : MonoBehaviour
     {
         //Creates instance of weapon prefab.
         //Modifies said instance from selected asset.
-        if (signalSecondaryWeaponUsage() && !playerMovement.isStandingOnWall)
+        if (SignalSecondaryWeaponUsage() && !playerMovement.isStandingOnWall)
         {
             playerAnimation.SetAnimationState("range_attack", playerAnimation.defaultAnimator);
             GameObject _temporaryWeapon;
@@ -204,13 +205,13 @@ public class PlayerAction : MonoBehaviour
                     _temporaryWeapon = Instantiate(weaponContainer,
                         weaponPosition[0].position, weaponPosition[0].rotation);
                     _temporaryWeapon.GetComponent<SecondaryWeaponContainer>()
-                        .AssignNewWeapon(activeSecondaryWeapon, CalculateWeaponAngle(), 1);
+                        .AssignNewWeapon(activeSecondaryWeapon, CalculateWeaponCastingAngle(), 1);
                     break;
                 case false:
                     _temporaryWeapon = Instantiate(weaponContainer,
                         weaponPosition[1].position, weaponPosition[1].rotation);
                     _temporaryWeapon.GetComponent<SecondaryWeaponContainer>()
-                        .AssignNewWeapon(activeSecondaryWeapon, CalculateWeaponAngle(), -1);
+                        .AssignNewWeapon(activeSecondaryWeapon, CalculateWeaponCastingAngle(), -1);
                     break;
             }
         }
@@ -315,7 +316,7 @@ public class PlayerAction : MonoBehaviour
 
     private void UpdateHealthDisplay()
     {
-        gamemanager.uiManager.playerHeatlhBar.fillAmount = fetchHealthBarProgress();
+        gamemanager.uiManager.playerHeatlhBar.fillAmount = FetchHealthBarProgress();
     }
 
     private Vector3 CalculateCrosshairPosition()
@@ -361,7 +362,7 @@ public class PlayerAction : MonoBehaviour
         return _shadowPosition;
     }
 
-    private bool signalSecondaryWeaponUsage()
+    private bool SignalSecondaryWeaponUsage()
     {
         //Can the player attack?
         bool _canThePlayerUseSecondaryAttack = isSecondaryAttack && !isBusy &&
@@ -370,19 +371,19 @@ public class PlayerAction : MonoBehaviour
         return _canThePlayerUseSecondaryAttack;
     }
 
-    private bool fetchIsPrimaryWeaponActive()
+    private bool FetchIsPrimaryWeaponActive()
     {
         bool _doesPlayerHavePrimaryWeapon = activePrimaryWeapon;
         return _doesPlayerHavePrimaryWeapon;
     }
 
-    private float fetchHealthBarProgress()
+    private float FetchHealthBarProgress()
     {
         float _currentHealthBarBlanketValue = 1 - (healthPoints / maximumHealthPoints);
         return _currentHealthBarBlanketValue;
     }
 
-    private float CalculateWeaponAngle()
+    private float CalculateWeaponCastingAngle()
     {
         Transform weaponStartPositionTransform = isFacingRight ? weaponPosition[1] : weaponPosition[0];
         Vector3 weaponStartPosition = isFacingRight
@@ -418,6 +419,51 @@ public class PlayerAction : MonoBehaviour
         return _isInMidair;
     }
 
+    private bool CheckTargetDash()
+    {
+        //Can dash?
+        bool TargetExistance(GameObject _targetExistance)
+        {
+            return _targetExistance != null;
+        }
+
+        float TargetDegree()
+        {
+            return FetchTargetDegree();
+        }
+
+        return TargetExistance(playerAutoTargeter.target) && FetchTargetDegree() > 112 && FetchTargetDegree() < 140;
+    }
+
+    private float FetchTargetDegree()
+    {
+        bool IsTargetReal()
+        {
+            return playerAutoTargeter.target.GetComponent<EnemyBehavior>();
+        }
+
+        bool IsPlayerOnTargetRightSide()
+        {
+            return transform.position.x < playerAutoTargeter.target.transform.position.x;
+        }
+
+        Vector3 enemyTargetForward = IsTargetReal() ? Vector3.zero : //Currently placeholder
+            IsPlayerOnTargetRightSide() ? -playerAutoTargeter.target.transform.right :
+            playerAutoTargeter.target.transform.right;
+
+        Vector3 playerToEnemy = IsTargetReal()
+            ? Vector3.zero
+            : playerAutoTargeter.target.transform.position - transform.position;
+        if (playerAutoTargeter.target != null)
+        {
+            Debug.DrawRay(transform.position, playerToEnemy, Color.cyan);
+            Debug.DrawRay(playerAutoTargeter.target.transform.position, enemyTargetForward, Color.cyan);
+            print(Vector2.Angle(enemyTargetForward, playerToEnemy));
+        }
+
+
+        return Vector2.Angle(enemyTargetForward, playerToEnemy);
+    }
 
     private bool CheckCanChakraRegenerate()
     {

@@ -454,6 +454,7 @@ MonoBehaviour:
   playableCharacter: {fileID: 7248831842670079693}
   playerMovement: {fileID: 0}
   playerAnimation: {fileID: 0}
+  playerAutoTargeter: {fileID: 8194986643398475224}
   isBlocking: 0
   isPrimaryAttack: 0
   isSecondaryAttack: 0
