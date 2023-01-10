@@ -4,11 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f509f050-b68b-46bb-891c-6810656fb82b" name="Changes" comment="Added non-functional settings submenu.">
+    <list default="true" id="f509f050-b68b-46bb-891c-6810656fb82b" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Assets/Targeter.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Targeter.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea._KONOHASCII/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea._KONOHASCII/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Player.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Player.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Developer_Room.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Developer_Room.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/PlayerAction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PlayerAction.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PlayerMovement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PlayerMovement.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,10 +21,15 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$/.." value="main" />
+        <entry key="$PROJECT_DIR$/.." value="feature/target_dash" />
       </map>
     </option>
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN"
+  }
+}]]></component>
   <component name="GitSEFilterConfiguration">
     <file-type-list>
       <filtered-out-file-type name="LOCAL_BRANCH" />
@@ -30,13 +38,21 @@
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
   </component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="3b20fb7c-6147-45f7-a0c4-d2d10b370f53" />
+        <option name="url" value="https://github.com/marloss/konohASCII.git" />
+      </UrlAndAccount>
+    </option>
+  </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/49f4e7e791cc4fffacd88f729e2b1e4c128000/7d/94667d20/SetupCoroutine.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/49f4e7e791cc4fffacd88f729e2b1e4c128000/95/ac769c14/GameObject.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/fb001e01371b4adca20013e0ac7638963e2400/9f/6c662b28/IntPtr.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/GITHUB/konohASCII/_KONOHASCII/Assets/Animation/Default_Animations/PauseGUI/ActivateHelpSubmenu.anim" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/GITHUB/konohASCII/_KONOHASCII/Assets/Prefabs/PauseGUI.prefab" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/GITHUB/konohASCII/_KONOHASCII/Assets/Prefabs/Player.prefab" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/GITHUB/konohASCII/_KONOHASCII/Assets/Scenes/Developer_Room.unity" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/GITHUB/konohASCII/_KONOHASCII/Assets/Scenes/Developer_Room.unity" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Targeter.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.cinemachine@2.6.11/Runtime/Core/CinemachineVirtualCameraBase.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.inputsystem@1.0.2/InputSystem/Actions/InputAction.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.inputsystem@1.0.2/InputSystem/Actions/InputActionState.cs" root0="SKIP_HIGHLIGHTING" />
@@ -78,7 +94,7 @@
     ]
   }
 }</component>
-  <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
+  <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor &amp; Play">
     <configuration name="Standalone Player" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="$PROJECT_DIR$/../../../Testbuilds/testbuild1.x86_64" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -209,7 +225,8 @@
       <workItem from="1672786769733" duration="2651000" />
       <workItem from="1672829552741" duration="1706000" />
       <workItem from="1672906587663" duration="8249000" />
-      <workItem from="1673186423741" duration="3053000" />
+      <workItem from="1673186423741" duration="3319000" />
+      <workItem from="1673361315041" duration="2886000" />
     </task>
     <task id="LOCAL-00001" summary="-Fixed movement, and jumping issues.">
       <created>1671564644944</created>
@@ -351,7 +368,14 @@
       <option name="project" value="LOCAL" />
       <updated>1673193243147</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="Player can pause-, unpause the game with the escape key. &#10;When the pause menu is enabled, the game pauses.">
+      <created>1673194096734</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1673194096734</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -408,7 +432,8 @@
     <MESSAGE value="removed debug print functions." />
     <MESSAGE value="Added timer" />
     <MESSAGE value="Added non-functional settings submenu." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added non-functional settings submenu." />
+    <MESSAGE value="Player can pause-, unpause the game with the escape key. &#10;When the pause menu is enabled, the game pauses." />
+    <option name="LAST_COMMIT_MESSAGE" value="Player can pause-, unpause the game with the escape key. &#10;When the pause menu is enabled, the game pauses." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
