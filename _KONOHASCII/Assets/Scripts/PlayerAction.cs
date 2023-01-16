@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEditorInternal;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PlayerAction : MonoBehaviour
 {
@@ -43,8 +44,12 @@ public class PlayerAction : MonoBehaviour
     [Space(20f)] [Header("Chakra")] public int maximumChakra;
     [SerializeField] private int chakra;
     [Space(20f)] [Header("Brakes")] public bool isBusy;
+    [Header("Target Dash")] public Sprite targetIndicator;
     [Space] public bool canTargetDash;
-    public Transform targetDashPosition;
+
+    [FormerlySerializedAs("targetDashPosition")]
+    public GameObject autoTargeterObject;
+
     [Space] public bool isStaggered;
     public bool isFacingRight;
     [Space] public float maximumCastWeaponAngle; //Two values -x and x
@@ -88,7 +93,7 @@ public class PlayerAction : MonoBehaviour
         PrimaryShortRangeAttack();
         RangeAttack(); //Signals expensive method invocation
         ChakraBlock();
-        canTargetDash = CheckTargetDash();
+        ManageTargetDash();
     }
 
     private void LateUpdate()
@@ -422,9 +427,9 @@ public class PlayerAction : MonoBehaviour
     private bool CheckTargetDash()
     {
         //Can dash?
-        bool TargetExistance(GameObject _targetExistance)
+        bool TargetExistance()
         {
-            return _targetExistance != null;
+            return playerAutoTargeter.target != null;
         }
 
         float TargetDegree()
@@ -432,11 +437,71 @@ public class PlayerAction : MonoBehaviour
             return FetchTargetDegree();
         }
 
-        return TargetExistance(playerAutoTargeter.target) && FetchTargetDegree() > 112 && FetchTargetDegree() < 140;
+        return TargetExistance() && TargetDegree() > 110 && TargetDegree() < 150;
+    }
+
+    private void ManageTargetDash()
+    {
+        canTargetDash = CheckTargetDash();
+
+        autoTargeterObject.transform.position = SetTargetDashIndicatorPosition(
+            SetTargetDashIndicatorSprite(targetIndicator),
+            autoTargeterObject.GetComponent<SpriteRenderer>());
+        SetupSpriteRendererAttributes(autoTargeterObject.GetComponent<SpriteRenderer>());
+
+        void SetupSpriteRendererAttributes(SpriteRenderer _spriteRenderer)
+        {
+            bool IsTargetBelow()
+            {
+                return transform.position.y > playerAutoTargeter.target.transform.position.y;
+            }
+
+            bool isTargetRightSide()
+            {
+                return transform.position.x < playerAutoTargeter.target.transform.position.x;
+            }
+
+            bool TargetExistance()
+            {
+                return playerAutoTargeter.target;
+            }
+
+            if (!TargetExistance()) return;
+
+            _spriteRenderer.flipX = isTargetRightSide();
+            _spriteRenderer.flipY = IsTargetBelow();
+        }
+    }
+
+    private Vector3 SetTargetDashIndicatorPosition(Sprite _indicatorSprite, SpriteRenderer _spriteRenderer)
+    {
+        _spriteRenderer.sprite = _indicatorSprite;
+        return canTargetDash ? playerAutoTargeter.target.transform.position : Vector3.zero;
+    }
+
+    private Sprite SetTargetDashIndicatorSprite(Sprite _sprite)
+    {
+        //Places mark on target, once the player can dash.
+        bool TargetExistance()
+        {
+            return playerAutoTargeter.target;
+        }
+
+        if (TargetExistance())
+        {
+        }
+
+        return canTargetDash ? _sprite : null;
     }
 
     private float FetchTargetDegree()
     {
+        //Calculate the degree between player and the target
+        bool targetExist()
+        {
+            return playerAutoTargeter.target;
+        }
+
         bool IsTargetReal()
         {
             return playerAutoTargeter.target.GetComponent<EnemyBehavior>();
@@ -454,11 +519,10 @@ public class PlayerAction : MonoBehaviour
         Vector3 playerToEnemy = IsTargetReal()
             ? Vector3.zero
             : playerAutoTargeter.target.transform.position - transform.position;
-        if (playerAutoTargeter.target != null)
+        if (targetExist())
         {
             Debug.DrawRay(transform.position, playerToEnemy, Color.cyan);
             Debug.DrawRay(playerAutoTargeter.target.transform.position, enemyTargetForward, Color.cyan);
-            print(Vector2.Angle(enemyTargetForward, playerToEnemy));
         }
 
 
@@ -582,9 +646,6 @@ public class PlayerAction : MonoBehaviour
         Gizmos.DrawWireSphere(weaponPosition[0].position, attackRadius);
         Gizmos.DrawWireSphere(weaponPosition[1].position, attackRadius);
         Gizmos.color = Color.yellow;
-        Gizmos.DrawLine(
-            new Vector3(transform.position.x + shadowPositionXOffset, transform.position.y - shadowPositionYOffset),
-            new Vector3(transform.position.x + shadowPositionXOffset, (transform.position.y - 150)));
     }
 
     private void OnTriggerEnter2D(Collider2D col)
