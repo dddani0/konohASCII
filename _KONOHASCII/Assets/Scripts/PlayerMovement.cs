@@ -193,7 +193,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void AssignAnimationVariables()
     {
-        float _currentVelocity = !isGripped ? currentVelocity.x : currentVelocity.y;
+        float _currentVelocity = !isGripped
+            ? playerAction.canTargetDash && playerAction.isDashAttack ? 0 : currentVelocity.x
+            : currentVelocity.y;
         float _currentDirection = !isGripped ? math.abs(_currentVelocity) > 0.9 ? xDirection : 0 :
             canMoveOnWall ? yDirection : 0f;
 

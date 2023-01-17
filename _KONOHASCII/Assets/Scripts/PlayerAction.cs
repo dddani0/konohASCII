@@ -13,6 +13,10 @@ public class PlayerAction : MonoBehaviour
     [Space(20f)] public bool isBlocking;
     public bool isPrimaryAttack;
     public bool isSecondaryAttack;
+    public bool isDashAttack;
+    [Space] public bool hasDashed = false;
+    public bool isDashingInProgress;
+    public float dashForce;
 
     [Header("Weapon_Attribute")]
     [SerializeField]
@@ -91,7 +95,7 @@ public class PlayerAction : MonoBehaviour
         isFacingRight = CheckObjectOrientation();
         CheckBusyBooleanStatement();
         PrimaryShortRangeAttack();
-        RangeAttack(); //Signals expensive method invocation
+        RangeAttack();
         ChakraBlock();
         ManageTargetDash();
     }
@@ -132,7 +136,7 @@ public class PlayerAction : MonoBehaviour
         switch (CheckMidAirState())
         {
             case true:
-                if (isPrimaryAttack && !isBusy)
+                if (isPrimaryAttack && !isBusy && !canTargetDash)
                     playerAnimation.SetAnimationState("airAttack", playerAnimation.defaultAnimator);
 
                 break;
@@ -424,82 +428,24 @@ public class PlayerAction : MonoBehaviour
         return _isInMidair;
     }
 
-    private bool CheckTargetDash()
+    private void ManageTargetDash()
     {
-        //Can dash?
+        //Deals with Target dash.
+
+        // Redundants
+        bool IsTargetBelow()
+        {
+            return transform.position.y > playerAutoTargeter.target.transform.position.y;
+        }
+
+        bool isTargetRightSide()
+        {
+            return transform.position.x < playerAutoTargeter.target.transform.position.x;
+        }
+
         bool TargetExistance()
         {
             return playerAutoTargeter.target != null;
-        }
-
-        float TargetDegree()
-        {
-            return FetchTargetDegree();
-        }
-
-        return TargetExistance() && TargetDegree() > 110 && TargetDegree() < 150;
-    }
-
-    private void ManageTargetDash()
-    {
-        canTargetDash = CheckTargetDash();
-
-        autoTargeterObject.transform.position = SetTargetDashIndicatorPosition(
-            SetTargetDashIndicatorSprite(targetIndicator),
-            autoTargeterObject.GetComponent<SpriteRenderer>());
-        SetupSpriteRendererAttributes(autoTargeterObject.GetComponent<SpriteRenderer>());
-
-        void SetupSpriteRendererAttributes(SpriteRenderer _spriteRenderer)
-        {
-            bool IsTargetBelow()
-            {
-                return transform.position.y > playerAutoTargeter.target.transform.position.y;
-            }
-
-            bool isTargetRightSide()
-            {
-                return transform.position.x < playerAutoTargeter.target.transform.position.x;
-            }
-
-            bool TargetExistance()
-            {
-                return playerAutoTargeter.target;
-            }
-
-            if (!TargetExistance()) return;
-
-            _spriteRenderer.flipX = isTargetRightSide();
-            _spriteRenderer.flipY = IsTargetBelow();
-        }
-    }
-
-    private Vector3 SetTargetDashIndicatorPosition(Sprite _indicatorSprite, SpriteRenderer _spriteRenderer)
-    {
-        _spriteRenderer.sprite = _indicatorSprite;
-        return canTargetDash ? playerAutoTargeter.target.transform.position : Vector3.zero;
-    }
-
-    private Sprite SetTargetDashIndicatorSprite(Sprite _sprite)
-    {
-        //Places mark on target, once the player can dash.
-        bool TargetExistance()
-        {
-            return playerAutoTargeter.target;
-        }
-
-        if (TargetExistance())
-        {
-        }
-
-        return canTargetDash ? _sprite : null;
-    }
-
-    private float FetchTargetDegree()
-    {
-        //Calculate the degree between player and the target
-        bool targetExist()
-        {
-            return playerAutoTargeter.target;
         }
 
         bool IsTargetReal()
@@ -507,26 +453,143 @@ public class PlayerAction : MonoBehaviour
             return playerAutoTargeter.target.GetComponent<EnemyBehavior>();
         }
 
-        bool IsPlayerOnTargetRightSide()
+        ///////////////////////////////////////////////////////////////////
+        // Parents 
+        bool CheckTargetDashState()
         {
-            return transform.position.x < playerAutoTargeter.target.transform.position.x;
+            //Signals, when the player is setup to target dash
+            float TargetDegree()
+            {
+                return FetchTargetDegree();
+            }
+
+            return TargetExistance() && TargetDegree() > 110 && TargetDegree() < 150 && !isDashingInProgress &&
+                   !playerMovement.isStandingOnWall && !playerMovement.isStandingOnGround && !hasDashed &&
+                   !playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).IsTag("Action");
         }
 
-        Vector3 enemyTargetForward = IsTargetReal() ? Vector3.zero : //Currently placeholder
-            IsPlayerOnTargetRightSide() ? -playerAutoTargeter.target.transform.right :
-            playerAutoTargeter.target.transform.right;
-
-        Vector3 playerToEnemy = IsTargetReal()
-            ? Vector3.zero
-            : playerAutoTargeter.target.transform.position - transform.position;
-        if (targetExist())
+        bool IsDashAttackButtonPressed()
         {
-            Debug.DrawRay(transform.position, playerToEnemy, Color.cyan);
-            Debug.DrawRay(playerAutoTargeter.target.transform.position, enemyTargetForward, Color.cyan);
+            //No need for new input
+            return isPrimaryAttack && !playerMovement.isStandingOnGround && !hasDashed;
         }
 
+        float FetchTargetDegree()
+        {
+            //Calculate the degree between player's forward direction and the target
+            bool IsPlayerOnTargetRightSide()
+            {
+                return transform.position.x < playerAutoTargeter.target.transform.position.x;
+            }
 
-        return Vector2.Angle(enemyTargetForward, playerToEnemy);
+            Vector3 EnemyForward()
+            {
+                return IsTargetReal() ? Vector3.zero : //Currently placeholder
+                    IsPlayerOnTargetRightSide() ? -playerAutoTargeter.target.transform.right :
+                    playerAutoTargeter.target.transform.right;
+            }
+
+            Vector3 PlayerEnemyVector()
+            {
+                return IsTargetReal()
+                    ? Vector3.zero
+                    : (playerAutoTargeter.target.transform.position - transform.position).normalized;
+            }
+
+            return Vector2.Angle(EnemyForward(), PlayerEnemyVector());
+        }
+
+        void InitiateTargetDash()
+        {
+            bool InterruptDash()
+            {
+                return Math.Abs(transform.localEulerAngles.z - FetchTargetDegree()) > 3;
+            }
+
+            bool TargetDashInitiated()
+            {
+                return IsDashAttackButtonPressed() && canTargetDash && !hasDashed && TargetExistance();
+            }
+
+            bool IsDashInProgress()
+            {
+                return hasDashed;
+            }
+
+            float FetchDashDirection()
+            {
+                Vector3 playerForward = isFacingRight ? -Vector3.left : Vector3.left;
+                Vector3 PlayerToEnemy = playerAutoTargeter.target.transform.position - transform.position;
+                return IsTargetBelow()
+                    ? Vector2.Angle(playerForward, PlayerToEnemy.normalized) * -1
+                    : Vector2.Angle(playerForward, PlayerToEnemy.normalized);
+            }
+
+            bool IsDashingFinished()
+            {
+                //Would prefer, but -> error
+                // return !TargetExistance() || Vector3.Distance(transform.position, playerAutoTargeter.target.transform.position) < 5;
+                return !TargetExistance() ||
+                       Vector3.Distance(transform.position, playerAutoTargeter.target.transform.position) < 1 ||
+                       (playerMovement.rigidbody2D.velocity.x + playerMovement.rigidbody2D.velocity.y <= 3 &&
+                        hasDashed);
+            }
+
+            Vector3 TargetDirection()
+            {
+                return (playerAutoTargeter.target.transform.position - transform.position).normalized;
+            }
+
+            isDashAttack = TargetDashInitiated();
+
+            isDashingInProgress = IsDashInProgress();
+
+            if (TargetDashInitiated())
+            {
+                playerMovement.rigidbody2D.velocity = TargetDirection() * 0;
+                playerMovement.rigidbody2D.velocity = TargetDirection() * dashForce;
+                transform.localEulerAngles = new Vector3(0, 0, FetchDashDirection());
+                hasDashed = true;
+            }
+
+            if (hasDashed && IsDashingFinished() && TargetExistance())
+            {
+                transform.localEulerAngles = new Vector3(0, 0, 0);
+                playerMovement.rigidbody2D.velocity = TargetDirection() * 0;
+                hasDashed = false;
+            }
+        }
+
+        void SetupSpriteRendererAttributes(SpriteRenderer _spriteRenderer)
+        {
+            if (!TargetExistance()) return;
+
+            _spriteRenderer.flipX = isTargetRightSide();
+            _spriteRenderer.flipY = IsTargetBelow();
+        }
+
+        Sprite SetTargetDashIndicatorSprite(Sprite _sprite)
+        {
+            //Places mark on target, once the player can dash.
+            return canTargetDash ? _sprite : null;
+        }
+
+        Vector3 SetTargetDashIndicatorPosition(Sprite _indicatorSprite, SpriteRenderer _spriteRenderer)
+        {
+            _spriteRenderer.sprite = _indicatorSprite;
+            return canTargetDash ? playerAutoTargeter.target.transform.position : Vector3.zero;
+        }
+
+        ///////////////////////////////////////////////////////////////////
+        canTargetDash = CheckTargetDashState();
+        playerAnimation.SetAnimationState("isDashingMotion", hasDashed, playerAnimation.defaultAnimator);
+
+        autoTargeterObject.transform.position = SetTargetDashIndicatorPosition(
+            SetTargetDashIndicatorSprite(targetIndicator),
+            autoTargeterObject.GetComponent<SpriteRenderer>());
+
+        SetupSpriteRendererAttributes(autoTargeterObject.GetComponent<SpriteRenderer>());
+        InitiateTargetDash();
     }
 
     private bool CheckCanChakraRegenerate()
