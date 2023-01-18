@@ -18,6 +18,7 @@ public class PlayerAction : MonoBehaviour
     public bool isDashingInProgress;
     public float dashForce;
     private float maximumDashDistance; //lack of pointers, must declare for later
+    private bool hasDamaged;            // same deal
     public float maximumDashAngle;
     public float minimuimDashAngle;
 
@@ -500,6 +501,10 @@ public class PlayerAction : MonoBehaviour
 
         void InitiateTargetDash()
         {
+            bool FetchDashDamageStatus()
+            {
+                return isDashingInProgress && Targets().Length > 0 && !hasDamaged;
+            }
             bool TargetDashInitiated()
             {
                 return IsDashAttackButtonPressed() && canTargetDash && !hasDashed && TargetExist();
@@ -547,12 +552,18 @@ public class PlayerAction : MonoBehaviour
                         ? (transform.position + Vector3.right - transform.position).normalized
                         : (transform.position + Vector3.left - transform.position).normalized);
             }
+            
+            Collider2D[] Targets()
+            {
+                return Physics2D.OverlapCircleAll(weaponPosition[0].position, attackRadius);
+            }
 
             isDashAttack = TargetDashInitiated();
             isDashingInProgress = IsDashInProgress();
 
             if (TargetDashInitiated())
             {
+                hasDamaged = false;
                 playerMovement.rigidbody2D.velocity = TargetDirection() * dashForce;
                 transform.localEulerAngles = new Vector3(0, 0, FetchDashDirection());
                 maximumDashDistance =
@@ -560,9 +571,19 @@ public class PlayerAction : MonoBehaviour
                 hasDashed = true;
             }
 
+            if (FetchDashDamageStatus())
+            {
+                foreach (var VARIABLE in Targets())
+                {
+                    print("BAM");
+                }
+
+                hasDamaged = true;
+            }
+                
+
             if (isDashingInProgress && IsDashingFinished())
             {
-                //Attack code
                 playerMovement.rigidbody2D.velocity = TargetDirection() * 0;
                 transform.localEulerAngles = new Vector3(0, 0, 0);
                 playerMovement.rigidbody2D.velocity = Vector2.zero;
