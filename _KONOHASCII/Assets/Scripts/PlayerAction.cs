@@ -1,5 +1,7 @@
-﻿using UnityEditorInternal;
+﻿using System;
+using UnityEditorInternal;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PlayerAction : MonoBehaviour
 {
@@ -7,9 +9,18 @@ public class PlayerAction : MonoBehaviour
     public PlayableCharacter playableCharacter;
     public PlayerMovement playerMovement;
     public PlayerAnimation playerAnimation;
+    public Targeter playerAutoTargeter;
     [Space(20f)] public bool isBlocking;
     public bool isPrimaryAttack;
     public bool isSecondaryAttack;
+    public bool isDashAttack;
+    [Space] public bool hasDashed = false;
+    public bool isDashingInProgress;
+    public float dashForce;
+    private float maximumDashDistance; //lack of pointers, must declare for later
+    private bool hasDamaged;            // same deal
+    public float maximumDashAngle;
+    public float minimuimDashAngle;
 
     [Header("Weapon_Attribute")]
     [SerializeField]
@@ -41,7 +52,13 @@ public class PlayerAction : MonoBehaviour
     [Space(20f)] [Header("Chakra")] public int maximumChakra;
     [SerializeField] private int chakra;
     [Space(20f)] [Header("Brakes")] public bool isBusy;
-    public bool isStaggered;
+    [Header("Target Dash")] public Sprite targetIndicator;
+    [Space] public bool canTargetDash;
+
+    [FormerlySerializedAs("targetDashPosition")]
+    public GameObject autoTargeterObject;
+
+    [Space] public bool isStaggered;
     public bool isFacingRight;
     [Space] public float maximumCastWeaponAngle; //Two values -x and x
     [SerializeField] private float castWeaponAngle;
@@ -68,10 +85,6 @@ public class PlayerAction : MonoBehaviour
     [Space(20f)] [Header("Layermasks and Button mapping")]
     public LayerMask enemylayer;
 
-    private void Start()
-    {
-    }
-
     void Update()
     {
         if (isCombo)
@@ -86,8 +99,9 @@ public class PlayerAction : MonoBehaviour
         isFacingRight = CheckObjectOrientation();
         CheckBusyBooleanStatement();
         PrimaryShortRangeAttack();
-        RangeAttack(); //Signals expensive method invocation
+        RangeAttack();
         ChakraBlock();
+        ManageTargetDash();
     }
 
     private void LateUpdate()
@@ -126,7 +140,7 @@ public class PlayerAction : MonoBehaviour
         switch (CheckMidAirState())
         {
             case true:
-                if (isPrimaryAttack && !isBusy)
+                if (isPrimaryAttack && !isBusy && !canTargetDash)
                     playerAnimation.SetAnimationState("airAttack", playerAnimation.defaultAnimator);
 
                 break;
@@ -135,7 +149,7 @@ public class PlayerAction : MonoBehaviour
                 {
                     case true:
 
-                        switch (fetchIsPrimaryWeaponActive())
+                        switch (FetchIsPrimaryWeaponActive())
                         {
                             case true:
                                 if (isPrimaryAttack && canProceedWithCombo)
@@ -159,7 +173,7 @@ public class PlayerAction : MonoBehaviour
 
                         break;
                     case false:
-                        switch (fetchIsPrimaryWeaponActive())
+                        switch (FetchIsPrimaryWeaponActive())
                         {
                             case true:
                                 if (isPrimaryAttack && !isBusy)
@@ -194,7 +208,7 @@ public class PlayerAction : MonoBehaviour
     {
         //Creates instance of weapon prefab.
         //Modifies said instance from selected asset.
-        if (signalSecondaryWeaponUsage() && !playerMovement.isStandingOnWall)
+        if (SignalSecondaryWeaponUsage() && !playerMovement.isStandingOnWall)
         {
             playerAnimation.SetAnimationState("range_attack", playerAnimation.defaultAnimator);
             GameObject _temporaryWeapon;
@@ -204,13 +218,13 @@ public class PlayerAction : MonoBehaviour
                     _temporaryWeapon = Instantiate(weaponContainer,
                         weaponPosition[0].position, weaponPosition[0].rotation);
                     _temporaryWeapon.GetComponent<SecondaryWeaponContainer>()
-                        .AssignNewWeapon(activeSecondaryWeapon, CalculateWeaponAngle(), 1);
+                        .AssignNewWeapon(activeSecondaryWeapon, CalculateWeaponCastingAngle(), 1);
                     break;
                 case false:
                     _temporaryWeapon = Instantiate(weaponContainer,
                         weaponPosition[1].position, weaponPosition[1].rotation);
                     _temporaryWeapon.GetComponent<SecondaryWeaponContainer>()
-                        .AssignNewWeapon(activeSecondaryWeapon, CalculateWeaponAngle(), -1);
+                        .AssignNewWeapon(activeSecondaryWeapon, CalculateWeaponCastingAngle(), -1);
                     break;
             }
         }
@@ -315,7 +329,7 @@ public class PlayerAction : MonoBehaviour
 
     private void UpdateHealthDisplay()
     {
-        gamemanager.uiManager.playerHeatlhBar.fillAmount = fetchHealthBarProgress();
+        gamemanager.uiManager.playerHeatlhBar.fillAmount = FetchHealthBarProgress();
     }
 
     private Vector3 CalculateCrosshairPosition()
@@ -361,7 +375,7 @@ public class PlayerAction : MonoBehaviour
         return _shadowPosition;
     }
 
-    private bool signalSecondaryWeaponUsage()
+    private bool SignalSecondaryWeaponUsage()
     {
         //Can the player attack?
         bool _canThePlayerUseSecondaryAttack = isSecondaryAttack && !isBusy &&
@@ -370,19 +384,19 @@ public class PlayerAction : MonoBehaviour
         return _canThePlayerUseSecondaryAttack;
     }
 
-    private bool fetchIsPrimaryWeaponActive()
+    private bool FetchIsPrimaryWeaponActive()
     {
         bool _doesPlayerHavePrimaryWeapon = activePrimaryWeapon;
         return _doesPlayerHavePrimaryWeapon;
     }
 
-    private float fetchHealthBarProgress()
+    private float FetchHealthBarProgress()
     {
         float _currentHealthBarBlanketValue = 1 - (healthPoints / maximumHealthPoints);
         return _currentHealthBarBlanketValue;
     }
 
-    private float CalculateWeaponAngle()
+    private float CalculateWeaponCastingAngle()
     {
         Transform weaponStartPositionTransform = isFacingRight ? weaponPosition[1] : weaponPosition[0];
         Vector3 weaponStartPosition = isFacingRight
@@ -418,6 +432,197 @@ public class PlayerAction : MonoBehaviour
         return _isInMidair;
     }
 
+    private void ManageTargetDash()
+    {
+        //Deals with Target dash.
+
+        // Redundants
+        bool IsTargetBelow()
+        {
+            return transform.position.y > playerAutoTargeter.target.transform.position.y;
+        }
+
+        bool isTargetRightSide()
+        {
+            return transform.position.x < playerAutoTargeter.target.transform.position.x;
+        }
+
+        bool TargetExist()
+        {
+            return playerAutoTargeter.target != null;
+        }
+
+        ///////////////////////////////////////////////////////////////////
+        // Parents 
+        bool CheckTargetDashState()
+        {
+            //Signals, when the player is setup to target dash
+            float TargetDegree()
+            {
+                return FetchTargetDegree();
+            }
+
+            return TargetExist() && TargetDegree() > minimuimDashAngle && TargetDegree() < maximumDashAngle && !isDashingInProgress &&
+                   !playerMovement.isStandingOnWall && !playerMovement.isStandingOnGround && !hasDashed &&
+                   !playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).IsTag("Action");
+        }
+
+        bool IsDashAttackButtonPressed()
+        {
+            //No need for new input
+            return isPrimaryAttack && !playerMovement.isStandingOnGround && !hasDashed;
+        }
+
+        float FetchTargetDegree()
+        {
+            //Calculate the degree between player's forward direction and the target
+            bool IsPlayerOnTargetRightSide()
+            {
+                return transform.position.x < playerAutoTargeter.target.transform.position.x;
+            }
+
+            Vector3 EnemyForward()
+            {
+                return IsPlayerOnTargetRightSide()
+                    ? -playerAutoTargeter.target.transform.right
+                    : playerAutoTargeter.target.transform.right;
+            }
+
+            Vector3 PlayerEnemyVector()
+            {
+                return (playerAutoTargeter.target.transform.position - transform.position).normalized;
+            }
+
+            if (TargetExist())
+                Debug.DrawRay(playerAutoTargeter.target.transform.position, EnemyForward());
+
+            return Vector2.Angle(EnemyForward(), PlayerEnemyVector());
+        }
+
+        void InitiateTargetDash()
+        {
+            bool FetchDashDamageStatus()
+            {
+                return isDashingInProgress && Targets().Length > 0 && !hasDamaged;
+            }
+            bool TargetDashInitiated()
+            {
+                return IsDashAttackButtonPressed() && canTargetDash && !hasDashed && TargetExist();
+            }
+
+            bool IsDashInProgress()
+            {
+                return hasDashed;
+            }
+
+            float FetchDashDirection()
+            {
+                Vector3 playerForward = isFacingRight ? -Vector3.left : Vector3.left;
+                Vector3 PlayerToEnemy = playerAutoTargeter.target.transform.position - transform.position;
+                return IsTargetBelow()
+                    ? Vector2.Angle(playerForward, PlayerToEnemy.normalized) * -1
+                    : Vector2.Angle(playerForward, PlayerToEnemy.normalized);
+            }
+
+            bool IsDashingFinished()
+            {
+                bool HasMetTarget()
+                {
+                    return Vector2.Distance(playerMovement.transform.position,
+                               playerAutoTargeter.target.transform.position) < 1.4 //Hard coded
+                           && hasDashed;
+                }
+
+                bool IsFurtherFromTarget()
+                {
+                    return Vector2.Distance(playerMovement.transform.position,
+                        playerAutoTargeter.target.transform.position) > maximumDashDistance;
+                }
+
+                if (!TargetExist()) return true;
+                if (IsFurtherFromTarget()) return true;
+                return HasMetTarget();
+            }
+
+            Vector3 TargetDirection()
+            {
+                return TargetExist()
+                    ? (playerAutoTargeter.target.transform.position - transform.position).normalized
+                    : (isFacingRight
+                        ? (transform.position + Vector3.right - transform.position).normalized
+                        : (transform.position + Vector3.left - transform.position).normalized);
+            }
+            
+            Collider2D[] Targets()
+            {
+                return Physics2D.OverlapCircleAll(weaponPosition[0].position, attackRadius);
+            }
+
+            isDashAttack = TargetDashInitiated();
+            isDashingInProgress = IsDashInProgress();
+
+            if (TargetDashInitiated())
+            {
+                hasDamaged = false;
+                playerMovement.rigidbody2D.velocity = TargetDirection() * dashForce;
+                transform.localEulerAngles = new Vector3(0, 0, FetchDashDirection());
+                maximumDashDistance =
+                    Vector2.Distance(transform.position, playerAutoTargeter.target.transform.position);
+                hasDashed = true;
+            }
+
+            if (FetchDashDamageStatus())
+            {
+                foreach (var VARIABLE in Targets())
+                {
+                    print("BAM");
+                }
+
+                hasDamaged = true;
+            }
+                
+
+            if (isDashingInProgress && IsDashingFinished())
+            {
+                playerMovement.rigidbody2D.velocity = TargetDirection() * 0;
+                transform.localEulerAngles = new Vector3(0, 0, 0);
+                playerMovement.rigidbody2D.velocity = Vector2.zero;
+                maximumDashDistance = 0;
+                hasDashed = false;
+            }
+        }
+
+        void SetupSpriteRendererAttributes(SpriteRenderer _spriteRenderer)
+        {
+            if (!TargetExist()) return;
+
+            _spriteRenderer.flipX = isTargetRightSide();
+            _spriteRenderer.flipY = IsTargetBelow();
+        }
+
+        Sprite SetTargetDashIndicatorSprite(Sprite _sprite)
+        {
+            //Places mark on target, once the player can dash.
+            return canTargetDash ? _sprite : null;
+        }
+
+        Vector3 SetTargetDashIndicatorPosition(Sprite _indicatorSprite, SpriteRenderer _spriteRenderer)
+        {
+            _spriteRenderer.sprite = _indicatorSprite;
+            return canTargetDash ? playerAutoTargeter.target.transform.position : Vector3.zero;
+        }
+
+        ///////////////////////////////////////////////////////////////////
+        canTargetDash = CheckTargetDashState();
+        playerAnimation.SetAnimationState("isDashingMotion", hasDashed, playerAnimation.defaultAnimator);
+
+        autoTargeterObject.transform.position = SetTargetDashIndicatorPosition(
+            SetTargetDashIndicatorSprite(targetIndicator),
+            autoTargeterObject.GetComponent<SpriteRenderer>());
+
+        SetupSpriteRendererAttributes(autoTargeterObject.GetComponent<SpriteRenderer>());
+        InitiateTargetDash();
+    }
 
     private bool CheckCanChakraRegenerate()
     {
@@ -536,14 +741,11 @@ public class PlayerAction : MonoBehaviour
         Gizmos.DrawWireSphere(weaponPosition[0].position, attackRadius);
         Gizmos.DrawWireSphere(weaponPosition[1].position, attackRadius);
         Gizmos.color = Color.yellow;
-        Gizmos.DrawLine(
-            new Vector3(transform.position.x + shadowPositionXOffset, transform.position.y - shadowPositionYOffset),
-            new Vector3(transform.position.x + shadowPositionXOffset, (transform.position.y - 150)));
     }
 
     private void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.CompareTag("Enemy"))
+        if (col.CompareTag("EnemyTarget"))
         {
             //This is when the bottomcollider (lol) detects an enemy, when enabled
             //Used by AirAttack

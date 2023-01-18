@@ -27,6 +27,12 @@ public class PlayerAnimation : MonoBehaviour
     {
         if (!playerAction.isBusy)
             PlayerSpriteRotation();
+        if (!defaultAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+            foreach (var _anim in defaultAnimator.parameters)
+            {
+                if (_anim.type == AnimatorControllerParameterType.Trigger)
+                    defaultAnimator.ResetTrigger(_anim.name);
+            }
     }
 
     private void PlayerSpriteRotation()
