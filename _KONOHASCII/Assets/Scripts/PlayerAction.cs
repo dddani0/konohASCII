@@ -17,6 +17,9 @@ public class PlayerAction : MonoBehaviour
     [Space] public bool hasDashed = false;
     public bool isDashingInProgress;
     public float dashForce;
+    private float maximumDashDistance; //lack of pointers, must declare for later
+    public float maximumDashAngle;
+    public float minimuimDashAngle;
 
     [Header("Weapon_Attribute")]
     [SerializeField]
@@ -443,14 +446,9 @@ public class PlayerAction : MonoBehaviour
             return transform.position.x < playerAutoTargeter.target.transform.position.x;
         }
 
-        bool TargetExistance()
+        bool TargetExist()
         {
             return playerAutoTargeter.target != null;
-        }
-
-        bool IsTargetReal()
-        {
-            return playerAutoTargeter.target.GetComponent<EnemyBehavior>();
         }
 
         ///////////////////////////////////////////////////////////////////
@@ -463,7 +461,7 @@ public class PlayerAction : MonoBehaviour
                 return FetchTargetDegree();
             }
 
-            return TargetExistance() && TargetDegree() > 110 && TargetDegree() < 150 && !isDashingInProgress &&
+            return TargetExist() && TargetDegree() > minimuimDashAngle && TargetDegree() < maximumDashAngle && !isDashingInProgress &&
                    !playerMovement.isStandingOnWall && !playerMovement.isStandingOnGround && !hasDashed &&
                    !playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).IsTag("Action");
         }
@@ -484,31 +482,27 @@ public class PlayerAction : MonoBehaviour
 
             Vector3 EnemyForward()
             {
-                return IsTargetReal() ? Vector3.zero : //Currently placeholder
-                    IsPlayerOnTargetRightSide() ? -playerAutoTargeter.target.transform.right :
-                    playerAutoTargeter.target.transform.right;
+                return IsPlayerOnTargetRightSide()
+                    ? -playerAutoTargeter.target.transform.right
+                    : playerAutoTargeter.target.transform.right;
             }
 
             Vector3 PlayerEnemyVector()
             {
-                return IsTargetReal()
-                    ? Vector3.zero
-                    : (playerAutoTargeter.target.transform.position - transform.position).normalized;
+                return (playerAutoTargeter.target.transform.position - transform.position).normalized;
             }
+
+            if (TargetExist())
+                Debug.DrawRay(playerAutoTargeter.target.transform.position, EnemyForward());
 
             return Vector2.Angle(EnemyForward(), PlayerEnemyVector());
         }
 
         void InitiateTargetDash()
         {
-            bool InterruptDash()
-            {
-                return Math.Abs(transform.localEulerAngles.z - FetchTargetDegree()) > 3;
-            }
-
             bool TargetDashInitiated()
             {
-                return IsDashAttackButtonPressed() && canTargetDash && !hasDashed && TargetExistance();
+                return IsDashAttackButtonPressed() && canTargetDash && !hasDashed && TargetExist();
             }
 
             bool IsDashInProgress()
@@ -527,42 +521,59 @@ public class PlayerAction : MonoBehaviour
 
             bool IsDashingFinished()
             {
-                //Would prefer, but -> error
-                // return !TargetExistance() || Vector3.Distance(transform.position, playerAutoTargeter.target.transform.position) < 5;
-                return !TargetExistance() ||
-                       Vector3.Distance(transform.position, playerAutoTargeter.target.transform.position) < 1 ||
-                       (playerMovement.rigidbody2D.velocity.x + playerMovement.rigidbody2D.velocity.y <= 3 &&
-                        hasDashed);
+                bool HasMetTarget()
+                {
+                    return Vector2.Distance(playerMovement.transform.position,
+                               playerAutoTargeter.target.transform.position) < 1.4 //Hard coded
+                           && hasDashed;
+                }
+
+                bool IsFurtherFromTarget()
+                {
+                    return Vector2.Distance(playerMovement.transform.position,
+                        playerAutoTargeter.target.transform.position) > maximumDashDistance;
+                }
+
+                if (!TargetExist()) return true;
+                if (IsFurtherFromTarget()) return true;
+                return HasMetTarget();
             }
 
             Vector3 TargetDirection()
             {
-                return (playerAutoTargeter.target.transform.position - transform.position).normalized;
+                return TargetExist()
+                    ? (playerAutoTargeter.target.transform.position - transform.position).normalized
+                    : (isFacingRight
+                        ? (transform.position + Vector3.right - transform.position).normalized
+                        : (transform.position + Vector3.left - transform.position).normalized);
             }
 
             isDashAttack = TargetDashInitiated();
-
             isDashingInProgress = IsDashInProgress();
 
             if (TargetDashInitiated())
             {
-                playerMovement.rigidbody2D.velocity = TargetDirection() * 0;
                 playerMovement.rigidbody2D.velocity = TargetDirection() * dashForce;
                 transform.localEulerAngles = new Vector3(0, 0, FetchDashDirection());
+                maximumDashDistance =
+                    Vector2.Distance(transform.position, playerAutoTargeter.target.transform.position);
                 hasDashed = true;
             }
 
-            if (hasDashed && IsDashingFinished() && TargetExistance())
+            if (isDashingInProgress && IsDashingFinished())
             {
-                transform.localEulerAngles = new Vector3(0, 0, 0);
+                //Attack code
                 playerMovement.rigidbody2D.velocity = TargetDirection() * 0;
+                transform.localEulerAngles = new Vector3(0, 0, 0);
+                playerMovement.rigidbody2D.velocity = Vector2.zero;
+                maximumDashDistance = 0;
                 hasDashed = false;
             }
         }
 
         void SetupSpriteRendererAttributes(SpriteRenderer _spriteRenderer)
         {
-            if (!TargetExistance()) return;
+            if (!TargetExist()) return;
 
             _spriteRenderer.flipX = isTargetRightSide();
             _spriteRenderer.flipY = IsTargetBelow();
