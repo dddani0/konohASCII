@@ -18,7 +18,7 @@ public class PlayerAction : MonoBehaviour
     public bool isDashingInProgress;
     public float dashForce;
     private float maximumDashDistance; //lack of pointers, must declare for later
-    private bool hasDamaged;            // same deal
+    private bool hasDamaged; // same deal
     public float maximumDashAngle;
     public float minimuimDashAngle;
 
@@ -206,27 +206,30 @@ public class PlayerAction : MonoBehaviour
 
     private void RangeAttack()
     {
+        bool IsAttackInitiated()
+        {
+            return SignalSecondaryWeaponUsage() && !playerMovement.isStandingOnWall;
+        }
+
         //Creates instance of weapon prefab.
         //Modifies said instance from selected asset.
-        if (SignalSecondaryWeaponUsage() && !playerMovement.isStandingOnWall)
+        if (!IsAttackInitiated()) return;
+        playerAnimation.SetAnimationState("range_attack", playerAnimation.defaultAnimator);
+        GameObject _temporaryWeapon;
+        switch (isFacingRight)
         {
-            playerAnimation.SetAnimationState("range_attack", playerAnimation.defaultAnimator);
-            GameObject _temporaryWeapon;
-            switch (isFacingRight)
-            {
-                case true:
-                    _temporaryWeapon = Instantiate(weaponContainer,
-                        weaponPosition[0].position, weaponPosition[0].rotation);
-                    _temporaryWeapon.GetComponent<SecondaryWeaponContainer>()
-                        .AssignNewWeapon(activeSecondaryWeapon, CalculateWeaponCastingAngle(), 1);
-                    break;
-                case false:
-                    _temporaryWeapon = Instantiate(weaponContainer,
-                        weaponPosition[1].position, weaponPosition[1].rotation);
-                    _temporaryWeapon.GetComponent<SecondaryWeaponContainer>()
-                        .AssignNewWeapon(activeSecondaryWeapon, CalculateWeaponCastingAngle(), -1);
-                    break;
-            }
+            case true:
+                _temporaryWeapon = Instantiate(weaponContainer,
+                    weaponPosition[0].position, weaponPosition[0].rotation);
+                _temporaryWeapon.GetComponent<SecondaryWeaponContainer>()
+                    .AssignNewWeapon(activeSecondaryWeapon, CalculateWeaponCastingAngle(), 1);
+                break;
+            case false:
+                _temporaryWeapon = Instantiate(weaponContainer,
+                    weaponPosition[1].position, weaponPosition[1].rotation);
+                _temporaryWeapon.GetComponent<SecondaryWeaponContainer>()
+                    .AssignNewWeapon(activeSecondaryWeapon, CalculateWeaponCastingAngle(), -1);
+                break;
         }
     }
 
@@ -283,10 +286,10 @@ public class PlayerAction : MonoBehaviour
             case true:
                 if (playerMovement.pickUpButton && isTouchingFlag)
                 {
-                    int flagNumber = flagObjectCollider.GetComponent<ItemFlag>().FetchFlagType();
-                    bool hasPrimaryWeapon = activePrimaryWeapon != null;
-                    bool hasSecondaryWeapon = activeSecondaryWeapon != null;
-                    bool isWeaponPrimary = flagObjectCollider.GetComponent<ItemFlag>().weaponFlag.isPrimaryWeapon;
+                    var flagNumber = flagObjectCollider.GetComponent<ItemFlag>().FetchFlagType();
+                    var hasPrimaryWeapon = activePrimaryWeapon != null;
+                    var hasSecondaryWeapon = activeSecondaryWeapon != null;
+                    var isWeaponPrimary = flagObjectCollider.GetComponent<ItemFlag>().weaponFlag.isPrimaryWeapon;
                     var currentPrimaryWeapon = activePrimaryWeapon;
                     var currentSecondaryWeapon = activeSecondaryWeapon;
 
@@ -318,6 +321,7 @@ public class PlayerAction : MonoBehaviour
                     secondsBetweenWeaponSwap = maximumSecondsBetweenWeaponSwap;
                     gamemanager.pauseManager.LoadPlayableCharacterStatistics(playableCharacter.playableCharacter,
                         this); //Refresh
+                    flagObjectCollider.GetComponent<ItemFlag>().RefreshFlag();
                 }
 
                 break;
@@ -462,7 +466,8 @@ public class PlayerAction : MonoBehaviour
                 return FetchTargetDegree();
             }
 
-            return TargetExist() && TargetDegree() > minimuimDashAngle && TargetDegree() < maximumDashAngle && !isDashingInProgress &&
+            return TargetExist() && TargetDegree() > minimuimDashAngle && TargetDegree() < maximumDashAngle &&
+                   !isDashingInProgress &&
                    !playerMovement.isStandingOnWall && !playerMovement.isStandingOnGround && !hasDashed &&
                    !playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).IsTag("Action");
         }
@@ -505,6 +510,7 @@ public class PlayerAction : MonoBehaviour
             {
                 return isDashingInProgress && Targets().Length > 0 && !hasDamaged;
             }
+
             bool TargetDashInitiated()
             {
                 return IsDashAttackButtonPressed() && canTargetDash && !hasDashed && TargetExist();
@@ -552,7 +558,7 @@ public class PlayerAction : MonoBehaviour
                         ? (transform.position + Vector3.right - transform.position).normalized
                         : (transform.position + Vector3.left - transform.position).normalized);
             }
-            
+
             Collider2D[] Targets()
             {
                 return Physics2D.OverlapCircleAll(weaponPosition[0].position, attackRadius);
@@ -580,7 +586,7 @@ public class PlayerAction : MonoBehaviour
 
                 hasDamaged = true;
             }
-                
+
 
             if (isDashingInProgress && IsDashingFinished())
             {

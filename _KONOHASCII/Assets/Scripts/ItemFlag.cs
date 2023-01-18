@@ -12,6 +12,11 @@ public class ItemFlag : MonoBehaviour
 
     void Start()
     {
+        FetchRudimentaryValues();
+    }
+
+    private void FetchRudimentaryValues()
+    {
         spriteHandler = GetComponent<SpriteRenderer>();
         spriteHandler.sprite = itemFlagSprite;
         flagName = FetchFlagName();
@@ -45,11 +50,15 @@ public class ItemFlag : MonoBehaviour
         return _flagName;
     }
 
-    public bool EnablePickUpPrompt(bool isAvaialable)
+
+    public void RefreshFlag()
+    {
+        FetchRudimentaryValues();
+    }
+    public void EnablePickUpPrompt(bool isAvaialable)
     {
         bool _fetchAvailability = isAvaialable;
         PromptStatus(_fetchAvailability, buttonPromptSpriteHandler);
-        return _fetchAvailability;
     }
 
     private void PromptStatus(bool enable, GameObject prompt)

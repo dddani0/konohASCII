@@ -11,7 +11,7 @@ public class SecondaryWeaponContainer : MonoBehaviour
     public SpriteRenderer weaponSpriteRenderer;
     public Animator weaponAnimator;
     public AnimatorOverrideController weaponOverrideController;
-    [Space] private float weaponAirborneSpeed;
+    [Space] private float weaponSpeed;
     [Space] public bool isAirborne = true;
     [Space] public int weaponDamage;
 
@@ -23,7 +23,7 @@ public class SecondaryWeaponContainer : MonoBehaviour
 
     [Tooltip("No assignment required")] private float weaponAngle;
     [Space] public float maximumCastCooldown;
-    [SerializeField]private float castCooldown;
+    [SerializeField] private float castCooldown;
     [SerializeField] private BoxCollider2D bodyCollider;
 
     private void Start()
@@ -37,11 +37,7 @@ public class SecondaryWeaponContainer : MonoBehaviour
 
     private void Update()
     {
-        //bodyCollider.enabled = CheckCooldown();
-        if (weapon)
-        {
-            Throwable_Weapon(weaponAirborneSpeed);
-        }
+        ManageWeapon(weaponSpeed);
     }
 
 
@@ -49,7 +45,7 @@ public class SecondaryWeaponContainer : MonoBehaviour
     {
         weaponAnimator.SetBool("is_weapon_active", isAirborne);
         weaponSpriteRenderer.sprite = weaponSprite;
-        canBePickedUp = CheckWeaponRetreatment();
+        canBePickedUp = CheckWeaponPickUpStatus();
     }
 
     private void Fetch_Rudimentary_Values()
@@ -65,7 +61,7 @@ public class SecondaryWeaponContainer : MonoBehaviour
     public void AssignNewWeapon(WeaponTemplate weaponTemplate, float _weaponAngle, int _ismovingright)
     {
         weapon = weaponTemplate;
-        weaponAirborneSpeed = weaponTemplate.weaponSpeed;
+        weaponSpeed = weaponTemplate.weaponSpeed;
         weaponSprite = weaponTemplate.weaponSprite;
         weaponTurnOtherSideValue = _ismovingright;
         weaponDamage = weaponTemplate.damage;
@@ -82,40 +78,47 @@ public class SecondaryWeaponContainer : MonoBehaviour
         }
     }
 
-    private bool CheckWeaponRetreatment()
+    private bool CheckWeaponPickUpStatus()
     {
-        bool _hasWeaponLanded = !isAirborne;
-        return _hasWeaponLanded;
+        return !isAirborne;
     }
 
-    private bool CheckCooldown()
+    private void ManageWeapon(float _speed)
     {
-        castCooldown -= Time.deltaTime;
-        bool _hasTimerPassedMark = castCooldown <= 0;
-        return _hasTimerPassedMark;
-    }
-    
-    private void Throwable_Weapon(float _speed)
-    {
-        switch (isAirborne)
+        bool CanMove()
         {
-            case true:
-                transform.position += transform.right * (_speed * Time.deltaTime);
-                break;
-            case false:
-                weaponRigidbody.velocity = new Vector2(weaponTurnOtherSideValue * 0, weaponRigidbody.velocity.y);
-                var constraints = weaponRigidbody.constraints;
-                constraints = RigidbodyConstraints2D.FreezePositionX;
-                constraints = RigidbodyConstraints2D.FreezePositionY;
-                constraints = RigidbodyConstraints2D.FreezeRotation;
-                weaponRigidbody.constraints = constraints;
-                break;
+            return isAirborne;
         }
+
+        void ManageWeaponCollider()
+        {
+            bool CanWeaponBePickedUp()
+            {
+                return !isAirborne;
+            }
+
+            bodyCollider.isTrigger = CanWeaponBePickedUp();
+        }
+
+        if (!weapon) return;
+        ManageWeaponCollider();
+        transform.position += CanMove() ? transform.right * (_speed * Time.deltaTime) : transform.right * 0;
     }
 
     private void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.GetComponentInChildren<SpriteRenderer>() || col.GetComponent<SpriteRenderer>())
+        bool DoesMatchObstacleLayer(int _layer)
+        {
+            return _layer == 11;
+        }
+
+        bool HasHitWall()
+        {
+            var o = col.gameObject;
+            return DoesMatchObstacleLayer(o.layer) || DoesMatchObstacleLayer(o.layer);
+        }
+
+        if (HasHitWall())
         {
             isAirborne = false;
         }

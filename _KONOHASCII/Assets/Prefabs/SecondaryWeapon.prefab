@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3218124634045596185}
   - component: {fileID: 6131881980720118627}
   m_Layer: 0
-  m_Name: Weapon
+  m_Name: SecondaryWeapon
   m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -58,7 +58,7 @@ MonoBehaviour:
   canBePickedUp: 0
   maximumCastCooldown: 0.5
   castCooldown: 0
-  bodyCollider: {fileID: 0}
+  bodyCollider: {fileID: 6131881980720118627}
 --- !u!50 &3094365187035047358
 Rigidbody2D:
   serializedVersion: 4
