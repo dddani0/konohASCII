@@ -67,6 +67,7 @@ public class SecondaryWeaponContainer : MonoBehaviour
         weaponDamage = weaponTemplate.damage;
         weaponAngle = _weaponAngle;
         transform.localEulerAngles = new Vector3(0, 0, _weaponAngle);
+
         switch (weaponTemplate.weaponAnimatorController != null)
         {
             case true:
@@ -98,6 +99,7 @@ public class SecondaryWeaponContainer : MonoBehaviour
             }
 
             bodyCollider.isTrigger = CanWeaponBePickedUp();
+            canBePickedUp = CanWeaponBePickedUp();
         }
 
         if (!weapon) return;

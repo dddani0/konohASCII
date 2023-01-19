@@ -4,6 +4,7 @@
 public class ItemFlag : MonoBehaviour
 {
     public WeaponTemplate weaponFlag;
+    [Space] public int ammoCapacity;
     [Space] private SpriteRenderer spriteHandler;
     public Sprite itemFlagSprite;
     [Space] public GameObject buttonPromptSpriteHandler;
@@ -13,6 +14,7 @@ public class ItemFlag : MonoBehaviour
     void Start()
     {
         FetchRudimentaryValues();
+        ammoCapacity = weaponFlag.ammunition;
     }
 
     private void FetchRudimentaryValues()
@@ -55,6 +57,7 @@ public class ItemFlag : MonoBehaviour
     {
         FetchRudimentaryValues();
     }
+
     public void EnablePickUpPrompt(bool isAvaialable)
     {
         bool _fetchAvailability = isAvaialable;

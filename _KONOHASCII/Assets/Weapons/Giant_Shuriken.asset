@@ -20,7 +20,7 @@ MonoBehaviour:
   isRange: 1
   isPrimaryWeapon: 0
   weaponSpeed: 70
-  ammunition: 0
+  ammunition: 5
   animationDelay: 1
   bleed: 0
   poison: 0

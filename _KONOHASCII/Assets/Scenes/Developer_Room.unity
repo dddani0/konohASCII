@@ -185,7 +185,7 @@ PrefabInstance:
     - target: {fileID: 6934379012047625141, guid: 657b4772816674b4781a56fdbbaf8b46, type: 3}
       propertyPath: weaponFlag
       value: 
-      objectReference: {fileID: 11400000, guid: d5cc5447eed0ab6459f8ec4132957f66, type: 2}
+      objectReference: {fileID: 11400000, guid: 27890208c1d32f948ab3ea1341c1e365, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 657b4772816674b4781a56fdbbaf8b46, type: 3}
 --- !u!1 &69277464
@@ -2311,7 +2311,7 @@ PrefabInstance:
     - target: {fileID: 6934379012047625141, guid: 657b4772816674b4781a56fdbbaf8b46, type: 3}
       propertyPath: weaponFlag
       value: 
-      objectReference: {fileID: 11400000, guid: fd6b4c6689017664492aaf14cbc6a7c1, type: 2}
+      objectReference: {fileID: 11400000, guid: 0ba158657ea2a394ca855cbdadc04815, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 657b4772816674b4781a56fdbbaf8b46, type: 3}
 --- !u!1001 &7248831843988523013
@@ -2321,6 +2321,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7248831842670079682, guid: 3e4617d23ba0de34aa621385934d474b, type: 3}
+      propertyPath: maximumWeaponPickUpCooldown
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 7248831842670079686, guid: 3e4617d23ba0de34aa621385934d474b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.31

@@ -44,9 +44,11 @@ public class PlayerAction : MonoBehaviour
     public WeaponTemplate activeSecondaryWeapon;
 
     [SerializeField] private GameObject weaponContainer;
+    [Space] public int secondaryWeaponAmmunition;
+    [Space] public float maximumWeaponPickUpCooldown;
+    private float currentWeaponPickUp;
 
     [Space] public Transform[] weaponPosition;
-    [Space] public int rangeWeaponAmmunition;
     [Space(20f)] [Header("Health")] public float maximumHealthPoints;
     [SerializeField] private float healthPoints;
     [Space(20f)] [Header("Chakra")] public int maximumChakra;
@@ -102,6 +104,7 @@ public class PlayerAction : MonoBehaviour
         RangeAttack();
         ChakraBlock();
         ManageTargetDash();
+        ManageSecondaryWeapon();
     }
 
     private void LateUpdate()
@@ -208,12 +211,14 @@ public class PlayerAction : MonoBehaviour
     {
         bool IsAttackInitiated()
         {
-            return SignalSecondaryWeaponUsage() && !playerMovement.isStandingOnWall;
+            return SignalSecondaryWeaponUsage() && !playerMovement.isStandingOnWall && secondaryWeaponAmmunition > 0;
         }
 
         //Creates instance of weapon prefab.
         //Modifies said instance from selected asset.
         if (!IsAttackInitiated()) return;
+
+        secondaryWeaponAmmunition--;
         playerAnimation.SetAnimationState("range_attack", playerAnimation.defaultAnimator);
         GameObject _temporaryWeapon;
         switch (isFacingRight)
@@ -231,6 +236,18 @@ public class PlayerAction : MonoBehaviour
                     .AssignNewWeapon(activeSecondaryWeapon, CalculateWeaponCastingAngle(), -1);
                 break;
         }
+    }
+
+    private void ManageSecondaryWeapon()
+    {
+        //When the ammo capacity reaches 0, disable the weapon
+        bool IsSecondaryWeaponEmpty()
+        {
+            return activeSecondaryWeapon && secondaryWeaponAmmunition < 1;
+        }
+
+        if (!IsSecondaryWeaponEmpty()) return;
+        activeSecondaryWeapon = null;
     }
 
     private void ChakraBlock()
@@ -292,10 +309,30 @@ public class PlayerAction : MonoBehaviour
                     var isWeaponPrimary = flagObjectCollider.GetComponent<ItemFlag>().weaponFlag.isPrimaryWeapon;
                     var currentPrimaryWeapon = activePrimaryWeapon;
                     var currentSecondaryWeapon = activeSecondaryWeapon;
+                    switch (hasSecondaryWeapon && !isWeaponPrimary)
+                    {
+                        case true:
+                            var temporaryAmmunition = secondaryWeaponAmmunition;
+
+                            if (flagObjectCollider.gameObject.GetComponent<ItemFlag>().ammoCapacity < 1)
+                                print("WARNING: WEAPON DISAPPEAR DUE TO LESS THEN 1 AMMO");
+
+                            secondaryWeaponAmmunition =
+                                flagObjectCollider.gameObject.GetComponent<ItemFlag>().ammoCapacity;
+
+                            flagObjectCollider.gameObject.GetComponent<ItemFlag>().ammoCapacity =
+                                temporaryAmmunition;
+                            break;
+                        case false:
+                            if (!isWeaponPrimary)
+                                secondaryWeaponAmmunition =
+                                    flagObjectCollider.gameObject.GetComponent<ItemFlag>().ammoCapacity;
+                            break;
+                    }
 
                     switch (flagNumber)
                     {
-                        case 1:
+                        case 1: //Weapon case
                             AssingNewWeapon(flagObjectCollider.GetComponent<ItemFlag>().weaponFlag);
                             switch (isWeaponPrimary)
                             {
@@ -308,10 +345,13 @@ public class PlayerAction : MonoBehaviour
                                     break;
                                 case false:
                                     if (hasSecondaryWeapon)
+
                                         flagObjectCollider.gameObject.GetComponent<ItemFlag>().weaponFlag =
                                             currentSecondaryWeapon;
+
                                     else
                                         Destroy(flagObjectCollider.gameObject);
+
                                     break;
                             }
 
@@ -420,7 +460,6 @@ public class PlayerAction : MonoBehaviour
 
     private float CalculateCrosshairYAngle(float _crosshairYAngle, bool _isInvert)
     {
-        //Invert fuck shit
         _crosshairYAngle += _isInvert
             ? -playerMovement.mouseYAxisInput * crosshairVisualSpeed * Time.deltaTime
             : playerMovement.mouseYAxisInput * crosshairVisualSpeed * Time.deltaTime;
@@ -766,17 +805,28 @@ public class PlayerAction : MonoBehaviour
             isTouchingFlag = true;
         }
 
-        if (col.CompareTag("Weapon") && col.GetComponent<SecondaryWeaponContainer>())
-        {
-            switch (col.GetComponent<SecondaryWeaponContainer>().canBePickedUp)
-            {
-                case true:
 
-                    break;
-                case false:
-                    healthPoints -= col.GetComponent<SecondaryWeaponContainer>().weaponDamage;
-                    break;
-            }
+        if (!col.CompareTag("Weapon")) return;
+
+        bool CanPickUpNewWeapon()
+        {
+            currentWeaponPickUp -= Time.deltaTime;
+            return currentWeaponPickUp <= 0;
+        }
+
+        switch (col.GetComponent<SecondaryWeaponContainer>().canBePickedUp)
+        {
+            case true:
+                if (!activeSecondaryWeapon) return;
+                
+                if (col.GetComponent<SecondaryWeaponContainer>().weapon.weaponName !=
+                    activeSecondaryWeapon.weaponName && !CanPickUpNewWeapon()) return;
+                secondaryWeaponAmmunition++;
+                Destroy(col.gameObject);
+                break;
+            case false:
+                healthPoints -= col.GetComponent<SecondaryWeaponContainer>().weaponDamage;
+                break;
         }
     }
 
