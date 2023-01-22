@@ -12,7 +12,10 @@ public class SecondaryWeaponContainer : MonoBehaviour
     public Animator weaponAnimator;
     public AnimatorOverrideController weaponOverrideController;
     [Space] private float weaponSpeed;
-    [Space] public bool isAirborne = true;
+
+    [FormerlySerializedAs("isAirborne")] [Space]
+    public bool airborne = true;
+
     [Space] public int weaponDamage;
 
     [Space]
@@ -43,7 +46,7 @@ public class SecondaryWeaponContainer : MonoBehaviour
 
     private void LateUpdate()
     {
-        weaponAnimator.SetBool("is_weapon_active", isAirborne);
+        weaponAnimator.SetBool("is_weapon_active", airborne);
         weaponSpriteRenderer.sprite = weaponSprite;
         canBePickedUp = CheckWeaponPickUpStatus();
     }
@@ -51,7 +54,6 @@ public class SecondaryWeaponContainer : MonoBehaviour
     private void Fetch_Rudimentary_Values()
     {
         bodyCollider = GetComponent<BoxCollider2D>();
-        //bodyCollider.enabled = false;
         castCooldown = maximumCastCooldown;
         weaponSpriteRenderer = GetComponentInChildren<SpriteRenderer>();
         weaponAnimator = GetComponentInChildren<Animator>();
@@ -60,20 +62,28 @@ public class SecondaryWeaponContainer : MonoBehaviour
 
     public void AssignNewWeapon(WeaponTemplate weaponTemplate, float _weaponAngle, int _ismovingright)
     {
+        bool HasWeaponTemplate()
+        {
+            return weaponTemplate.weaponAnimatorController;
+        }
+
         weapon = weaponTemplate;
         weaponSpeed = weaponTemplate.weaponSpeed;
-        weaponSprite = weaponTemplate.weaponSprite;
         weaponTurnOtherSideValue = _ismovingright;
         weaponDamage = weaponTemplate.damage;
         weaponAngle = _weaponAngle;
+        weaponSprite = weaponTemplate.weaponSprite;
         transform.localEulerAngles = new Vector3(0, 0, _weaponAngle);
 
-        switch (weaponTemplate.weaponAnimatorController != null)
+        weaponAnimator.runtimeAnimatorController = null; //reset controller
+        switch (HasWeaponTemplate())
         {
             case true:
-                weaponAnimator.runtimeAnimatorController = weaponTemplate.weaponAnimatorController;
+                weaponOverrideController = weaponTemplate.weaponAnimatorController;
+                weaponAnimator.runtimeAnimatorController = weaponOverrideController;
                 break;
             case false:
+                weaponSprite = weaponTemplate.weaponSprite;
                 print("No attached OverrideController attached to weapon source");
                 break;
         }
@@ -81,30 +91,42 @@ public class SecondaryWeaponContainer : MonoBehaviour
 
     private bool CheckWeaponPickUpStatus()
     {
-        return !isAirborne;
+        return !airborne;
+    }
+
+    private bool HasWeaponAnimation()
+    {
+        return weaponOverrideController;
+    }
+
+    private bool ShouldPlayBaseAnimation()
+    {
+        return airborne;
     }
 
     private void ManageWeapon(float _speed)
     {
         bool CanMove()
         {
-            return isAirborne;
+            return airborne;
         }
 
         void ManageWeaponCollider()
         {
             bool CanWeaponBePickedUp()
             {
-                return !isAirborne;
+                return !airborne;
             }
 
             bodyCollider.isTrigger = CanWeaponBePickedUp();
             canBePickedUp = CanWeaponBePickedUp();
         }
-
+        
         if (!weapon) return;
         ManageWeaponCollider();
         transform.position += CanMove() ? transform.right * (_speed * Time.deltaTime) : transform.right * 0;
+        if (!HasWeaponAnimation()) return;
+        weaponAnimator.SetBool("isWeaponAirborne", ShouldPlayBaseAnimation());
     }
 
     private void OnTriggerEnter2D(Collider2D col)
@@ -122,7 +144,7 @@ public class SecondaryWeaponContainer : MonoBehaviour
 
         if (HasHitWall())
         {
-            isAirborne = false;
+            airborne = false;
         }
     }
 }

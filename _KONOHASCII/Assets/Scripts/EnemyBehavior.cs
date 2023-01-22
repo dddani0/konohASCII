@@ -181,27 +181,6 @@ public class EnemyBehavior : MonoBehaviour
         }
     }
 
-    private void CastWeapon()
-    {
-        GameObject _temporaryWeapon = null;
-        WeaponTemplate newWeapon = ScriptableObject.CreateInstance<WeaponTemplate>();
-        switch (isFacingRight)
-        {
-            case true:
-                _temporaryWeapon = Instantiate(gamemanager.GetComponent<Gamemanager>().weaponEntity,
-                    attackPoints[1].position, attackPoints[1].rotation);
-                _temporaryWeapon.GetComponent<SecondaryWeaponContainer>()
-                    .AssignNewWeapon(secondaryWeapon, CalculateWeaponAngle(), 1);
-                break;
-            case false:
-                _temporaryWeapon = Instantiate(gamemanager.GetComponent<Gamemanager>().weaponEntity,
-                    attackPoints[0].position, attackPoints[0].rotation);
-                _temporaryWeapon.GetComponent<SecondaryWeaponContainer>()
-                    .AssignNewWeapon(secondaryWeapon, CalculateWeaponAngle(), -1);
-                break;
-        }
-    }
-
     private void Patrol()
     {
         Vector2 destination;
@@ -374,7 +353,7 @@ public class EnemyBehavior : MonoBehaviour
             //Makes it more dramatic.
             SecondaryWeaponContainer temporaryWeapon = col.gameObject.GetComponent<SecondaryWeaponContainer>();
             temporaryWeapon.transform.SetParent(enemyAnimation.gameObject.transform);
-            temporaryWeapon.isAirborne = false;
+            temporaryWeapon.airborne = false;
             temporaryWeapon.GetComponent<Collider2D>().enabled = false;
             temporaryWeapon.GetComponent<Rigidbody2D>().simulated = false;
             temporaryWeapon.weaponAnimator.enabled = false;
