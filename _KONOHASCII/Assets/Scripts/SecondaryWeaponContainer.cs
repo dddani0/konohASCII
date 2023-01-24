@@ -1,5 +1,29 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Serialization;
+
+internal class WeaponEffect
+{
+    public string effectName { get; set; }
+    public bool instantEffect { get; set; }
+    public int effectIndex { get; set; }
+
+    string fetchEffectType(string _effectName)
+    {
+        switch (_effectName)
+        {
+            case "poison":
+                return "poison";
+                break;
+        }
+
+        return "no effect";
+    }
+
+    public WeaponEffect()
+    {
+    }
+}
 
 public class SecondaryWeaponContainer : MonoBehaviour
 {
@@ -14,10 +38,16 @@ public class SecondaryWeaponContainer : MonoBehaviour
     [FormerlySerializedAs("isAirborne")] [Space]
     public bool airborne = true;
 
-    [Tooltip("Is manipulated with string?")]
+    [Space] [Tooltip("Is manipulated with string?")]
     public bool canHome;
 
     [Space] public int weaponDamage;
+
+    [Tooltip("0 = none, 1 = poison, 2 = bleed, 3 = explosion")]
+    public int weaponEffectIndex;
+
+    public float explosionRadius;
+    public int explosionDamage;
 
     [Space]
     //Determines the direction of weapon movement. 1 = right and -1 = left"
@@ -28,7 +58,7 @@ public class SecondaryWeaponContainer : MonoBehaviour
     [FormerlySerializedAs("isStuck")] [Tooltip("Stuck when weapon hits enemy.")]
     public bool stuck;
 
-    private bool canIncrementValue = true;
+    private bool _canIncrementValue = true;
 
     [Tooltip("No assignment required")] private float _weaponAngle;
     [Space] public float maximumCastCooldown;
@@ -69,6 +99,11 @@ public class SecondaryWeaponContainer : MonoBehaviour
             return weaponTemplate.weaponAnimatorController;
         }
 
+        bool HasWeaponEffect()
+        {
+            return weaponTemplate.bleed || weaponTemplate.poison || weaponTemplate.explosion;
+        }
+
         weapon = weaponTemplate;
         _weaponSpeed = weaponTemplate.weaponSpeed;
         _weaponTurnOtherSideValue = isMovingRight;
@@ -76,6 +111,15 @@ public class SecondaryWeaponContainer : MonoBehaviour
         this._weaponAngle = weaponAngle;
         weaponSprite = weaponTemplate.weaponSprite;
         transform.localEulerAngles = new Vector3(0, 0, weaponAngle);
+        // 0 = none, 1 = poison, 2 = bleed, 3 = explosion
+        if (HasWeaponEffect())
+        {
+            if (weaponTemplate.poison) weaponEffectIndex = 1;
+            else if (weaponTemplate.bleed) weaponEffectIndex = 2;
+            else weaponEffectIndex = 3;
+        }
+        else
+            weaponEffectIndex = 0;
 
         weaponAnimator.runtimeAnimatorController = null; //reset controller
         switch (HasWeaponTemplate())
@@ -93,12 +137,20 @@ public class SecondaryWeaponContainer : MonoBehaviour
 
     public void IncreaseWeaponAmmunition(PlayerAction _playerAction)
     {
-        if (canIncrementValue)
+        //Used when the weapon is picked up
+        if (_canIncrementValue)
         {
             _playerAction.secondaryWeaponAmmunition++;
-            canIncrementValue = false;
+            _canIncrementValue = false;
         }
+
         Destroy(this);
+    }
+
+    public void DismantleWeapon()
+    {
+        //Upon enemy hit
+        stuck = true;
     }
 
     public void ManipulateWeapon(GameObject target)
@@ -165,10 +217,10 @@ public class SecondaryWeaponContainer : MonoBehaviour
         {
             bool CanWeaponBePickedUp()
             {
-                return !airborne;
+                return !airborne && !stuck;
             }
 
-            bodyCollider.isTrigger = CanWeaponBePickedUp();
+            bodyCollider.enabled = CanWeaponBePickedUp();
             canBePickedUp = CanWeaponBePickedUp();
         }
 
@@ -181,20 +233,45 @@ public class SecondaryWeaponContainer : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D col)
     {
-        bool DoesMatchObstacleLayer(int layer)
+        bool DoesMatchObstacleLayer(int layer, int targetLayer)
         {
-            return layer == 11;
+            return layer == targetLayer;
+        }
+
+        bool CanDamage(Component _col)
+        {
+            return _col.GetComponent<EnemyBehavior>() || _col.GetComponent<PlayerAction>();
+        }
+
+        void DealDamageToEntity(Component _col, int damage)
+        {
+            if (_col.GetComponent<EnemyBehavior>())
+                _col.GetComponent<EnemyBehavior>().DealDamage(damage);
+            if (_col.GetComponent<PlayerAction>())
+                _col.GetComponent<PlayerAction>().TakeInjury(damage);
         }
 
         bool HasHitWall()
         {
             var o = col.gameObject;
-            return DoesMatchObstacleLayer(o.layer) || DoesMatchObstacleLayer(o.layer);
+            return DoesMatchObstacleLayer(o.layer, 11) || DoesMatchObstacleLayer(o.layer, 10);
         }
 
-        if (HasHitWall())
+        if (!HasHitWall()) return;
+        airborne = false;
+        if (weaponEffectIndex != 3) return;
+        //make effect
+        var hits = Physics2D.OverlapCircleAll(transform.position, explosionRadius);
+        foreach (var VARIABLE in hits)
         {
-            airborne = false;
+            if (CanDamage(VARIABLE))
+                DealDamageToEntity(VARIABLE, explosionDamage);
         }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, explosionRadius);
     }
 }

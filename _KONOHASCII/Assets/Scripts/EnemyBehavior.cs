@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class EnemyBehavior : MonoBehaviour
 {
@@ -8,81 +7,87 @@ public class EnemyBehavior : MonoBehaviour
     //Read more about the behavior, here:
     //https://github.com/marloss/konohASCII/issues/4
 
-    [Header("Resources")] public EnemyTemplate enemyTemplate;
-    [Space] public EnemyAnimation enemyAnimation;
-    [Space] public Gamemanager gamemanager;
-    [Space] public WeaponTemplate secondaryWeapon;
-    [Space] public string enemyName;
-    [Space] public int maximumHealth;
-    [SerializeField] private int health;
-    [Space] [SerializeField] private bool isEnemyDetected;
-    public bool isStationary;
-    public int enemyLevel;
-    public float movementSpeed;
-    [Space] public bool isObjectInMotion;
-    [Space] public Rigidbody2D enemyRigidbody2D;
+    // [Header("Resources")] public EnemyTemplate enemyTemplate;
+    // [Space] public EnemyAnimation enemyAnimation;
+    // [Space] public Gamemanager gamemanager;
+    // [Space] public WeaponTemplate secondaryWeapon;
+    // [Space] public string enemyName;
+    // [Space] public int maximumHealth;
+    // [SerializeField] private int health;
+    // [Space] [SerializeField] private bool isEnemyDetected;
+    // public bool isStationary;
+    // public int enemyLevel;
+    // public float movementSpeed;
+    // [Space] public bool isObjectInMotion;
+    // [Space] public Rigidbody2D enemyRigidbody2D;
+    //
+    // [Header("Enemy Behavior type variables")]
+    // private RaycastHit2D hitcol;
+    //
+    // [Tooltip("Interval for checking for enemy.")] [Space]
+    // public float maximumTimeBtwEnemyChecks;
+    //
+    // [SerializeField] private float timeBtwEnemyChecks;
+    //
+    // [Tooltip("Check circle is casted in these points.")]
+    // public Transform[] detectionPoints;
+    //
+    // [Tooltip("Damage and weapon casts are initiated at attack points.")]
+    // public Transform[] attackPoints;
+    //
+    // [Tooltip("Crosshair represents where the ninja weapon can be thrown.")] [Space]
+    // public GameObject targetCrosshairGameObject;
+    //
+    // [Tooltip("Maximum height, you can aim with the crosshair.")]
+    // public int crosshairMaximumHeight;
+    //
+    // public Vector3 crosshairOffset;
+    //
+    // [Tooltip("Detection state while the target stays inside the radius.")] [Space]
+    // public float targetMaximumDistance;
+    //
+    // [SerializeField] private float detectionPointSize;
+    //
+    // [Tooltip("All detected targets are assigned to the list, before sorting out the main target.")] [Space]
+    // public List<GameObject> targetList;
+    //
+    // [Tooltip("Enemy will solely focus on the main target. Harder bosses automatically switch out")]
+    // public GameObject mainTarget;
+    //
+    // [Space] public bool isFacingRight;
+    //
+    // public float droneHeightCastMagnitude;
+    // public Transform[] droneRaycastPosition;
+    //
+    // [Tooltip("Full patrol magnitude is x * 2. The course, which enemy completes.")] [Space]
+    // public int patrolMagnitude;
+    //
+    // [Tooltip("The maximum distance, when the patrol turns around.")]
+    // public float PatrolHaltDistance;
+    //
+    // public Vector3 patrolStartposition;
+    // [SerializeField] private bool hasEnemyNotFinishedPatrol;
+    // [Space] public float maximumWaitingTime;
+    // [SerializeField] private float waitingTime;
+    // private bool hasAnIterationStarted;
+    //
+    // private int currentHighestDamage; //Highest damage done to this behavior
+    // private GameObject highestDamageParticipiant; //The object, which caused the highest damage
+    public int maximumHealth;
+    private int _currentHealth;
+    [Space] public SpriteRenderer graphics;
 
-    [Header("Enemy Behavior type variables")]
-    private RaycastHit2D hitcol;
-
-    [Tooltip("Interval for checking for enemy.")] [Space]
-    public float maximumTimeBtwEnemyChecks;
-
-    [SerializeField] private float timeBtwEnemyChecks;
-
-    [Tooltip("Check circle is casted in these points.")]
-    public Transform[] detectionPoints;
-
-    [Tooltip("Damage and weapon casts are initiated at attack points.")]
-    public Transform[] attackPoints;
-
-    [Tooltip("Crosshair represents where the ninja weapon can be thrown.")] [Space]
-    public GameObject targetCrosshairGameObject;
-
-    [Tooltip("Maximum height, you can aim with the crosshair.")]
-    public int crosshairMaximumHeight;
-
-    public Vector3 crosshairOffset;
-
-    [Tooltip("Detection state while the target stays inside the radius.")] [Space]
-    public float targetMaximumDistance;
-
-    [SerializeField] private float detectionPointSize;
-
-    [Tooltip("All detected targets are assigned to the list, before sorting out the main target.")] [Space]
-    public List<GameObject> targetList;
-
-    [Tooltip("Enemy will solely focus on the main target. Harder bosses automatically switch out")]
-    public GameObject mainTarget;
-
-    [Space] public bool isFacingRight;
-
-    public float droneHeightCastMagnitude;
-    public Transform[] droneRaycastPosition;
-
-    [Tooltip("Full patrol magnitude is x * 2. The course, which enemy completes.")] [Space]
-    public int patrolMagnitude;
-
-    [Tooltip("The maximum distance, when the patrol turns around.")]
-    public float PatrolHaltDistance;
-
-    public Vector3 patrolStartposition;
-    [SerializeField] private bool hasEnemyNotFinishedPatrol;
-    [Space] public float maximumWaitingTime;
-    [SerializeField] private float waitingTime;
-    private bool hasAnIterationStarted;
-
-    private int currentHighestDamage; //Highest damage done to this behavior
-    private GameObject highestDamageParticipiant; //The object, which caused the highest damage
-
-    void Start()
+    public void DealDamage(int _damageDealt)
     {
-        
+        _currentHealth -= _damageDealt;
     }
-
-    void Update()
+    
+    private void OnTriggerEnter2D(Collider2D col)
     {
-        
+        if (!col.CompareTag("Weapon")) return;
+        col.GetComponent<SecondaryWeaponContainer>().DismantleWeapon();
+        col.transform.parent = graphics.transform;
+        _currentHealth -= col.GetComponent<SecondaryWeaponContainer>().weaponDamage;
     }
 
     // private void LateUpdate()

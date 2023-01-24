@@ -35,7 +35,7 @@ public class WeaponTemplate : ScriptableObject
     [Space] [Header("Weapon effects")] 
     public bool bleed;
     public bool poison;
-    public bool slow;
+    public bool explosion;
 
     private void Start()
     {

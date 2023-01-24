@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3334364660915891362}
   - component: {fileID: 3094365187035047358}
   - component: {fileID: 3218124634045596185}
-  - component: {fileID: 6131881980720118627}
+  - component: {fileID: 200751705544800076}
   m_Layer: 0
   m_Name: SecondaryWeapon
   m_TagString: Weapon
@@ -54,11 +54,16 @@ MonoBehaviour:
   weaponAnimator: {fileID: 1951735609177401473}
   weaponOverrideController: {fileID: 0}
   airborne: 1
+  canHome: 0
   weaponDamage: 0
+  weaponEffectIndex: 0
+  explosionRadius: 10
+  explosionDamage: 45
   canBePickedUp: 0
+  stuck: 0
   maximumCastCooldown: 0.5
   castCooldown: 0
-  bodyCollider: {fileID: 6131881980720118627}
+  bodyCollider: {fileID: 0}
 --- !u!50 &3094365187035047358
 Rigidbody2D:
   serializedVersion: 4
@@ -96,7 +101,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!61 &6131881980720118627
+--- !u!61 &200751705544800076
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -109,7 +114,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.005682707}
+  m_Offset: {x: 0.022791386, y: 0.002851367}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -120,7 +125,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 0.3294387}
+  m_Size: {x: 0.43021393, y: 0.12752128}
   m_EdgeRadius: 0
 --- !u!1 &6971642832417864740
 GameObject:
