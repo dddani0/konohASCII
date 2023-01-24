@@ -77,302 +77,291 @@ public class EnemyBehavior : MonoBehaviour
 
     void Start()
     {
-        FetchRudimentaryValues();
-        FetchDataFromTemplate(enemyTemplate);
+        
     }
 
     void Update()
     {
-        SetAnimationProperties();
-        isFacingRight = CheckObjectOrientation();
-        switch (isStationary)
-        {
-            case true:
-                StationaryEnemy();
-                break;
-            case false:
-                PatrollingEnemy();
-                break;
-        }
+        
     }
 
-    private void LateUpdate()
-    {
-        isEnemyDetected = CheckDetection();
-    }
-
-    private void FixedUpdate()
-    {
-        DetectEnemy();
-    }
-
-    private void PatrollingEnemy()
-    {
-        //See the list of non-stationary basic enemies at the issue
-        // https://github.com/marloss/konohASCII/issues/4
-        switch (isEnemyDetected)
-        {
-            case true:
-                if (!mainTarget)
-                    mainTarget = DetermineMainTarget();
-                targetCrosshairGameObject.transform.position = DetermineTargetCrosshair();
-
-                break;
-            case false:
-                Patrol();
-                break;
-        }
-    }
-
-    private void StationaryEnemy()
-    {
-    }
-
-    private void DetectEnemy()
-    {
-        switch (isEnemyDetected)
-        {
-            case true:
-                if (timeBtwEnemyChecks <= 0)
-                {
-                    hitcol = new RaycastHit2D();
-                    switch (isFacingRight)
-                    {
-                        case true: //Facing Right
-                            hitcol = Physics2D.CircleCast(detectionPoints[1].transform.position, detectionPointSize,
-                                detectionPoints[1].right);
-                            break;
-                        case false: //Facing left
-                            hitcol = Physics2D.CircleCast(detectionPoints[0].transform.position, detectionPointSize,
-                                -detectionPoints[0].right);
-                            break;
-                    }
-                }
-                else
-                {
-                    timeBtwEnemyChecks -= Time.deltaTime;
-                }
-
-                break;
-            case false:
-                //Raycasts without cooldown
-                hitcol = new RaycastHit2D();
-                switch (isFacingRight)
-                {
-                    case true: //Facing Right
-                        hitcol = Physics2D.CircleCast(detectionPoints[1].transform.position, detectionPointSize,
-                            detectionPoints[1].right);
-                        break;
-                    case false: //Facing left
-                        hitcol = Physics2D.CircleCast(detectionPoints[0].transform.position, detectionPointSize,
-                            -detectionPoints[0].right);
-                        break;
-                }
-
-                break;
-        }
-
-        if (hitcol.collider.gameObject.name.Contains("Player") && !targetList.Contains(hitcol.collider.gameObject))
-        {
-            print($"{hitcol.collider.gameObject.name} detected");
-            targetList.Add(hitcol.collider.gameObject);
-            //Only temporarily, to check for enemy with multiple conditions.
-            mainTarget = hitcol.collider.gameObject;
-        }
-    }
-
-    private void Patrol()
-    {
-        Vector2 destination;
-        if (waitingTime <= 0)
-        {
-            isObjectInMotion = true;
-
-            if (hasAnIterationStarted)
-            {
-                enemyAnimation.transform.localScale = isFacingRight ? new Vector3(1, 1, 1) : new Vector3(-1, 1, 1);
-                isFacingRight = CheckObjectOrientation();
-                hasAnIterationStarted = false;
-            }
-
-            //This is also inverted, reason: line 231
-            destination = isFacingRight
-                ? new Vector2(patrolStartposition.x + patrolMagnitude, patrolStartposition.y)
-                : new Vector2(patrolStartposition.x - patrolMagnitude, transform.position.y);
-            hasEnemyNotFinishedPatrol = CheckPatrolDestinationCompletion(destination, PatrolHaltDistance);
-            switch (hasEnemyNotFinishedPatrol)
-            {
-                case true:
-                    transform.position =
-                        Vector2.MoveTowards(transform.position, destination, movementSpeed * Time.deltaTime);
-                    break;
-                case false:
-                    //This is inverted, because the enemy pauses the way it moved before
-                    waitingTime = maximumWaitingTime;
-                    hasAnIterationStarted = true;
-                    isObjectInMotion = false;
-                    break;
-            }
-        }
-        else
-            waitingTime -= Time.deltaTime;
-    }
-
-    private void SetAnimationProperties()
-    {
-        enemyAnimation.SetAnimationState("isInMotion", isObjectInMotion, enemyAnimation.defaultAnimator);
-    }
-
-    private bool CheckLedgeRayCast()
-    {
-        Transform _raycastPosition = isFacingRight
-            ? droneRaycastPosition[0]
-            : droneRaycastPosition[1];
-
-        RaycastHit2D _ledgeRay = Physics2D.Linecast(_raycastPosition.position,
-            new Vector2(_raycastPosition.position.x, _raycastPosition.transform.position.y - droneHeightCastMagnitude));
-        bool _isOnTheLedge = _ledgeRay.collider != null;
-        return _isOnTheLedge;
-    }
-
-    private GameObject DetermineMainTarget()
-    {
-        GameObject _mainTarget = null;
-        switch (targetList.Count > 1)
-        {
-            case true:
-
-                break;
-            case false:
-
-                mainTarget = targetList[0];
-                break;
-        }
-
-        return _mainTarget;
-    }
-
-    private float CalculateWeaponAngle()
-    {
-        Transform weaponStartPositionTransform = isFacingRight ? attackPoints[1] : attackPoints[0];
-        Vector3 weaponStartPosition =
-            isFacingRight ? -weaponStartPositionTransform.right : weaponStartPositionTransform.right;
-
-        Vector3 WeaponStartPositionCrosshairCurrentPositionVector =
-            targetCrosshairGameObject.transform.position - weaponStartPosition;
-
-        float hasReachedOtherSide = targetCrosshairGameObject.transform.position.y < weaponStartPosition.y ? -1 : 1;
-
-        float _viewAngle = Vector2.Angle(weaponStartPosition, WeaponStartPositionCrosshairCurrentPositionVector) *
-                           hasReachedOtherSide;
-
-        return _viewAngle;
-    }
-
-    private Vector3 DetermineTargetCrosshair()
-    {
-        float _targetCrosshairYPosition = Mathf.Clamp(mainTarget.transform.position.y, -crosshairMaximumHeight,
-            crosshairMaximumHeight);
-        Vector3 _crosshairPosition = isFacingRight
-            ? new Vector3((transform.position.x + crosshairOffset.x) * -1,
-                _targetCrosshairYPosition)
-            : new Vector3((transform.position.x + crosshairOffset.x),
-                _targetCrosshairYPosition);
-        return _crosshairPosition;
-    }
-
-    private bool CheckDetection()
-    {
-        bool isMainTargetDetected = mainTarget;
-        return isMainTargetDetected;
-    }
-
-    private bool CheckPatrolDestinationCompletion(Vector2 _destination, float _maximumDistanceBetweenDestination)
-    {
-        bool _hasPatrolNotCompletedRoute =
-            Vector2.Distance(_destination, transform.position) > _maximumDistanceBetweenDestination &&
-            CheckLedgeRayCast();
-        return _hasPatrolNotCompletedRoute;
-    }
-
-    private bool CheckObjectOrientation()
-    {
-        return enemyAnimation.gameObject.transform.localScale.x < 0;
-    }
-
-    public void TakeInjury(int _damage)
-    {
-        health -= _damage;
-        print($"old hp {health + _damage} | new hp {health}");
-    }
-
-    public void TakeInjury(int _damage, int _knockbackForce)
-    {
-        health -= _damage;
-        // switch (isFacingRight)
-        // {
-        //     case true:
-        //         
-        //         break;
-        //     case false:
-        //         
-        //         break;
-        // }
-    }
-
-    private void FetchDataFromTemplate(EnemyTemplate _enemyTemplate)
-    {
-        enemyName = _enemyTemplate.enemyName;
-        maximumHealth = _enemyTemplate.maximumHealth;
-        health = maximumHealth;
-        isStationary = _enemyTemplate.isStationary;
-        enemyLevel = _enemyTemplate.enemyComplexityLevel;
-        secondaryWeapon = _enemyTemplate.weapon;
-        movementSpeed = _enemyTemplate.movementSpeed;
-        enemyAnimation.animatorController = _enemyTemplate.overrideController;
-    }
-
-    private void FetchRudimentaryValues()
-    {
-        enemyAnimation = GetComponentInChildren<EnemyAnimation>();
-        gamemanager = GameObject.FindGameObjectWithTag("Gamemanager").GetComponent<Gamemanager>();
-        timeBtwEnemyChecks = maximumTimeBtwEnemyChecks;
-        patrolStartposition = transform.position;
-        enemyAnimation.defaultAnimator.runtimeAnimatorController = enemyAnimation.animatorController;
-        enemyRigidbody2D = GetComponent<Rigidbody2D>();
-    }
-
-    private void OnTriggerEnter2D(Collider2D col)
-    {
-        if (col.GetComponent<SecondaryWeaponContainer>())
-        {
-            //Damages the enemy
-            health -= col.GetComponent<SecondaryWeaponContainer>().weaponDamage;
-            //Visual implementation:
-            //The weapon, which hits the enemy, stays on the enemy.
-            //Makes it more dramatic.
-            SecondaryWeaponContainer temporaryWeapon = col.gameObject.GetComponent<SecondaryWeaponContainer>();
-            temporaryWeapon.transform.SetParent(enemyAnimation.gameObject.transform);
-            temporaryWeapon.airborne = false;
-            temporaryWeapon.GetComponent<Collider2D>().enabled = false;
-            temporaryWeapon.GetComponent<Rigidbody2D>().simulated = false;
-            temporaryWeapon.weaponAnimator.enabled = false;
-            temporaryWeapon.enabled = false;
-        }
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(detectionPoints[0].position, detectionPointSize);
-        Gizmos.DrawLine(droneRaycastPosition[0].transform.position,
-            new Vector3(droneRaycastPosition[0].position.x,
-                droneRaycastPosition[1].position.y - droneHeightCastMagnitude));
-        Gizmos.DrawLine(droneRaycastPosition[1].transform.position,
-            new Vector3(droneRaycastPosition[1].position.x,
-                droneRaycastPosition[1].position.y - droneHeightCastMagnitude));
-        Gizmos.color = Color.red;
-        Gizmos.DrawLine(new Vector2(patrolStartposition.x - patrolMagnitude, transform.position.y),
-            new Vector2(patrolStartposition.x + patrolMagnitude, transform.position.y));
-    }
+    // private void LateUpdate()
+    // {
+    //     isEnemyDetected = CheckDetection();
+    // }
+    //
+    // private void FixedUpdate()
+    // {
+    //     DetectEnemy();
+    // }
+    //
+    // private void PatrollingEnemy()
+    // {
+    //     //See the list of non-stationary basic enemies at the issue
+    //     // https://github.com/marloss/konohASCII/issues/4
+    //     switch (isEnemyDetected)
+    //     {
+    //         case true:
+    //             if (!mainTarget)
+    //                 mainTarget = DetermineMainTarget();
+    //             targetCrosshairGameObject.transform.position = DetermineTargetCrosshair();
+    //
+    //             break;
+    //         case false:
+    //             Patrol();
+    //             break;
+    //     }
+    // }
+    //
+    // private void StationaryEnemy()
+    // {
+    // }
+    //
+    // private void DetectEnemy()
+    // {
+    //     switch (isEnemyDetected)
+    //     {
+    //         case true:
+    //             if (timeBtwEnemyChecks <= 0)
+    //             {
+    //                 hitcol = new RaycastHit2D();
+    //                 switch (isFacingRight)
+    //                 {
+    //                     case true: //Facing Right
+    //                         hitcol = Physics2D.CircleCast(detectionPoints[1].transform.position, detectionPointSize,
+    //                             detectionPoints[1].right);
+    //                         break;
+    //                     case false: //Facing left
+    //                         hitcol = Physics2D.CircleCast(detectionPoints[0].transform.position, detectionPointSize,
+    //                             -detectionPoints[0].right);
+    //                         break;
+    //                 }
+    //             }
+    //             else
+    //             {
+    //                 timeBtwEnemyChecks -= Time.deltaTime;
+    //             }
+    //
+    //             break;
+    //         case false:
+    //             //Raycasts without cooldown
+    //             hitcol = new RaycastHit2D();
+    //             switch (isFacingRight)
+    //             {
+    //                 case true: //Facing Right
+    //                     hitcol = Physics2D.CircleCast(detectionPoints[1].transform.position, detectionPointSize,
+    //                         detectionPoints[1].right);
+    //                     break;
+    //                 case false: //Facing left
+    //                     hitcol = Physics2D.CircleCast(detectionPoints[0].transform.position, detectionPointSize,
+    //                         -detectionPoints[0].right);
+    //                     break;
+    //             }
+    //
+    //             break;
+    //     }
+    //
+    //     if (hitcol.collider.gameObject.name.Contains("Player") && !targetList.Contains(hitcol.collider.gameObject))
+    //     {
+    //         print($"{hitcol.collider.gameObject.name} detected");
+    //         targetList.Add(hitcol.collider.gameObject);
+    //         //Only temporarily, to check for enemy with multiple conditions.
+    //         mainTarget = hitcol.collider.gameObject;
+    //     }
+    // }
+    //
+    // private void Patrol()
+    // {
+    //     Vector2 destination;
+    //     if (waitingTime <= 0)
+    //     {
+    //         isObjectInMotion = true;
+    //
+    //         if (hasAnIterationStarted)
+    //         {
+    //             enemyAnimation.transform.localScale = isFacingRight ? new Vector3(1, 1, 1) : new Vector3(-1, 1, 1);
+    //             isFacingRight = CheckObjectOrientation();
+    //             hasAnIterationStarted = false;
+    //         }
+    //
+    //         //This is also inverted, reason: line 231
+    //         destination = isFacingRight
+    //             ? new Vector2(patrolStartposition.x + patrolMagnitude, patrolStartposition.y)
+    //             : new Vector2(patrolStartposition.x - patrolMagnitude, transform.position.y);
+    //         hasEnemyNotFinishedPatrol = CheckPatrolDestinationCompletion(destination, PatrolHaltDistance);
+    //         switch (hasEnemyNotFinishedPatrol)
+    //         {
+    //             case true:
+    //                 transform.position =
+    //                     Vector2.MoveTowards(transform.position, destination, movementSpeed * Time.deltaTime);
+    //                 break;
+    //             case false:
+    //                 //This is inverted, because the enemy pauses the way it moved before
+    //                 waitingTime = maximumWaitingTime;
+    //                 hasAnIterationStarted = true;
+    //                 isObjectInMotion = false;
+    //                 break;
+    //         }
+    //     }
+    //     else
+    //         waitingTime -= Time.deltaTime;
+    // }
+    //
+    // private void SetAnimationProperties()
+    // {
+    //     enemyAnimation.SetAnimationState("isInMotion", isObjectInMotion, enemyAnimation.defaultAnimator);
+    // }
+    //
+    // private bool CheckLedgeRayCast()
+    // {
+    //     Transform _raycastPosition = isFacingRight
+    //         ? droneRaycastPosition[0]
+    //         : droneRaycastPosition[1];
+    //
+    //     RaycastHit2D _ledgeRay = Physics2D.Linecast(_raycastPosition.position,
+    //         new Vector2(_raycastPosition.position.x, _raycastPosition.transform.position.y - droneHeightCastMagnitude));
+    //     bool _isOnTheLedge = _ledgeRay.collider != null;
+    //     return _isOnTheLedge;
+    // }
+    //
+    // private GameObject DetermineMainTarget()
+    // {
+    //     GameObject _mainTarget = null;
+    //     switch (targetList.Count > 1)
+    //     {
+    //         case true:
+    //
+    //             break;
+    //         case false:
+    //
+    //             mainTarget = targetList[0];
+    //             break;
+    //     }
+    //
+    //     return _mainTarget;
+    // }
+    //
+    // private float CalculateWeaponAngle()
+    // {
+    //     Transform weaponStartPositionTransform = isFacingRight ? attackPoints[1] : attackPoints[0];
+    //     Vector3 weaponStartPosition =
+    //         isFacingRight ? -weaponStartPositionTransform.right : weaponStartPositionTransform.right;
+    //
+    //     Vector3 WeaponStartPositionCrosshairCurrentPositionVector =
+    //         targetCrosshairGameObject.transform.position - weaponStartPosition;
+    //
+    //     float hasReachedOtherSide = targetCrosshairGameObject.transform.position.y < weaponStartPosition.y ? -1 : 1;
+    //
+    //     float _viewAngle = Vector2.Angle(weaponStartPosition, WeaponStartPositionCrosshairCurrentPositionVector) *
+    //                        hasReachedOtherSide;
+    //
+    //     return _viewAngle;
+    // }
+    //
+    // private Vector3 DetermineTargetCrosshair()
+    // {
+    //     float _targetCrosshairYPosition = Mathf.Clamp(mainTarget.transform.position.y, -crosshairMaximumHeight,
+    //         crosshairMaximumHeight);
+    //     Vector3 _crosshairPosition = isFacingRight
+    //         ? new Vector3((transform.position.x + crosshairOffset.x) * -1,
+    //             _targetCrosshairYPosition)
+    //         : new Vector3((transform.position.x + crosshairOffset.x),
+    //             _targetCrosshairYPosition);
+    //     return _crosshairPosition;
+    // }
+    //
+    // private bool CheckDetection()
+    // {
+    //     bool isMainTargetDetected = mainTarget;
+    //     return isMainTargetDetected;
+    // }
+    //
+    // private bool CheckPatrolDestinationCompletion(Vector2 _destination, float _maximumDistanceBetweenDestination)
+    // {
+    //     bool _hasPatrolNotCompletedRoute =
+    //         Vector2.Distance(_destination, transform.position) > _maximumDistanceBetweenDestination &&
+    //         CheckLedgeRayCast();
+    //     return _hasPatrolNotCompletedRoute;
+    // }
+    //
+    // private bool CheckObjectOrientation()
+    // {
+    //     return enemyAnimation.gameObject.transform.localScale.x < 0;
+    // }
+    //
+    // public void TakeInjury(int _damage)
+    // {
+    //     health -= _damage;
+    //     print($"old hp {health + _damage} | new hp {health}");
+    // }
+    //
+    // public void TakeInjury(int _damage, int _knockbackForce)
+    // {
+    //     health -= _damage;
+    //     // switch (isFacingRight)
+    //     // {
+    //     //     case true:
+    //     //         
+    //     //         break;
+    //     //     case false:
+    //     //         
+    //     //         break;
+    //     // }
+    // }
+    //
+    // private void FetchDataFromTemplate(EnemyTemplate _enemyTemplate)
+    // {
+    //     enemyName = _enemyTemplate.enemyName;
+    //     maximumHealth = _enemyTemplate.maximumHealth;
+    //     health = maximumHealth;
+    //     isStationary = _enemyTemplate.isStationary;
+    //     enemyLevel = _enemyTemplate.enemyComplexityLevel;
+    //     secondaryWeapon = _enemyTemplate.weapon;
+    //     movementSpeed = _enemyTemplate.movementSpeed;
+    //     enemyAnimation.animatorController = _enemyTemplate.overrideController;
+    // }
+    //
+    // private void FetchRudimentaryValues()
+    // {
+    //     enemyAnimation = GetComponentInChildren<EnemyAnimation>();
+    //     gamemanager = GameObject.FindGameObjectWithTag("Gamemanager").GetComponent<Gamemanager>();
+    //     timeBtwEnemyChecks = maximumTimeBtwEnemyChecks;
+    //     patrolStartposition = transform.position;
+    //     enemyAnimation.defaultAnimator.runtimeAnimatorController = enemyAnimation.animatorController;
+    //     enemyRigidbody2D = GetComponent<Rigidbody2D>();
+    // }
+    //
+    // private void OnTriggerEnter2D(Collider2D col)
+    // {
+    //     if (col.GetComponent<SecondaryWeaponContainer>())
+    //     {
+    //         //Damages the enemy
+    //         health -= col.GetComponent<SecondaryWeaponContainer>().weaponDamage;
+    //         //Visual implementation:
+    //         //The weapon, which hits the enemy, stays on the enemy.
+    //         //Makes it more dramatic.
+    //         SecondaryWeaponContainer temporaryWeapon = col.gameObject.GetComponent<SecondaryWeaponContainer>();
+    //         temporaryWeapon.transform.SetParent(enemyAnimation.gameObject.transform);
+    //         temporaryWeapon.airborne = false;
+    //         temporaryWeapon.GetComponent<Collider2D>().enabled = false;
+    //         temporaryWeapon.GetComponent<Rigidbody2D>().simulated = false;
+    //         temporaryWeapon.weaponAnimator.enabled = false;
+    //         temporaryWeapon.enabled = false;
+    //     }
+    // }
+    //
+    // private void OnDrawGizmosSelected()
+    // {
+    //     Gizmos.color = Color.yellow;
+    //     Gizmos.DrawWireSphere(detectionPoints[0].position, detectionPointSize);
+    //     Gizmos.DrawLine(droneRaycastPosition[0].transform.position,
+    //         new Vector3(droneRaycastPosition[0].position.x,
+    //             droneRaycastPosition[1].position.y - droneHeightCastMagnitude));
+    //     Gizmos.DrawLine(droneRaycastPosition[1].transform.position,
+    //         new Vector3(droneRaycastPosition[1].position.x,
+    //             droneRaycastPosition[1].position.y - droneHeightCastMagnitude));
+    //     Gizmos.color = Color.red;
+    //     Gizmos.DrawLine(new Vector2(patrolStartposition.x - patrolMagnitude, transform.position.y),
+    //         new Vector2(patrolStartposition.x + patrolMagnitude, transform.position.y));
+    // }
 }

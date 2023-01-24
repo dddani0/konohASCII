@@ -792,9 +792,9 @@ public class PlayerAction : MonoBehaviour
     {
         if (col.CompareTag("EnemyTarget"))
         {
-            //This is when the bottomcollider (lol) detects an enemy, when enabled
+            //This is when the bottomcollider detects an enemy, when enabled
             //Used by AirAttack
-            col.GetComponent<EnemyBehavior>().TakeInjury(kickDamage);
+            //col.GetComponent<EnemyBehavior>().TakeInjury(kickDamage);
         }
 
         if (col.CompareTag("Flag"))
@@ -821,7 +821,7 @@ public class PlayerAction : MonoBehaviour
                 
                 if (col.GetComponent<SecondaryWeaponContainer>().weapon.weaponName !=
                     activeSecondaryWeapon.weaponName && !CanPickUpNewWeapon()) return;
-                secondaryWeaponAmmunition++;
+                col.GetComponent<SecondaryWeaponContainer>().IncreaseWeaponAmmunition(this);
                 Destroy(col.gameObject);
                 break;
             case false:

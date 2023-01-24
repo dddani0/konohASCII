@@ -120,8 +120,8 @@ public class PlayerAnimation : MonoBehaviour
 
 
         Collider2D hit = Physics2D.OverlapCircle(_attackPosition.position, _attackRadius);
-        if (hit.GetComponent<EnemyBehavior>() != null)
-            hit.GetComponent<EnemyBehavior>().TakeInjury(_damage);
+        // if (hit.GetComponent<EnemyBehavior>() != null)
+        //     hit.GetComponent<EnemyBehavior>().TakeInjury(_damage);
     }
 
     public void ACALLANIMATIONEVENTResetAirAttackCollider()

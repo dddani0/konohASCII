@@ -1,6 +1,4 @@
-﻿using System;
-using System.Net.Http.Headers;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Serialization;
 
 public class SecondaryWeaponContainer : MonoBehaviour
@@ -11,20 +9,28 @@ public class SecondaryWeaponContainer : MonoBehaviour
     public SpriteRenderer weaponSpriteRenderer;
     public Animator weaponAnimator;
     public AnimatorOverrideController weaponOverrideController;
-    [Space] private float weaponSpeed;
+    [Space] private float _weaponSpeed;
 
     [FormerlySerializedAs("isAirborne")] [Space]
     public bool airborne = true;
+
+    [Tooltip("Is manipulated with string?")]
+    public bool canHome;
 
     [Space] public int weaponDamage;
 
     [Space]
     //Determines the direction of weapon movement. 1 = right and -1 = left"
-    private int weaponTurnOtherSideValue = 1;
+    private int _weaponTurnOtherSideValue = 1;
 
     [Space] public bool canBePickedUp;
 
-    [Tooltip("No assignment required")] private float weaponAngle;
+    [FormerlySerializedAs("isStuck")] [Tooltip("Stuck when weapon hits enemy.")]
+    public bool stuck;
+
+    private bool canIncrementValue = true;
+
+    [Tooltip("No assignment required")] private float _weaponAngle;
     [Space] public float maximumCastCooldown;
     [SerializeField] private float castCooldown;
     [SerializeField] private BoxCollider2D bodyCollider;
@@ -34,13 +40,9 @@ public class SecondaryWeaponContainer : MonoBehaviour
         Fetch_Rudimentary_Values();
     }
 
-    private void FixedUpdate()
-    {
-    }
-
     private void Update()
     {
-        ManageWeapon(weaponSpeed);
+        ManageWeapon(_weaponSpeed);
     }
 
 
@@ -60,7 +62,7 @@ public class SecondaryWeaponContainer : MonoBehaviour
         weaponRigidbody = GetComponent<Rigidbody2D>();
     }
 
-    public void AssignNewWeapon(WeaponTemplate weaponTemplate, float _weaponAngle, int _ismovingright)
+    public void AssignNewWeapon(WeaponTemplate weaponTemplate, float weaponAngle, int isMovingRight)
     {
         bool HasWeaponTemplate()
         {
@@ -68,12 +70,12 @@ public class SecondaryWeaponContainer : MonoBehaviour
         }
 
         weapon = weaponTemplate;
-        weaponSpeed = weaponTemplate.weaponSpeed;
-        weaponTurnOtherSideValue = _ismovingright;
+        _weaponSpeed = weaponTemplate.weaponSpeed;
+        _weaponTurnOtherSideValue = isMovingRight;
         weaponDamage = weaponTemplate.damage;
-        weaponAngle = _weaponAngle;
+        this._weaponAngle = weaponAngle;
         weaponSprite = weaponTemplate.weaponSprite;
-        transform.localEulerAngles = new Vector3(0, 0, _weaponAngle);
+        transform.localEulerAngles = new Vector3(0, 0, weaponAngle);
 
         weaponAnimator.runtimeAnimatorController = null; //reset controller
         switch (HasWeaponTemplate())
@@ -89,9 +91,57 @@ public class SecondaryWeaponContainer : MonoBehaviour
         }
     }
 
+    public void IncreaseWeaponAmmunition(PlayerAction _playerAction)
+    {
+        if (canIncrementValue)
+        {
+            _playerAction.secondaryWeaponAmmunition++;
+            canIncrementValue = false;
+        }
+        Destroy(this);
+    }
+
+    public void ManipulateWeapon(GameObject target)
+    {
+        //Only "sasuke" can call this
+
+        bool CanBeManipulated()
+        {
+            return airborne;
+        }
+
+        bool HasTarget()
+        {
+            return target;
+        }
+
+        float HoneAngle()
+        {
+            bool IsTargetBelow()
+            {
+                return target.transform.position.y < transform.position.y;
+            }
+
+            Vector3 TargetDirection()
+            {
+                return (target.transform.position - transform.position).normalized;
+            }
+
+            Vector3 ThisDirection()
+            {
+                return IsTargetBelow() ? -transform.up : transform.up;
+            }
+
+            return Vector2.Angle(ThisDirection(), TargetDirection());
+        }
+
+        if (!HasTarget()) return;
+        transform.localEulerAngles = new Vector3(0, 0, HoneAngle());
+    }
+
     private bool CheckWeaponPickUpStatus()
     {
-        return !airborne;
+        return !airborne && !stuck;
     }
 
     private bool HasWeaponAnimation()
@@ -104,7 +154,7 @@ public class SecondaryWeaponContainer : MonoBehaviour
         return airborne;
     }
 
-    private void ManageWeapon(float _speed)
+    private void ManageWeapon(float speed)
     {
         bool CanMove()
         {
@@ -121,19 +171,19 @@ public class SecondaryWeaponContainer : MonoBehaviour
             bodyCollider.isTrigger = CanWeaponBePickedUp();
             canBePickedUp = CanWeaponBePickedUp();
         }
-        
+
         if (!weapon) return;
         ManageWeaponCollider();
-        transform.position += CanMove() ? transform.right * (_speed * Time.deltaTime) : transform.right * 0;
+        transform.position += CanMove() ? transform.right * (speed * Time.deltaTime) : transform.right * 0;
         if (!HasWeaponAnimation()) return;
         weaponAnimator.SetBool("isWeaponAirborne", ShouldPlayBaseAnimation());
     }
 
     private void OnTriggerEnter2D(Collider2D col)
     {
-        bool DoesMatchObstacleLayer(int _layer)
+        bool DoesMatchObstacleLayer(int layer)
         {
-            return _layer == 11;
+            return layer == 11;
         }
 
         bool HasHitWall()
