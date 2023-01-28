@@ -12,11 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a86917d9edb0f5f42a293a22bc5b7405, type: 3}
   m_Name: Explosive_Tag_Kunai
   m_EditorClassIdentifier: 
-  weaponName: Explosive_Tag_Kunai
+  weaponName: Kunai bomb
+  weaponDurability: 0
   weaponSprite: {fileID: -5950203371630984395, guid: 1c4d3c7b5957de44187b8a28d87e7e08, type: 3}
-  weaponAnimatorController: {fileID: 22100000, guid: 6c6c6f1e10ba46f4fbdcfd416c219097, type: 2}
-  damage: 0
+  weaponAnimatorController: {fileID: 22100000, guid: 552b64ba4e8e81643bf7d41e2aedc9ed, type: 2}
+  damage: 50
   isRange: 1
+  isPrimaryWeapon: 0
   weaponSpeed: 51
-  isWeaponFlying: 0
+  ammunition: 4
   animationDelay: 1
+  bleed: 0
+  poison: 0
+  explosion: 1

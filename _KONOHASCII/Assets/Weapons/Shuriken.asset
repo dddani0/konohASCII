@@ -13,10 +13,15 @@ MonoBehaviour:
   m_Name: Shuriken
   m_EditorClassIdentifier: 
   weaponName: Shuriken
+  weaponDurability: 0
   weaponSprite: {fileID: -8241643307067518538, guid: 1c4d3c7b5957de44187b8a28d87e7e08, type: 3}
   weaponAnimatorController: {fileID: 22100000, guid: b62af717527775c4b873cb38632d2ef7, type: 2}
   damage: 80
   isRange: 1
   isPrimaryWeapon: 0
   weaponSpeed: 60
+  ammunition: 15
   animationDelay: 1
+  bleed: 0
+  poison: 0
+  slow: 0

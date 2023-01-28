@@ -18,7 +18,7 @@ public class PlayerAction : MonoBehaviour
     public bool isDashingInProgress;
     public float dashForce;
     private float maximumDashDistance; //lack of pointers, must declare for later
-    private bool hasDamaged;            // same deal
+    private bool hasDamaged; // same deal
     public float maximumDashAngle;
     public float minimuimDashAngle;
 
@@ -44,9 +44,11 @@ public class PlayerAction : MonoBehaviour
     public WeaponTemplate activeSecondaryWeapon;
 
     [SerializeField] private GameObject weaponContainer;
+    [Space] public int secondaryWeaponAmmunition;
+    [Space] public float maximumWeaponPickUpCooldown;
+    private float currentWeaponPickUp;
 
     [Space] public Transform[] weaponPosition;
-    [Space] public int rangeWeaponAmmunition;
     [Space(20f)] [Header("Health")] public float maximumHealthPoints;
     [SerializeField] private float healthPoints;
     [Space(20f)] [Header("Chakra")] public int maximumChakra;
@@ -102,6 +104,7 @@ public class PlayerAction : MonoBehaviour
         RangeAttack();
         ChakraBlock();
         ManageTargetDash();
+        ManageSecondaryWeapon();
     }
 
     private void LateUpdate()
@@ -206,28 +209,45 @@ public class PlayerAction : MonoBehaviour
 
     private void RangeAttack()
     {
+        bool IsAttackInitiated()
+        {
+            return SignalSecondaryWeaponUsage() && !playerMovement.isStandingOnWall && secondaryWeaponAmmunition > 0;
+        }
+
         //Creates instance of weapon prefab.
         //Modifies said instance from selected asset.
-        if (SignalSecondaryWeaponUsage() && !playerMovement.isStandingOnWall)
+        if (!IsAttackInitiated()) return;
+
+        secondaryWeaponAmmunition--;
+        playerAnimation.SetAnimationState("range_attack", playerAnimation.defaultAnimator);
+        GameObject _temporaryWeapon;
+        switch (isFacingRight)
         {
-            playerAnimation.SetAnimationState("range_attack", playerAnimation.defaultAnimator);
-            GameObject _temporaryWeapon;
-            switch (isFacingRight)
-            {
-                case true:
-                    _temporaryWeapon = Instantiate(weaponContainer,
-                        weaponPosition[0].position, weaponPosition[0].rotation);
-                    _temporaryWeapon.GetComponent<SecondaryWeaponContainer>()
-                        .AssignNewWeapon(activeSecondaryWeapon, CalculateWeaponCastingAngle(), 1);
-                    break;
-                case false:
-                    _temporaryWeapon = Instantiate(weaponContainer,
-                        weaponPosition[1].position, weaponPosition[1].rotation);
-                    _temporaryWeapon.GetComponent<SecondaryWeaponContainer>()
-                        .AssignNewWeapon(activeSecondaryWeapon, CalculateWeaponCastingAngle(), -1);
-                    break;
-            }
+            case true:
+                _temporaryWeapon = Instantiate(weaponContainer,
+                    weaponPosition[0].position, weaponPosition[0].rotation);
+                _temporaryWeapon.GetComponent<SecondaryWeaponContainer>()
+                    .AssignNewWeapon(activeSecondaryWeapon, CalculateWeaponCastingAngle(), 1);
+                break;
+            case false:
+                _temporaryWeapon = Instantiate(weaponContainer,
+                    weaponPosition[1].position, weaponPosition[1].rotation);
+                _temporaryWeapon.GetComponent<SecondaryWeaponContainer>()
+                    .AssignNewWeapon(activeSecondaryWeapon, CalculateWeaponCastingAngle(), -1);
+                break;
         }
+    }
+
+    private void ManageSecondaryWeapon()
+    {
+        //When the ammo capacity reaches 0, disable the weapon
+        bool IsSecondaryWeaponEmpty()
+        {
+            return activeSecondaryWeapon && secondaryWeaponAmmunition < 1;
+        }
+
+        if (!IsSecondaryWeaponEmpty()) return;
+        activeSecondaryWeapon = null;
     }
 
     private void ChakraBlock()
@@ -283,16 +303,36 @@ public class PlayerAction : MonoBehaviour
             case true:
                 if (playerMovement.pickUpButton && isTouchingFlag)
                 {
-                    int flagNumber = flagObjectCollider.GetComponent<ItemFlag>().FetchFlagType();
-                    bool hasPrimaryWeapon = activePrimaryWeapon != null;
-                    bool hasSecondaryWeapon = activeSecondaryWeapon != null;
-                    bool isWeaponPrimary = flagObjectCollider.GetComponent<ItemFlag>().weaponFlag.isPrimaryWeapon;
+                    var flagNumber = flagObjectCollider.GetComponent<ItemFlag>().FetchFlagType();
+                    var hasPrimaryWeapon = activePrimaryWeapon != null;
+                    var hasSecondaryWeapon = activeSecondaryWeapon != null;
+                    var isWeaponPrimary = flagObjectCollider.GetComponent<ItemFlag>().weaponFlag.isPrimaryWeapon;
                     var currentPrimaryWeapon = activePrimaryWeapon;
                     var currentSecondaryWeapon = activeSecondaryWeapon;
+                    switch (hasSecondaryWeapon && !isWeaponPrimary)
+                    {
+                        case true:
+                            var temporaryAmmunition = secondaryWeaponAmmunition;
+
+                            if (flagObjectCollider.gameObject.GetComponent<ItemFlag>().ammoCapacity < 1)
+                                print("WARNING: WEAPON DISAPPEAR DUE TO LESS THEN 1 AMMO");
+
+                            secondaryWeaponAmmunition =
+                                flagObjectCollider.gameObject.GetComponent<ItemFlag>().ammoCapacity;
+
+                            flagObjectCollider.gameObject.GetComponent<ItemFlag>().ammoCapacity =
+                                temporaryAmmunition;
+                            break;
+                        case false:
+                            if (!isWeaponPrimary)
+                                secondaryWeaponAmmunition =
+                                    flagObjectCollider.gameObject.GetComponent<ItemFlag>().ammoCapacity;
+                            break;
+                    }
 
                     switch (flagNumber)
                     {
-                        case 1:
+                        case 1: //Weapon case
                             AssingNewWeapon(flagObjectCollider.GetComponent<ItemFlag>().weaponFlag);
                             switch (isWeaponPrimary)
                             {
@@ -305,10 +345,13 @@ public class PlayerAction : MonoBehaviour
                                     break;
                                 case false:
                                     if (hasSecondaryWeapon)
+
                                         flagObjectCollider.gameObject.GetComponent<ItemFlag>().weaponFlag =
                                             currentSecondaryWeapon;
+
                                     else
                                         Destroy(flagObjectCollider.gameObject);
+
                                     break;
                             }
 
@@ -318,6 +361,7 @@ public class PlayerAction : MonoBehaviour
                     secondsBetweenWeaponSwap = maximumSecondsBetweenWeaponSwap;
                     gamemanager.pauseManager.LoadPlayableCharacterStatistics(playableCharacter.playableCharacter,
                         this); //Refresh
+                    flagObjectCollider.GetComponent<ItemFlag>().RefreshFlag();
                 }
 
                 break;
@@ -416,7 +460,6 @@ public class PlayerAction : MonoBehaviour
 
     private float CalculateCrosshairYAngle(float _crosshairYAngle, bool _isInvert)
     {
-        //Invert fuck shit
         _crosshairYAngle += _isInvert
             ? -playerMovement.mouseYAxisInput * crosshairVisualSpeed * Time.deltaTime
             : playerMovement.mouseYAxisInput * crosshairVisualSpeed * Time.deltaTime;
@@ -462,7 +505,8 @@ public class PlayerAction : MonoBehaviour
                 return FetchTargetDegree();
             }
 
-            return TargetExist() && TargetDegree() > minimuimDashAngle && TargetDegree() < maximumDashAngle && !isDashingInProgress &&
+            return TargetExist() && TargetDegree() > minimuimDashAngle && TargetDegree() < maximumDashAngle &&
+                   !isDashingInProgress &&
                    !playerMovement.isStandingOnWall && !playerMovement.isStandingOnGround && !hasDashed &&
                    !playerAnimation.defaultAnimator.GetCurrentAnimatorStateInfo(0).IsTag("Action");
         }
@@ -505,6 +549,7 @@ public class PlayerAction : MonoBehaviour
             {
                 return isDashingInProgress && Targets().Length > 0 && !hasDamaged;
             }
+
             bool TargetDashInitiated()
             {
                 return IsDashAttackButtonPressed() && canTargetDash && !hasDashed && TargetExist();
@@ -552,7 +597,7 @@ public class PlayerAction : MonoBehaviour
                         ? (transform.position + Vector3.right - transform.position).normalized
                         : (transform.position + Vector3.left - transform.position).normalized);
             }
-            
+
             Collider2D[] Targets()
             {
                 return Physics2D.OverlapCircleAll(weaponPosition[0].position, attackRadius);
@@ -580,7 +625,7 @@ public class PlayerAction : MonoBehaviour
 
                 hasDamaged = true;
             }
-                
+
 
             if (isDashingInProgress && IsDashingFinished())
             {
@@ -747,9 +792,9 @@ public class PlayerAction : MonoBehaviour
     {
         if (col.CompareTag("EnemyTarget"))
         {
-            //This is when the bottomcollider (lol) detects an enemy, when enabled
+            //This is when the bottomcollider detects an enemy, when enabled
             //Used by AirAttack
-            col.GetComponent<EnemyBehavior>().TakeInjury(kickDamage);
+            //col.GetComponent<EnemyBehavior>().TakeInjury(kickDamage);
         }
 
         if (col.CompareTag("Flag"))
@@ -760,17 +805,28 @@ public class PlayerAction : MonoBehaviour
             isTouchingFlag = true;
         }
 
-        if (col.CompareTag("Weapon") && col.GetComponent<SecondaryWeaponContainer>())
-        {
-            switch (col.GetComponent<SecondaryWeaponContainer>().canBePickedUp)
-            {
-                case true:
 
-                    break;
-                case false:
-                    healthPoints -= col.GetComponent<SecondaryWeaponContainer>().weaponDamage;
-                    break;
-            }
+        if (!col.CompareTag("Weapon")) return;
+
+        bool CanPickUpNewWeapon()
+        {
+            currentWeaponPickUp -= Time.deltaTime;
+            return currentWeaponPickUp <= 0;
+        }
+
+        switch (col.GetComponent<SecondaryWeaponContainer>().canBePickedUp)
+        {
+            case true:
+                if (!activeSecondaryWeapon) return;
+                
+                if (col.GetComponent<SecondaryWeaponContainer>().weapon.weaponName !=
+                    activeSecondaryWeapon.weaponName && !CanPickUpNewWeapon()) return;
+                col.GetComponent<SecondaryWeaponContainer>().IncreaseWeaponAmmunition(this);
+                Destroy(col.gameObject);
+                break;
+            case false:
+                healthPoints -= col.GetComponent<SecondaryWeaponContainer>().weaponDamage;
+                break;
         }
     }
 

@@ -10,7 +10,7 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     public GameObject gameManager;
-    private GameObject playerGameObject;
+    public PlayerAction playerAction;
     private WeaponTemplate primaryWeapon;
     private WeaponTemplate secondaryWeapon;
 
@@ -44,7 +44,7 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         FetchRudimentaryValues();
-        SetSecondaryWeaponUI();
+        SetDefaultSecondaryWeaponUI();
     }
 
     private void Update()
@@ -54,6 +54,7 @@ public class UIManager : MonoBehaviour
     private void LateUpdate()
     {
         secondaryWeaponBranch.transform.position = DetermineSecondaryBranchPosition();
+        UpdateSecondaryWeaponFeedback();
         primaryWeaponUIIconAnimator.SetBool("isWeaponEquipped", IsPrimaryWeaponVisible());
         isPrimaryWeaponPickedUp = IsPrimaryWeaponVisible();
     }
@@ -62,19 +63,17 @@ public class UIManager : MonoBehaviour
     {
         gameManager = GameObject.FindGameObjectWithTag("Gamemanager");
 
-        playerGameObject = GameObject.FindGameObjectWithTag("Player");
+        playerAction = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerAction>();
         secondaryWeaponBranch.transform.position = secondaryWeaponBranchStartPosition.transform.position;
-        if (playerGameObject.GetComponent<PlayerAction>().activePrimaryWeapon !=
+        if (playerAction.activePrimaryWeapon !=
             null)
-            primaryWeapon = playerGameObject.GetComponent<PlayerAction>()
-                .activePrimaryWeapon;
-        if (playerGameObject.GetComponent<PlayerAction>().activeSecondaryWeapon !=
+            primaryWeapon = playerAction.activePrimaryWeapon;
+        if (playerAction.activeSecondaryWeapon !=
             null)
-            secondaryWeapon = playerGameObject.GetComponent<PlayerAction>()
-                .activeSecondaryWeapon;
+            secondaryWeapon = playerAction.activeSecondaryWeapon;
     }
 
-    private void SetSecondaryWeaponUI()
+    private void SetDefaultSecondaryWeaponUI()
     {
         secondaryWeaponIcon.sprite = nullSprite;
         secondaryWeaponUIText.text = "".ToString();
@@ -105,9 +104,17 @@ public class UIManager : MonoBehaviour
         return doesImageHaveSprite;
     }
 
-    private bool IsSecondaryWeaponEquipped(bool _secondaryWeaponState)
+    private void UpdateSecondaryWeaponFeedback()
     {
-        return false;
+        bool IsSecondaryWeaponPickedUp()
+        {
+            return playerAction.activeSecondaryWeapon;
+        }
+
+        if (IsSecondaryWeaponPickedUp())
+            secondaryWeaponUIText.text = $"x {playerAction.secondaryWeaponAmmunition}";
+        else
+            SetDefaultSecondaryWeaponUI();
     }
 
     private bool IsPrimaryWeaponVisible() //Visible, as in "is the proper sprite enabled"

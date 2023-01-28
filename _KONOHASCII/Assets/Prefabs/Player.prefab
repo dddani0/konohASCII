@@ -558,11 +558,12 @@ MonoBehaviour:
   maximumSecondsBetweenWeaponSwap: 0.1
   activeSecondaryWeapon: {fileID: 0}
   weaponContainer: {fileID: 0}
+  secondaryWeaponAmmunition: 0
+  maximumWeaponPickUpCooldown: 0
   weaponPosition:
   - {fileID: 7248831843216491726}
   - {fileID: 7248831843859013408}
   - {fileID: 7248831843913893246}
-  rangeWeaponAmmunition: 0
   maximumHealthPoints: 750
   healthPoints: 0
   maximumChakra: 12
@@ -815,7 +816,7 @@ Animator:
   m_GameObject: {fileID: 7248831843080676399}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: b77cba61e25416de5a64adb6514f2c30, type: 2}
+  m_Controller: {fileID: 22100000, guid: 560d7d85284a2706c93f5292d5116c5a, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

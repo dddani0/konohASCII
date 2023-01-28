@@ -4,6 +4,7 @@
 public class ItemFlag : MonoBehaviour
 {
     public WeaponTemplate weaponFlag;
+    [Space] public int ammoCapacity;
     [Space] private SpriteRenderer spriteHandler;
     public Sprite itemFlagSprite;
     [Space] public GameObject buttonPromptSpriteHandler;
@@ -11,6 +12,12 @@ public class ItemFlag : MonoBehaviour
     public string flagName;
 
     void Start()
+    {
+        FetchRudimentaryValues();
+        ammoCapacity = weaponFlag.ammunition;
+    }
+
+    private void FetchRudimentaryValues()
     {
         spriteHandler = GetComponent<SpriteRenderer>();
         spriteHandler.sprite = itemFlagSprite;
@@ -45,11 +52,16 @@ public class ItemFlag : MonoBehaviour
         return _flagName;
     }
 
-    public bool EnablePickUpPrompt(bool isAvaialable)
+
+    public void RefreshFlag()
+    {
+        FetchRudimentaryValues();
+    }
+
+    public void EnablePickUpPrompt(bool isAvaialable)
     {
         bool _fetchAvailability = isAvaialable;
         PromptStatus(_fetchAvailability, buttonPromptSpriteHandler);
-        return _fetchAvailability;
     }
 
     private void PromptStatus(bool enable, GameObject prompt)

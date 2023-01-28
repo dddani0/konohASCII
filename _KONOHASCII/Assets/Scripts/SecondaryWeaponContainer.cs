@@ -1,7 +1,29 @@
 ﻿using System;
-using System.Net.Http.Headers;
 using UnityEngine;
 using UnityEngine.Serialization;
+
+internal class WeaponEffect
+{
+    public string effectName { get; set; }
+    public bool instantEffect { get; set; }
+    public int effectIndex { get; set; }
+
+    string fetchEffectType(string _effectName)
+    {
+        switch (_effectName)
+        {
+            case "poison":
+                return "poison";
+                break;
+        }
+
+        return "no effect";
+    }
+
+    public WeaponEffect()
+    {
+    }
+}
 
 public class SecondaryWeaponContainer : MonoBehaviour
 {
@@ -11,19 +33,36 @@ public class SecondaryWeaponContainer : MonoBehaviour
     public SpriteRenderer weaponSpriteRenderer;
     public Animator weaponAnimator;
     public AnimatorOverrideController weaponOverrideController;
-    [Space] private float weaponAirborneSpeed;
-    [Space] public bool isAirborne = true;
+    [Space] private float _weaponSpeed;
+
+    [FormerlySerializedAs("isAirborne")] [Space]
+    public bool airborne = true;
+
+    [Space] [Tooltip("Is manipulated with string?")]
+    public bool canHome;
+
     [Space] public int weaponDamage;
+
+    [Tooltip("0 = none, 1 = poison, 2 = bleed, 3 = explosion")]
+    public int weaponEffectIndex;
+
+    public float explosionRadius;
+    public int explosionDamage;
 
     [Space]
     //Determines the direction of weapon movement. 1 = right and -1 = left"
-    private int weaponTurnOtherSideValue = 1;
+    private int _weaponTurnOtherSideValue = 1;
 
     [Space] public bool canBePickedUp;
 
-    [Tooltip("No assignment required")] private float weaponAngle;
+    [FormerlySerializedAs("isStuck")] [Tooltip("Stuck when weapon hits enemy.")]
+    public bool stuck;
+
+    private bool _canIncrementValue = true;
+
+    [Tooltip("No assignment required")] private float _weaponAngle;
     [Space] public float maximumCastCooldown;
-    [SerializeField]private float castCooldown;
+    [SerializeField] private float castCooldown;
     [SerializeField] private BoxCollider2D bodyCollider;
 
     private void Start()
@@ -31,93 +70,208 @@ public class SecondaryWeaponContainer : MonoBehaviour
         Fetch_Rudimentary_Values();
     }
 
-    private void FixedUpdate()
-    {
-    }
-
     private void Update()
     {
-        //bodyCollider.enabled = CheckCooldown();
-        if (weapon)
-        {
-            Throwable_Weapon(weaponAirborneSpeed);
-        }
+        ManageWeapon(_weaponSpeed);
     }
 
 
     private void LateUpdate()
     {
-        weaponAnimator.SetBool("is_weapon_active", isAirborne);
+        weaponAnimator.SetBool("is_weapon_active", airborne);
         weaponSpriteRenderer.sprite = weaponSprite;
-        canBePickedUp = CheckWeaponRetreatment();
+        canBePickedUp = CheckWeaponPickUpStatus();
     }
 
     private void Fetch_Rudimentary_Values()
     {
         bodyCollider = GetComponent<BoxCollider2D>();
-        //bodyCollider.enabled = false;
         castCooldown = maximumCastCooldown;
         weaponSpriteRenderer = GetComponentInChildren<SpriteRenderer>();
         weaponAnimator = GetComponentInChildren<Animator>();
         weaponRigidbody = GetComponent<Rigidbody2D>();
     }
 
-    public void AssignNewWeapon(WeaponTemplate weaponTemplate, float _weaponAngle, int _ismovingright)
+    public void AssignNewWeapon(WeaponTemplate weaponTemplate, float weaponAngle, int isMovingRight)
     {
+        bool HasWeaponTemplate()
+        {
+            return weaponTemplate.weaponAnimatorController;
+        }
+
+        bool HasWeaponEffect()
+        {
+            return weaponTemplate.bleed || weaponTemplate.poison || weaponTemplate.explosion;
+        }
+
         weapon = weaponTemplate;
-        weaponAirborneSpeed = weaponTemplate.weaponSpeed;
-        weaponSprite = weaponTemplate.weaponSprite;
-        weaponTurnOtherSideValue = _ismovingright;
+        _weaponSpeed = weaponTemplate.weaponSpeed;
+        _weaponTurnOtherSideValue = isMovingRight;
         weaponDamage = weaponTemplate.damage;
-        weaponAngle = _weaponAngle;
-        transform.localEulerAngles = new Vector3(0, 0, _weaponAngle);
-        switch (weaponTemplate.weaponAnimatorController != null)
+        this._weaponAngle = weaponAngle;
+        weaponSprite = weaponTemplate.weaponSprite;
+        transform.localEulerAngles = new Vector3(0, 0, weaponAngle);
+        // 0 = none, 1 = poison, 2 = bleed, 3 = explosion
+        if (HasWeaponEffect())
+        {
+            if (weaponTemplate.poison) weaponEffectIndex = 1;
+            else if (weaponTemplate.bleed) weaponEffectIndex = 2;
+            else weaponEffectIndex = 3;
+        }
+        else
+            weaponEffectIndex = 0;
+
+        weaponAnimator.runtimeAnimatorController = null; //reset controller
+        switch (HasWeaponTemplate())
         {
             case true:
-                weaponAnimator.runtimeAnimatorController = weaponTemplate.weaponAnimatorController;
+                weaponOverrideController = weaponTemplate.weaponAnimatorController;
+                weaponAnimator.runtimeAnimatorController = weaponOverrideController;
                 break;
             case false:
+                weaponSprite = weaponTemplate.weaponSprite;
                 print("No attached OverrideController attached to weapon source");
                 break;
         }
     }
 
-    private bool CheckWeaponRetreatment()
+    public void IncreaseWeaponAmmunition(PlayerAction _playerAction)
     {
-        bool _hasWeaponLanded = !isAirborne;
-        return _hasWeaponLanded;
+        //Used when the weapon is picked up
+        if (_canIncrementValue)
+        {
+            _playerAction.secondaryWeaponAmmunition++;
+            _canIncrementValue = false;
+        }
+
+        Destroy(this);
     }
 
-    private bool CheckCooldown()
+    public void DismantleWeapon()
     {
-        castCooldown -= Time.deltaTime;
-        bool _hasTimerPassedMark = castCooldown <= 0;
-        return _hasTimerPassedMark;
+        //Upon enemy hit
+        stuck = true;
     }
-    
-    private void Throwable_Weapon(float _speed)
+
+    public void ManipulateWeapon(GameObject target)
     {
-        switch (isAirborne)
+        //Only "sasuke" can call this
+
+        bool CanBeManipulated()
         {
-            case true:
-                transform.position += transform.right * (_speed * Time.deltaTime);
-                break;
-            case false:
-                weaponRigidbody.velocity = new Vector2(weaponTurnOtherSideValue * 0, weaponRigidbody.velocity.y);
-                var constraints = weaponRigidbody.constraints;
-                constraints = RigidbodyConstraints2D.FreezePositionX;
-                constraints = RigidbodyConstraints2D.FreezePositionY;
-                constraints = RigidbodyConstraints2D.FreezeRotation;
-                weaponRigidbody.constraints = constraints;
-                break;
+            return airborne;
         }
+
+        bool HasTarget()
+        {
+            return target;
+        }
+
+        float HoneAngle()
+        {
+            bool IsTargetBelow()
+            {
+                return target.transform.position.y < transform.position.y;
+            }
+
+            Vector3 TargetDirection()
+            {
+                return (target.transform.position - transform.position).normalized;
+            }
+
+            Vector3 ThisDirection()
+            {
+                return IsTargetBelow() ? -transform.up : transform.up;
+            }
+
+            return Vector2.Angle(ThisDirection(), TargetDirection());
+        }
+
+        if (!HasTarget()) return;
+        transform.localEulerAngles = new Vector3(0, 0, HoneAngle());
+    }
+
+    private bool CheckWeaponPickUpStatus()
+    {
+        return !airborne && !stuck;
+    }
+
+    private bool HasWeaponAnimation()
+    {
+        return weaponOverrideController;
+    }
+
+    private bool ShouldPlayBaseAnimation()
+    {
+        return airborne;
+    }
+
+    private void ManageWeapon(float speed)
+    {
+        bool CanMove()
+        {
+            return airborne;
+        }
+
+        void ManageWeaponCollider()
+        {
+            bool CanWeaponBePickedUp()
+            {
+                return !airborne && !stuck;
+            }
+
+            bodyCollider.enabled = CanWeaponBePickedUp();
+            canBePickedUp = CanWeaponBePickedUp();
+        }
+
+        if (!weapon) return;
+        ManageWeaponCollider();
+        transform.position += CanMove() ? transform.right * (speed * Time.deltaTime) : transform.right * 0;
+        if (!HasWeaponAnimation()) return;
+        weaponAnimator.SetBool("isWeaponAirborne", ShouldPlayBaseAnimation());
     }
 
     private void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.GetComponentInChildren<SpriteRenderer>() || col.GetComponent<SpriteRenderer>())
+        bool DoesMatchObstacleLayer(int layer, int targetLayer)
         {
-            isAirborne = false;
+            return layer == targetLayer;
         }
+
+        bool CanDamage(Component _col)
+        {
+            return _col.GetComponent<EnemyBehavior>() || _col.GetComponent<PlayerAction>();
+        }
+
+        void DealDamageToEntity(Component _col, int damage)
+        {
+            if (_col.GetComponent<EnemyBehavior>())
+                _col.GetComponent<EnemyBehavior>().DealDamage(damage);
+            if (_col.GetComponent<PlayerAction>())
+                _col.GetComponent<PlayerAction>().TakeInjury(damage);
+        }
+
+        bool HasHitWall()
+        {
+            var o = col.gameObject;
+            return DoesMatchObstacleLayer(o.layer, 11) || DoesMatchObstacleLayer(o.layer, 10);
+        }
+
+        if (!HasHitWall()) return;
+        airborne = false;
+        if (weaponEffectIndex != 3) return;
+        //make effect
+        var hits = Physics2D.OverlapCircleAll(transform.position, explosionRadius);
+        foreach (var VARIABLE in hits)
+        {
+            if (CanDamage(VARIABLE))
+                DealDamageToEntity(VARIABLE, explosionDamage);
+        }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, explosionRadius);
     }
 }
