@@ -487,7 +487,6 @@ public class PlayerMovement : MonoBehaviour
         return _currentCooldown;
     }
 
-
     private bool FetchWallRaycastStatus()
     {
         //Ugly code :D

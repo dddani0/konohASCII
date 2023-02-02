@@ -58,7 +58,7 @@ MonoBehaviour:
   weaponDamage: 0
   weaponEffectIndex: 0
   explosionRadius: 10
-  explosionDamage: 45
+  explosionDamage: 150
   canBePickedUp: 0
   stuck: 0
   maximumCastCooldown: 0.5
