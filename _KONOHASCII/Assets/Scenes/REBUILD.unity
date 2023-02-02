@@ -206,7 +206,19 @@ MonoBehaviour:
     m_ActionId: c01f4a51-26fa-4a73-bdd8-53317802871b
     m_ActionName: PlayableCharacter/Mouse[/Mouse/delta]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 359133354}
+        m_TargetAssemblyTypeName: PlayableCharacterMovement, Assembly-CSharp
+        m_MethodName: InputWallGrab
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 67414f0f-26b3-4d2b-8c08-77b387009e36
     m_ActionName: PlayableCharacter/Wall grab[/Keyboard/e]
   - m_PersistentCalls:
@@ -271,6 +283,7 @@ MonoBehaviour:
   isHoldingJump: 0
   wallgrabButton: 0
   pickUpButton: 0
+  playerStates: 0
   xMovementAxisInput: 0
   yMovementAxisInput: 0
   groundLayer:
@@ -290,12 +303,12 @@ MonoBehaviour:
   jumpCutOff: 1
   gravityMultiplier: 2
   downwardMovementMultiplier: 2
-  nowall_maxGroundAcceleration: 0
-  nowall_maxAirAcceleration: 0
-  nowall_maxGroundTurnSpeed: 0
-  nowall_maxAirTurnSpeed: 0
-  nowall_maxGroundDeceleration: 0
-  nowall_maxAirDeceleration: 0
+  nowall_maxGroundAcceleration: 30
+  nowall_maxAirAcceleration: 25
+  nowall_maxGroundTurnSpeed: 45
+  nowall_maxAirTurnSpeed: 10
+  nowall_maxGroundDeceleration: 40
+  nowall_maxAirDeceleration: 15
   WALL_maxGroundAcceleration: 0
   WALL_maxGroundDeceleration: 0
   maximumTimeBtwWallAttempts: 1.1
@@ -363,7 +376,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.120981574, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -374,7 +387,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 5.72, y: 8.2}
+  m_Size: {x: 3.4818351, y: 8.2}
   m_EdgeRadius: 0
 --- !u!50 &359133357
 Rigidbody2D:
